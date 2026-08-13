@@ -1,0 +1,3048 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>Neural World 2.1</title>
+
+<style>
+
+/* =========================================================
+   BASIS
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    background: #071019;
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    touch-action: none;
+}
+
+canvas {
+    display: block;
+}
+
+
+/* =========================================================
+   TRANSPARENTES SCI-FI HUD
+   ========================================================= */
+
+.panel {
+    position: absolute;
+    z-index: 10;
+
+    background:
+        rgba(8, 14, 21, 0.08);
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.15);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px
+        rgba(0, 0, 0, 0.12);
+
+    backdrop-filter:
+        blur(2px);
+
+    -webkit-backdrop-filter:
+        blur(2px);
+}
+
+
+/* =========================================================
+   LINKES PANEL
+   ========================================================= */
+
+#ui {
+    left: 14px;
+    top: 14px;
+
+    width: 290px;
+
+    padding: 16px;
+}
+
+.title {
+    font-size: 23px;
+    font-weight: bold;
+
+    margin-bottom: 3px;
+
+    text-shadow:
+        0 1px 8px
+        rgba(0,0,0,.8);
+}
+
+.subtitle {
+    font-size: 11px;
+
+    color: #d2dce5;
+
+    margin-bottom: 13px;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
+
+.stat {
+    font-size: 13px;
+    line-height: 1.65;
+
+    color: #eef5fa;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
+
+.value {
+    float: right;
+
+    color: white;
+
+    font-family: monospace;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
+
+.label {
+    margin-top: 9px;
+    margin-bottom: 4px;
+
+    font-size: 10px;
+
+    color: #e1ebf2;
+
+    letter-spacing: .6px;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
+
+.progress {
+    height: 7px;
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+        rgba(255,255,255,.13);
+
+    border-radius: 10px;
+}
+
+.progressInner {
+    height: 100%;
+    width: 0%;
+
+    border-radius: 10px;
+
+    background: #46e77c;
+
+    box-shadow:
+        0 0 8px
+        rgba(70,231,124,.7);
+}
+
+#memoryProgress {
+    background: #4299ff;
+
+    box-shadow:
+        0 0 8px
+        rgba(66,153,255,.7);
+}
+
+button {
+    margin-top: 12px;
+    margin-right: 5px;
+
+    padding: 8px 13px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.18);
+
+    border-radius: 8px;
+
+    background:
+        rgba(20,30,40,.25);
+
+    color: white;
+
+    cursor: pointer;
+
+    backdrop-filter:
+        blur(3px);
+
+    -webkit-backdrop-filter:
+        blur(3px);
+}
+
+button:hover {
+    background:
+        rgba(50,70,85,.35);
+}
+
+#message {
+    min-height: 20px;
+
+    margin-top: 10px;
+
+    color: #6de4ff;
+
+    font-size: 12px;
+
+    text-shadow:
+        0 1px 6px
+        rgba(0,0,0,.9);
+}
+
+
+/* =========================================================
+   GEHIRN-PANEL
+   ========================================================= */
+
+#brain {
+    top: 14px;
+    right: 14px;
+
+    width: 325px;
+
+    padding: 14px;
+
+    max-height:
+        calc(100vh - 28px);
+
+    overflow: hidden;
+}
+
+.brainTitle {
+    font-size: 14px;
+    font-weight: bold;
+
+    margin-bottom: 5px;
+
+    text-shadow:
+        0 1px 7px
+        rgba(0,0,0,.9);
+}
+
+.layerTitle {
+    margin-top: 8px;
+    margin-bottom: 4px;
+
+    color: #d5e0e8;
+
+    font-size: 9px;
+
+    letter-spacing: .7px;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
+
+.neuron {
+    height: 7px;
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 1px 0;
+}
+
+.dot {
+    width: 6px;
+    height: 6px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.25);
+
+    margin-right: 5px;
+}
+
+.dot.active {
+    background: #48ff7b;
+
+    box-shadow:
+        0 0 8px
+        rgba(72,255,123,.9);
+}
+
+.num {
+    width: 21px;
+
+    font-size: 7px;
+
+    color: #c8d3dc;
+
+    text-shadow:
+        0 1px 4px
+        rgba(0,0,0,.9);
+}
+
+.bar {
+    flex: 1;
+
+    height: 4px;
+
+    background:
+        rgba(255,255,255,.13);
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.fill {
+    width: 0%;
+    height: 100%;
+
+    background: #479eff;
+
+    border-radius: 5px;
+
+    box-shadow:
+        0 0 5px
+        rgba(71,158,255,.7);
+}
+
+
+/* =========================================================
+   HINWEIS
+   ========================================================= */
+
+#hint {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 14px;
+    bottom: 14px;
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(0,0,0,.12);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    color: #eef5fa;
+
+    font-size: 11px;
+
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+
+    backdrop-filter:
+        blur(2px);
+
+    -webkit-backdrop-filter:
+        blur(2px);
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =======================================================
+     LINKES HUD
+     ======================================================= -->
+
+<div id="ui" class="panel">
+
+    <div class="title">
+        🧠 Neural World 2.1
+    </div>
+
+    <div class="subtitle">
+        64 Neuronen · Memory · RL · Curriculum
+    </div>
+
+    <div class="stat">
+
+        Curriculum:
+        <span id="level" class="value">
+            1
+        </span>
+
+        <br>
+
+        Episode:
+        <span id="episode" class="value">
+            1
+        </span>
+
+        <br>
+
+        Erfolge:
+        <span id="success" class="value">
+            0
+        </span>
+
+        <br>
+
+        Schritte:
+        <span id="steps" class="value">
+            0
+        </span>
+
+        <br>
+
+        Replay:
+        <span id="replay" class="value">
+            0
+        </span>
+
+        <br>
+
+        Zustände:
+        <span id="states" class="value">
+            0
+        </span>
+
+        <br>
+
+        Epsilon:
+        <span id="epsilon" class="value">
+            1.000
+        </span>
+
+        <br>
+
+        Distanz:
+        <span id="distance" class="value">
+            0
+        </span>
+
+    </div>
+
+
+    <div class="label">
+        CURRICULUM
+    </div>
+
+    <div class="progress">
+        <div
+            id="curriculumProgress"
+            class="progressInner">
+        </div>
+    </div>
+
+
+    <div class="label">
+        GEDÄCHTNIS
+    </div>
+
+    <div class="progress">
+        <div
+            id="memoryProgress"
+            class="progressInner">
+        </div>
+    </div>
+
+
+    <div id="message">
+        Initialisiere Gehirn...
+    </div>
+
+
+    <button
+        id="pauseButton"
+        onclick="toggleTraining()">
+        Pause
+    </button>
+
+
+    <button
+        onclick="resetEverything()">
+        Neues Gehirn
+    </button>
+
+</div>
+
+
+<!-- =======================================================
+     RECHTES GEHIRN-PANEL
+     ======================================================= -->
+
+<div id="brain" class="panel">
+
+    <div class="brainTitle">
+        🧠 NEURONALE AKTIVITÄT
+    </div>
+
+
+    <div class="layerTitle">
+        SENSORIK · 24
+    </div>
+
+    <div id="sensorLayer"></div>
+
+
+    <div class="layerTitle">
+        MEMORY · 24
+    </div>
+
+    <div id="memoryLayer"></div>
+
+
+    <div class="layerTitle">
+        MOTORIK · 16
+    </div>
+
+    <div id="motorLayer"></div>
+
+</div>
+
+
+<div id="hint">
+
+    🟢 Ziel · 🌲 Wald · ⛰️ Berge
+    &nbsp; · &nbsp;
+    🖱️ Mausrad / 🤏 Pinch = Zoom
+
+</div>
+
+
+<!-- =======================================================
+     THREE.JS
+     ======================================================= -->
+
+<script type="module">
+
+import * as THREE
+    from "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js";
+
+
+/* =========================================================
+   THREE.JS
+   ========================================================= */
+
+const scene =
+    new THREE.Scene();
+
+scene.background =
+    new THREE.Color(0x86bde8);
+
+scene.fog =
+    new THREE.Fog(
+        0x86bde8,
+        45,
+        125
+    );
+
+
+const camera =
+    new THREE.PerspectiveCamera(
+        55,
+        window.innerWidth /
+        window.innerHeight,
+        .1,
+        200
+    );
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias: true
+    });
+
+
+renderer.setSize(
+    window.innerWidth,
+    window.innerHeight
+);
+
+renderer.setPixelRatio(
+    Math.min(
+        window.devicePixelRatio,
+        2
+    )
+);
+
+renderer.shadowMap.enabled = true;
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+/* =========================================================
+   ZOOM
+   ========================================================= */
+
+let cameraHeight = 88;
+
+const MIN_ZOOM = 30;
+const MAX_ZOOM = 150;
+
+
+/* Mausrad */
+
+renderer.domElement.addEventListener(
+    "wheel",
+    event => {
+
+        event.preventDefault();
+
+        cameraHeight +=
+            event.deltaY * .08;
+
+        cameraHeight =
+            Math.max(
+                MIN_ZOOM,
+                Math.min(
+                    MAX_ZOOM,
+                    cameraHeight
+                )
+            );
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* Touch Pinch */
+
+let lastPinchDistance = null;
+
+
+renderer.domElement.addEventListener(
+    "touchmove",
+    event => {
+
+        if (
+            event.touches.length !== 2
+        ) {
+
+            lastPinchDistance = null;
+
+            return;
+        }
+
+
+        const a =
+            event.touches[0];
+
+        const b =
+            event.touches[1];
+
+
+        const dx =
+            a.clientX -
+            b.clientX;
+
+        const dy =
+            a.clientY -
+            b.clientY;
+
+
+        const distance =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+
+        if (
+            lastPinchDistance !== null
+        ) {
+
+            const difference =
+                distance -
+                lastPinchDistance;
+
+
+            cameraHeight -=
+                difference * .12;
+
+
+            cameraHeight =
+                Math.max(
+                    MIN_ZOOM,
+                    Math.min(
+                        MAX_ZOOM,
+                        cameraHeight
+                    )
+                );
+        }
+
+
+        lastPinchDistance =
+            distance;
+
+    },
+    {
+        passive: true
+    }
+);
+
+
+renderer.domElement.addEventListener(
+    "touchend",
+    () => {
+
+        lastPinchDistance = null;
+
+    }
+);
+
+
+/* =========================================================
+   LICHT
+   ========================================================= */
+
+scene.add(
+    new THREE.HemisphereLight(
+        0xdff2ff,
+        0x344c2d,
+        1.8
+    )
+);
+
+
+const sun =
+    new THREE.DirectionalLight(
+        0xffffff,
+        2.3
+    );
+
+sun.position.set(
+    -30,
+    70,
+    -30
+);
+
+sun.castShadow = true;
+
+scene.add(sun);
+
+
+/* =========================================================
+   WELT
+   ========================================================= */
+
+const WORLD_SIZE = 100;
+
+
+function terrainNoise(x,z) {
+
+    return (
+
+        Math.sin(x*.045) *
+        Math.cos(z*.055)
+
+        +
+
+        Math.sin(
+            x*.095 +
+            z*.035
+        )*.35
+
+        +
+
+        Math.cos(
+            z*.08 -
+            x*.03
+        )*.25
+
+    );
+}
+
+
+function mountain(
+    x,
+    z,
+    radius,
+    height
+) {
+
+    const d =
+        Math.sqrt(
+            x*x +
+            z*z
+        );
+
+
+    return Math.max(
+        0,
+        1 -
+        d/radius
+    ) * height;
+}
+
+
+function terrainHeight(
+    x,
+    z
+) {
+
+    let h =
+        terrainNoise(x,z)*2.2;
+
+
+    h +=
+        mountain(
+            x+13,
+            z-10,
+            24,
+            15
+        );
+
+
+    h +=
+        mountain(
+            x-29,
+            z+23,
+            20,
+            9
+        );
+
+
+    return h;
+}
+
+
+/* =========================================================
+   TERRAIN
+   ========================================================= */
+
+const terrainGeometry =
+    new THREE.PlaneGeometry(
+        WORLD_SIZE,
+        WORLD_SIZE,
+        120,
+        120
+    );
+
+
+terrainGeometry.rotateX(
+    -Math.PI/2
+);
+
+
+const positions =
+    terrainGeometry.attributes.position;
+
+
+for (
+    let i=0;
+    i<positions.count;
+    i++
+) {
+
+    const x =
+        positions.getX(i);
+
+    const z =
+        positions.getZ(i);
+
+
+    positions.setY(
+        i,
+        terrainHeight(x,z)
+    );
+}
+
+
+terrainGeometry.computeVertexNormals();
+
+
+const terrain =
+    new THREE.Mesh(
+        terrainGeometry,
+        new THREE.MeshStandardMaterial({
+            color: 0x4f8d45,
+            roughness: 1
+        })
+    );
+
+
+terrain.receiveShadow = true;
+
+scene.add(terrain);
+
+
+/* =========================================================
+   BÄUME
+   ========================================================= */
+
+const treeGroup =
+    new THREE.Group();
+
+scene.add(treeGroup);
+
+
+function createTree(
+    x,
+    z,
+    scale
+) {
+
+    const y =
+        terrainHeight(x,z);
+
+
+    if (
+        y > 7
+    )
+        return;
+
+
+    const tree =
+        new THREE.Group();
+
+
+    tree.position.set(
+        x,
+        y,
+        z
+    );
+
+
+    tree.scale.setScalar(
+        scale
+    );
+
+
+    const trunk =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                .15,
+                .24,
+                1.8,
+                7
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x70472e
+            })
+        );
+
+
+    trunk.position.y =
+        .9;
+
+
+    tree.add(trunk);
+
+
+    const crown =
+        new THREE.Mesh(
+            new THREE.ConeGeometry(
+                1.15,
+                2.8,
+                8
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x276a32
+            })
+        );
+
+
+    crown.position.y =
+        2.7;
+
+
+    tree.add(crown);
+
+
+    treeGroup.add(tree);
+}
+
+
+for (
+    let i=0;
+    i<320;
+    i++
+) {
+
+    const x =
+        Math.random() *
+        WORLD_SIZE -
+        WORLD_SIZE/2;
+
+
+    const z =
+        Math.random() *
+        WORLD_SIZE -
+        WORLD_SIZE/2;
+
+
+    createTree(
+        x,
+        z,
+        .65 +
+        Math.random()*.7
+    );
+}
+
+
+/* =========================================================
+   START / ZIEL
+   ========================================================= */
+
+const start =
+    new THREE.Vector3(
+        -40,
+        0,
+        40
+    );
+
+
+const goal =
+    new THREE.Vector3(
+        38,
+        0,
+        -38
+    );
+
+
+start.y =
+    terrainHeight(
+        start.x,
+        start.z
+    );
+
+
+goal.y =
+    terrainHeight(
+        goal.x,
+        goal.z
+    );
+
+
+/* =========================================================
+   ZIEL
+   ========================================================= */
+
+const goalGroup =
+    new THREE.Group();
+
+goalGroup.position.copy(
+    goal
+);
+
+scene.add(goalGroup);
+
+
+const goalPad =
+    new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            1.6,
+            1.6,
+            .25,
+            24
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x24ed6b,
+            emissive: 0x073d1c
+        })
+    );
+
+
+goalPad.position.y=.15;
+
+goalGroup.add(goalPad);
+
+
+const goalPole =
+    new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            .04,
+            .04,
+            3
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0xffffff
+        })
+    );
+
+
+goalPole.position.y=1.6;
+
+goalGroup.add(goalPole);
+
+
+/* =========================================================
+   AGENT
+   ========================================================= */
+
+const agent =
+    new THREE.Group();
+
+scene.add(agent);
+
+
+const agentBody =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            .65,
+            16,
+            12
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0x397fff
+        })
+    );
+
+
+agentBody.position.y=.75;
+
+agent.add(agentBody);
+
+
+const agentHead =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            .40,
+            16,
+            12
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0xffc49f
+        })
+    );
+
+
+agentHead.position.y=1.55;
+
+agent.add(agentHead);
+
+
+/* =========================================================
+   CURRICULUM
+   ========================================================= */
+
+const curriculum = [
+
+    {
+        name:"Freies Gelände",
+        trees:0,
+        mountains:false,
+        required:2
+    },
+
+    {
+        name:"Erste Hindernisse",
+        trees:.10,
+        mountains:false,
+        required:3
+    },
+
+    {
+        name:"Wald",
+        trees:.30,
+        mountains:false,
+        required:4
+    },
+
+    {
+        name:"Hügel",
+        trees:.45,
+        mountains:true,
+        required:5
+    },
+
+    {
+        name:"Berge",
+        trees:.65,
+        mountains:true,
+        required:6
+    },
+
+    {
+        name:"Echte Welt",
+        trees:1,
+        mountains:true,
+        required:8
+    }
+
+];
+
+
+let curriculumLevel=0;
+
+let curriculumSuccess=0;
+
+
+function treeEnabled(tree) {
+
+    const x =
+        Math.round(
+            tree.position.x*10
+        );
+
+    const z =
+        Math.round(
+            tree.position.z*10
+        );
+
+
+    const hash =
+        Math.abs(
+            (
+                x*928371 +
+                z*523127
+            )%1000
+        )/1000;
+
+
+    return hash <
+        curriculum[
+            curriculumLevel
+        ].trees;
+}
+
+
+function updateTrees() {
+
+    for (
+        const tree
+        of treeGroup.children
+    ) {
+
+        tree.visible =
+            treeEnabled(tree);
+    }
+}
+
+
+/* =========================================================
+   KOLLISION
+   ========================================================= */
+
+function treeNear(
+    x,
+    z,
+    radius
+) {
+
+    for (
+        const tree
+        of treeGroup.children
+    ) {
+
+        if (
+            !tree.visible
+        )
+            continue;
+
+
+        const dx =
+            tree.position.x-x;
+
+        const dz =
+            tree.position.z-z;
+
+
+        if (
+            dx*dx+
+            dz*dz <
+            radius*radius
+        ) {
+
+            return true;
+        }
+    }
+
+
+    return false;
+}
+
+
+function blocked(
+    x,
+    z
+) {
+
+    if (
+        Math.abs(x) >
+        WORLD_SIZE/2 ||
+        Math.abs(z) >
+        WORLD_SIZE/2
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        curriculum[
+            curriculumLevel
+        ].mountains &&
+        terrainHeight(x,z)>8
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        treeNear(x,z,1.25)
+    ) {
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   NEURON
+   ========================================================= */
+
+class Neuron {
+
+    constructor() {
+
+        this.voltage=-70;
+
+        this.threshold=-55;
+
+        this.refractory=0;
+
+        this.memory=0;
+    }
+
+
+    stimulate(input) {
+
+        if (
+            this.refractory>0
+        ) {
+
+            this.refractory--;
+
+            this.voltage=-70;
+
+            this.memory*=.97;
+
+            return false;
+        }
+
+
+        this.voltage +=
+            (
+                -70 -
+                this.voltage
+            )*.15;
+
+
+        this.voltage +=
+            this.memory*3;
+
+
+        this.voltage +=
+            input;
+
+
+        if (
+            this.voltage >=
+            this.threshold
+        ) {
+
+            this.voltage=30;
+
+            this.refractory=2;
+
+            this.memory =
+                Math.min(
+                    1,
+                    this.memory+.35
+                );
+
+            return true;
+        }
+
+
+        this.memory*=.985;
+
+        return false;
+    }
+}
+
+
+let neurons =
+    Array.from(
+        {length:64},
+        () => new Neuron()
+    );
+
+
+let spikes =
+    Array(64).fill(false);
+
+
+/* =========================================================
+   AKTIONEN
+   ========================================================= */
+
+const actions = [
+
+    [-1,0],
+    [1,0],
+    [0,-1],
+    [0,1],
+
+    [-.707,-.707],
+    [.707,-.707],
+    [-.707,.707],
+    [.707,.707],
+
+    [-1,-.35],
+    [1,-.35],
+    [-1,.35],
+    [1,.35],
+
+    [-.35,-1],
+    [.35,-1],
+    [-.35,1],
+    [.35,1]
+
+];
+
+
+const ACTIONS=16;
+
+
+/* =========================================================
+   Q-LEARNING
+   ========================================================= */
+
+const Q =
+    new Map();
+
+
+const alpha=.16;
+
+const gamma=.96;
+
+let epsilon=1;
+
+const minEpsilon=.025;
+
+
+function qValues(state) {
+
+    if (
+        !Q.has(state)
+    ) {
+
+        Q.set(
+            state,
+            Array(
+                ACTIONS
+            ).fill(0)
+        );
+    }
+
+
+    return Q.get(state);
+}
+
+
+/* =========================================================
+   DISTANZ
+   ========================================================= */
+
+function distance() {
+
+    const dx =
+        agent.position.x-
+        goal.x;
+
+    const dz =
+        agent.position.z-
+        goal.z;
+
+
+    return Math.sqrt(
+        dx*dx+
+        dz*dz
+    );
+}
+
+
+/* =========================================================
+   SENSORIK
+   ========================================================= */
+
+const rayDirections = [
+
+    [-1,0],
+    [-.707,-.707],
+    [0,-1],
+    [.707,-.707],
+
+    [1,0],
+    [.707,.707],
+    [0,1],
+    [-.707,.707]
+
+];
+
+
+function rayDistance(
+    dx,
+    dz
+) {
+
+    const max=12;
+
+
+    for (
+        let d=.5;
+        d<=max;
+        d+=.5
+    ) {
+
+        const x =
+            agent.position.x+
+            dx*d;
+
+        const z =
+            agent.position.z+
+            dz*d;
+
+
+        if (
+            blocked(x,z)
+        ) {
+
+            return d;
+        }
+    }
+
+
+    return max;
+}
+
+
+function getSensors() {
+
+    const result=[];
+
+
+    for (
+        const [dx,dz]
+        of rayDirections
+    ) {
+
+        const d =
+            rayDistance(
+                dx,dz
+            );
+
+
+        result.push(
+            Math.min(
+                4,
+                Math.floor(
+                    (
+                        1-d/12
+                    )*5
+                )
+            )
+        );
+    }
+
+
+    const center =
+        terrainHeight(
+            agent.position.x,
+            agent.position.z
+        );
+
+
+    const offsets = [
+
+        [2,0],
+        [-2,0],
+        [0,2],
+        [0,-2]
+
+    ];
+
+
+    for (
+        const [dx,dz]
+        of offsets
+    ) {
+
+        const h =
+            terrainHeight(
+                agent.position.x+dx,
+                agent.position.z+dz
+            );
+
+
+        result.push(
+            h>center+1
+                ?2
+                :
+            h<center-1
+                ?0
+                :1
+        );
+    }
+
+
+    const dx =
+        goal.x-
+        agent.position.x;
+
+
+    const dz =
+        goal.z-
+        agent.position.z;
+
+
+    result.push(
+        dx<-8
+            ?0
+            :
+        dx>8
+            ?2
+            :1
+    );
+
+
+    result.push(
+        dz<-8
+            ?0
+            :
+        dz>8
+            ?2
+            :1
+    );
+
+
+    const d =
+        distance();
+
+
+    result.push(
+        d<4
+            ?0
+            :
+        d<10
+            ?1
+            :
+        d<20
+            ?2
+            :
+        d<40
+            ?3
+            :
+        d<70
+            ?4
+            :5
+    );
+
+
+    return result;
+}
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+function getState() {
+
+    const sensors =
+        getSensors();
+
+
+    const obstacles =
+        sensors
+        .slice(0,8)
+        .map(
+            v =>
+                Math.min(
+                    2,
+                    Math.floor(v/2)
+                )
+        );
+
+
+    const dx =
+        goal.x-
+        agent.position.x;
+
+
+    const dz =
+        goal.z-
+        agent.position.z;
+
+
+    const angle =
+        Math.atan2(
+            dx,dz
+        );
+
+
+    let direction =
+        Math.round(
+            (
+                angle+Math.PI
+            )/
+            (
+                Math.PI*2
+            )*8
+        )%8;
+
+
+    if (
+        direction<0
+    )
+        direction+=8;
+
+
+    const d =
+        distance();
+
+
+    let distanceClass;
+
+
+    if(d<4)
+        distanceClass=0;
+
+    else if(d<10)
+        distanceClass=1;
+
+    else if(d<20)
+        distanceClass=2;
+
+    else if(d<40)
+        distanceClass=3;
+
+    else if(d<70)
+        distanceClass=4;
+
+    else
+        distanceClass=5;
+
+
+    const h =
+        terrainHeight(
+            agent.position.x,
+            agent.position.z
+        );
+
+
+    const heightClass =
+        h<2
+            ?0
+            :
+        h<6
+            ?1
+            :2;
+
+
+    return [
+
+        ...obstacles,
+
+        direction,
+
+        distanceClass,
+
+        heightClass
+
+    ].join(",");
+}
+
+
+/* =========================================================
+   GUIDED EXPLORATION
+   ========================================================= */
+
+function guidedAction() {
+
+    const dx =
+        goal.x-
+        agent.position.x;
+
+
+    const dz =
+        goal.z-
+        agent.position.z;
+
+
+    const targetAngle =
+        Math.atan2(
+            dx,dz
+        );
+
+
+    let best=0;
+
+    let bestDifference=
+        Infinity;
+
+
+    for (
+        let i=0;
+        i<ACTIONS;
+        i++
+    ) {
+
+        const [
+            ax,
+            az
+        ] =
+            actions[i];
+
+
+        const angle =
+            Math.atan2(
+                ax,az
+            );
+
+
+        let diff =
+            Math.abs(
+                targetAngle-angle
+            );
+
+
+        while (
+            diff>Math.PI
+        ) {
+
+            diff =
+                Math.abs(
+                    diff-
+                    Math.PI*2
+                );
+        }
+
+
+        const nx =
+            agent.position.x+
+            ax*2;
+
+
+        const nz =
+            agent.position.z+
+            az*2;
+
+
+        if (
+            blocked(nx,nz)
+        ) {
+
+            diff+=4;
+        }
+
+
+        if (
+            diff<bestDifference
+        ) {
+
+            bestDifference=diff;
+
+            best=i;
+        }
+    }
+
+
+    return best;
+}
+
+
+/* =========================================================
+   AKTION WÄHLEN
+   ========================================================= */
+
+function chooseAction(
+    state
+) {
+
+    const guideChance =
+        epsilon*.20;
+
+
+    if (
+        Math.random()<
+        guideChance
+    ) {
+
+        return guidedAction();
+    }
+
+
+    if (
+        Math.random()<
+        epsilon
+    ) {
+
+        return Math.floor(
+            Math.random()*ACTIONS
+        );
+    }
+
+
+    const q =
+        qValues(state);
+
+
+    const maxQ =
+        Math.max(...q);
+
+
+    const candidates=[];
+
+
+    for (
+        let i=0;
+        i<ACTIONS;
+        i++
+    ) {
+
+        if (
+            Math.abs(
+                q[i]-maxQ
+            )<.000001
+        ) {
+
+            candidates.push(i);
+        }
+    }
+
+
+    return candidates[
+        Math.floor(
+            Math.random()*
+            candidates.length
+        )
+    ];
+}
+
+
+/* =========================================================
+   NEURONALE VERARBEITUNG
+   ========================================================= */
+
+function stimulateBrain(
+    state,
+    action
+) {
+
+    spikes.fill(false);
+
+
+    const values =
+        state
+        .split(",")
+        .map(Number);
+
+
+    /* SENSORIK */
+
+    for (
+        let i=0;
+        i<24;
+        i++
+    ) {
+
+        const value =
+            values[i]||0;
+
+
+        spikes[i] =
+            neurons[i]
+            .stimulate(
+                value*4
+            );
+    }
+
+
+    /* MEMORY */
+
+    for (
+        let i=0;
+        i<24;
+        i++
+    ) {
+
+        let input=0;
+
+
+        for (
+            let j=0;
+            j<24;
+            j++
+        ) {
+
+            if (
+                spikes[j]
+            ) {
+
+                const weight =
+                    (
+                        (
+                            j*17+
+                            i*31
+                        )%9
+                    )-4;
+
+
+                input +=
+                    weight*.35;
+            }
+        }
+
+
+        for (
+            let j=0;
+            j<24;
+            j++
+        ) {
+
+            input +=
+                neurons[24+j].memory*
+                (
+                    (
+                        i*7+
+                        j*13
+                    )%5-2
+                )*.45;
+        }
+
+
+        spikes[24+i] =
+            neurons[24+i]
+            .stimulate(
+                input
+            );
+    }
+
+
+    /* MOTORIK */
+
+    const q =
+        qValues(state);
+
+
+    const minQ =
+        Math.min(...q);
+
+    const maxQ =
+        Math.max(...q);
+
+
+    for (
+        let i=0;
+        i<16;
+        i++
+    ) {
+
+        let qStrength=.5;
+
+
+        if (
+            maxQ!==minQ
+        ) {
+
+            qStrength =
+                (
+                    q[i]-minQ
+                )/
+                (
+                    maxQ-minQ
+                );
+        }
+
+
+        let memoryInfluence=0;
+
+
+        for (
+            let j=0;
+            j<24;
+            j++
+        ) {
+
+            memoryInfluence +=
+                neurons[24+j].memory*
+                (
+                    (
+                        i*11+
+                        j*7
+                    )%5-2
+                );
+        }
+
+
+        spikes[48+i] =
+            neurons[48+i]
+            .stimulate(
+                qStrength*5+
+                memoryInfluence*.08
+            );
+    }
+
+
+    spikes[48+action]=true;
+}
+
+
+/* =========================================================
+   BESUCHTES GELÄNDE
+   ========================================================= */
+
+const visitedCells =
+    new Set();
+
+
+function cellKey(x,z) {
+
+    return (
+        Math.round(x)+
+        ":"+
+        Math.round(z)
+    );
+}
+
+
+function wasVisited() {
+
+    return visitedCells.has(
+        cellKey(
+            agent.position.x,
+            agent.position.z
+        )
+    );
+}
+
+
+function rememberCell() {
+
+    visitedCells.add(
+        cellKey(
+            agent.position.x,
+            agent.position.z
+        )
+    );
+}
+
+
+/* =========================================================
+   EXPERIENCE REPLAY
+   ========================================================= */
+
+const replayBuffer=[];
+
+const REPLAY_SIZE=10000;
+
+
+function addExperience(
+    experience
+) {
+
+    experience.priority =
+        Math.abs(
+            experience.reward
+        )+.5;
+
+
+    replayBuffer.push(
+        experience
+    );
+
+
+    if (
+        replayBuffer.length>
+        REPLAY_SIZE
+    ) {
+
+        replayBuffer.shift();
+    }
+}
+
+
+function sampleExperience() {
+
+    if (
+        replayBuffer.length===0
+    )
+        return null;
+
+
+    let total=0;
+
+
+    for (
+        const e
+        of replayBuffer
+    ) {
+
+        total+=e.priority;
+    }
+
+
+    let random =
+        Math.random()*total;
+
+
+    for (
+        const e
+        of replayBuffer
+    ) {
+
+        random-=e.priority;
+
+
+        if (
+            random<=0
+        ) {
+
+            return e;
+        }
+    }
+
+
+    return replayBuffer[
+        replayBuffer.length-1
+    ];
+}
+
+
+function replayLearn(
+    amount=16
+) {
+
+    for (
+        let i=0;
+        i<amount;
+        i++
+    ) {
+
+        const e =
+            sampleExperience();
+
+
+        if(!e)
+            return;
+
+
+        const q =
+            qValues(
+                e.state
+            );
+
+
+        const nextQ =
+            qValues(
+                e.nextState
+            );
+
+
+        let target;
+
+
+        if (
+            e.done
+        ) {
+
+            target=e.reward;
+
+        } else {
+
+            target =
+                e.reward+
+                gamma*
+                Math.max(
+                    ...nextQ
+                );
+        }
+
+
+        const error =
+            target-
+            q[e.action];
+
+
+        q[e.action] +=
+            alpha*error;
+
+
+        e.priority =
+            Math.abs(error)+.05;
+    }
+}
+
+
+/* =========================================================
+   BEWEGUNG
+   ========================================================= */
+
+function move(action) {
+
+    const [
+        dx,
+        dz
+    ] =
+        actions[action];
+
+
+    const nx =
+        agent.position.x+dx;
+
+
+    const nz =
+        agent.position.z+dz;
+
+
+    if (
+        blocked(nx,nz)
+    ) {
+
+        return false;
+    }
+
+
+    agent.position.x=nx;
+
+    agent.position.z=nz;
+
+
+    agent.position.y =
+        terrainHeight(
+            nx,nz
+        );
+
+
+    agent.rotation.y =
+        Math.atan2(
+            dx,dz
+        );
+
+
+    return true;
+}
+
+
+/* =========================================================
+   REWARD
+   ========================================================= */
+
+function calculateReward(
+    oldDistance,
+    newDistance,
+    moved,
+    visited
+) {
+
+    let reward=-.20;
+
+
+    const progress =
+        oldDistance-
+        newDistance;
+
+
+    reward+=
+        progress*15;
+
+
+    if(!moved)
+        reward-=6;
+
+
+    if(visited)
+        reward-=3;
+
+    else
+        reward+=.7;
+
+
+    let done=false;
+
+
+    if (
+        newDistance<2.5
+    ) {
+
+        reward+=500;
+
+        done=true;
+    }
+
+
+    return {
+        reward,
+        done
+    };
+}
+
+
+/* =========================================================
+   TRAINING
+   ========================================================= */
+
+let episode=1;
+
+let steps=0;
+
+let totalSuccesses=0;
+
+let training=true;
+
+
+function trainStep() {
+
+    const oldState =
+        getState();
+
+
+    const oldDistance =
+        distance();
+
+
+    const action =
+        chooseAction(
+            oldState
+        );
+
+
+    stimulateBrain(
+        oldState,
+        action
+    );
+
+
+    const moved =
+        move(action);
+
+
+    const newDistance =
+        distance();
+
+
+    const visited =
+        wasVisited();
+
+
+    const result =
+        calculateReward(
+            oldDistance,
+            newDistance,
+            moved,
+            visited
+        );
+
+
+    rememberCell();
+
+
+    const newState =
+        getState();
+
+
+    addExperience({
+
+        state:oldState,
+
+        action:action,
+
+        reward:result.reward,
+
+        nextState:newState,
+
+        done:result.done
+
+    });
+
+
+    replayLearn(3);
+
+
+    steps++;
+
+
+    if (
+        result.done ||
+        steps>=400
+    ) {
+
+        if (
+            result.done
+        ) {
+
+            totalSuccesses++;
+
+            curriculumSuccess++;
+
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "🎯 Ziel gefunden!";
+        }
+
+
+        epsilon =
+            Math.max(
+                minEpsilon,
+                epsilon*.997
+            );
+
+
+        const current =
+            curriculum[
+                curriculumLevel
+            ];
+
+
+        if (
+            curriculumSuccess>=
+            current.required
+        ) {
+
+            if (
+                curriculumLevel<
+                curriculum.length-1
+            ) {
+
+                curriculumLevel++;
+
+                curriculumSuccess=0;
+
+
+                document.getElementById(
+                    "message"
+                ).innerText =
+                    "⬆️ Neue Welt: "+
+                    curriculum[
+                        curriculumLevel
+                    ].name;
+            }
+        }
+
+
+        episode++;
+
+        resetEpisode();
+    }
+}
+
+
+/* =========================================================
+   EPISODE RESET
+   ========================================================= */
+
+function resetEpisode() {
+
+    agent.position.copy(
+        start
+    );
+
+
+    agent.position.y =
+        terrainHeight(
+            start.x,
+            start.z
+        );
+
+
+    agent.rotation.y=0;
+
+    steps=0;
+
+    visitedCells.clear();
+
+    rememberCell();
+
+
+    /*
+       Memory bleibt teilweise erhalten.
+    */
+
+    for (
+        let i=24;
+        i<48;
+        i++
+    ) {
+
+        neurons[i].memory*=.35;
+
+        neurons[i].voltage=-70;
+
+        neurons[i].refractory=0;
+    }
+
+
+    updateTrees();
+}
+
+
+/* =========================================================
+   KOMPLETTER RESET
+   ========================================================= */
+
+function resetEverything() {
+
+    Q.clear();
+
+    replayBuffer.length=0;
+
+
+    neurons =
+        Array.from(
+            {length:64},
+            () => new Neuron()
+        );
+
+
+    spikes =
+        Array(64).fill(false);
+
+
+    curriculumLevel=0;
+
+    curriculumSuccess=0;
+
+    totalSuccesses=0;
+
+    episode=1;
+
+    steps=0;
+
+    epsilon=1;
+
+
+    resetEpisode();
+
+
+    document.getElementById(
+        "message"
+    ).innerText =
+        "🧠 Neues Gehirn gestartet";
+}
+
+
+/* =========================================================
+   NEURON UI
+   ========================================================= */
+
+function createNeuronUI(
+    element,
+    start,
+    end
+) {
+
+    for (
+        let i=start;
+        i<end;
+        i++
+    ) {
+
+        const row =
+            document.createElement(
+                "div"
+            );
+
+
+        row.className="neuron";
+
+
+        row.innerHTML=`
+
+            <div
+                id="dot${i}"
+                class="dot">
+            </div>
+
+            <div
+                class="num">
+                ${i+1}
+            </div>
+
+            <div
+                class="bar">
+
+                <div
+                    id="fill${i}"
+                    class="fill">
+                </div>
+
+            </div>
+        `;
+
+
+        element.appendChild(row);
+    }
+}
+
+
+createNeuronUI(
+    document.getElementById(
+        "sensorLayer"
+    ),
+    0,
+    24
+);
+
+
+createNeuronUI(
+    document.getElementById(
+        "memoryLayer"
+    ),
+    24,
+    48
+);
+
+
+createNeuronUI(
+    document.getElementById(
+        "motorLayer"
+    ),
+    48,
+    64
+);
+
+
+/* =========================================================
+   GEHIRN ANZEIGEN
+   ========================================================= */
+
+function updateBrainUI() {
+
+    let memoryTotal=0;
+
+
+    for (
+        let i=0;
+        i<64;
+        i++
+    ) {
+
+        const dot =
+            document.getElementById(
+                "dot"+i
+            );
+
+
+        const fill =
+            document.getElementById(
+                "fill"+i
+            );
+
+
+        dot.classList.toggle(
+            "active",
+            spikes[i]
+        );
+
+
+        let activity =
+            (
+                neurons[i].voltage+70
+            )/100;
+
+
+        if (
+            i>=24 &&
+            i<48
+        ) {
+
+            activity =
+                Math.max(
+                    activity,
+                    neurons[i].memory
+                );
+
+
+            memoryTotal +=
+                neurons[i].memory;
+        }
+
+
+        activity =
+            Math.max(
+                0,
+                Math.min(
+                    1,
+                    activity
+                )
+            );
+
+
+        fill.style.width =
+            activity*100+"%";
+    }
+
+
+    document.getElementById(
+        "memoryProgress"
+    ).style.width =
+        (
+            memoryTotal/24*100
+        )+"%";
+}
+
+
+/* =========================================================
+   FESTE KAMERA
+   ========================================================= */
+
+function updateCamera() {
+
+    /*
+       Die Kamera bleibt über
+       der Weltmitte.
+
+       Sie verfolgt den Agenten
+       NICHT.
+    */
+
+    camera.position.set(
+        0,
+        cameraHeight,
+        0
+    );
+
+
+    camera.lookAt(
+        0,
+        0,
+        0
+    );
+}
+
+
+/* =========================================================
+   TRAINING PAUSIEREN
+   ========================================================= */
+
+function toggleTraining() {
+
+    training=!training;
+
+
+    document.getElementById(
+        "pauseButton"
+    ).innerText =
+        training
+            ?"Pause"
+            :"Start";
+}
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        camera.aspect =
+            window.innerWidth/
+            window.innerHeight;
+
+
+        camera.updateProjectionMatrix();
+
+
+        renderer.setSize(
+            window.innerWidth,
+            window.innerHeight
+        );
+    }
+);
+
+
+/* =========================================================
+   HAUPTSCHLEIFE
+   ========================================================= */
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    if (
+        training
+    ) {
+
+        /*
+           Mehrere Simulationen
+           pro Frame.
+        */
+
+        for (
+            let i=0;
+            i<10;
+            i++
+        ) {
+
+            trainStep();
+        }
+
+
+        /*
+           Experience Replay
+        */
+
+        replayLearn(12);
+    }
+
+
+    updateCamera();
+
+    updateBrainUI();
+
+
+    const current =
+        curriculum[
+            curriculumLevel
+        ];
+
+
+    document.getElementById(
+        "level"
+    ).innerText =
+        (
+            curriculumLevel+1
+        )+
+        " · "+
+        current.name;
+
+
+    document.getElementById(
+        "episode"
+    ).innerText =
+        episode;
+
+
+    document.getElementById(
+        "success"
+    ).innerText =
+        totalSuccesses;
+
+
+    document.getElementById(
+        "steps"
+    ).innerText =
+        steps;
+
+
+    document.getElementById(
+        "replay"
+    ).innerText =
+        replayBuffer.length;
+
+
+    document.getElementById(
+        "states"
+    ).innerText =
+        Q.size;
+
+
+    document.getElementById(
+        "epsilon"
+    ).innerText =
+        epsilon.toFixed(3);
+
+
+    document.getElementById(
+        "distance"
+    ).innerText =
+        distance().toFixed(1);
+
+
+    const progress =
+        Math.min(
+            100,
+            curriculumSuccess/
+            current.required*
+            100
+        );
+
+
+    document.getElementById(
+        "curriculumProgress"
+    ).style.width =
+        progress+"%";
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+resetEpisode();
+
+animate();
+
+
+/* =========================================================
+   WICHTIG:
+   FUNKTIONEN FÜR HTML-ONCLICK VERFÜGBAR MACHEN
+   ========================================================= */
+
+window.toggleTraining =
+    toggleTraining;
+
+window.resetEverything =
+    resetEverything;
+
+</script>
+
+</body>
+</html>
