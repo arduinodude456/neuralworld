@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
+
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -9,9 +11,13 @@
                maximum-scale=1.0,
                user-scalable=no">
 
-<title>Neural World 2.2</title>
+<title>Neural World 3.0</title>
 
 <style>
+
+/* =========================================================
+   BASIS
+   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -68,6 +74,10 @@ canvas {
 }
 
 
+/* =========================================================
+   LINKES PANEL
+   ========================================================= */
+
 #ui {
 
     left: 14px;
@@ -78,11 +88,9 @@ canvas {
     padding: 16px;
 }
 
-
 .title {
 
     font-size: 23px;
-
     font-weight: bold;
 
     margin-bottom: 3px;
@@ -91,7 +99,6 @@ canvas {
         0 1px 8px
         rgba(0,0,0,.8);
 }
-
 
 .subtitle {
 
@@ -106,11 +113,9 @@ canvas {
         rgba(0,0,0,.9);
 }
 
-
 .stat {
 
     font-size: 13px;
-
     line-height: 1.65;
 
     color: #eef5fa;
@@ -120,7 +125,6 @@ canvas {
         rgba(0,0,0,.9);
 }
 
-
 .value {
 
     float: right;
@@ -128,13 +132,15 @@ canvas {
     color: white;
 
     font-family: monospace;
-}
 
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
 
 .label {
 
     margin-top: 9px;
-
     margin-bottom: 4px;
 
     font-size: 10px;
@@ -142,13 +148,15 @@ canvas {
     color: #e1ebf2;
 
     letter-spacing: .6px;
-}
 
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
 
 .progress {
 
     height: 7px;
-
     width: 100%;
 
     overflow: hidden;
@@ -159,11 +167,9 @@ canvas {
     border-radius: 10px;
 }
 
-
 .progressInner {
 
     height: 100%;
-
     width: 0%;
 
     border-radius: 10px;
@@ -175,7 +181,6 @@ canvas {
         rgba(70,231,124,.7);
 }
 
-
 #memoryProgress {
 
     background: #4299ff;
@@ -185,11 +190,9 @@ canvas {
         rgba(66,153,255,.7);
 }
 
-
 button {
 
     margin-top: 12px;
-
     margin-right: 5px;
 
     padding: 8px 13px;
@@ -209,15 +212,16 @@ button {
 
     backdrop-filter:
         blur(3px);
-}
 
+    -webkit-backdrop-filter:
+        blur(3px);
+}
 
 button:hover {
 
     background:
         rgba(50,70,85,.35);
 }
-
 
 #message {
 
@@ -228,6 +232,10 @@ button:hover {
     color: #6de4ff;
 
     font-size: 12px;
+
+    text-shadow:
+        0 1px 6px
+        rgba(0,0,0,.9);
 }
 
 
@@ -238,7 +246,6 @@ button:hover {
 #brain {
 
     top: 14px;
-
     right: 14px;
 
     width: 325px;
@@ -251,21 +258,21 @@ button:hover {
     overflow: hidden;
 }
 
-
 .brainTitle {
 
     font-size: 14px;
-
     font-weight: bold;
 
     margin-bottom: 5px;
-}
 
+    text-shadow:
+        0 1px 7px
+        rgba(0,0,0,.9);
+}
 
 .layerTitle {
 
     margin-top: 8px;
-
     margin-bottom: 4px;
 
     color: #d5e0e8;
@@ -273,8 +280,11 @@ button:hover {
     font-size: 9px;
 
     letter-spacing: .7px;
-}
 
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+}
 
 .neuron {
 
@@ -287,11 +297,9 @@ button:hover {
     margin: 1px 0;
 }
 
-
 .dot {
 
     width: 6px;
-
     height: 6px;
 
     flex-shrink: 0;
@@ -304,7 +312,6 @@ button:hover {
     margin-right: 5px;
 }
 
-
 .dot.active {
 
     background: #48ff7b;
@@ -314,7 +321,6 @@ button:hover {
         rgba(72,255,123,.9);
 }
 
-
 .num {
 
     width: 21px;
@@ -322,8 +328,11 @@ button:hover {
     font-size: 7px;
 
     color: #c8d3dc;
-}
 
+    text-shadow:
+        0 1px 4px
+        rgba(0,0,0,.9);
+}
 
 .bar {
 
@@ -339,11 +348,9 @@ button:hover {
     overflow: hidden;
 }
 
-
 .fill {
 
     width: 0%;
-
     height: 100%;
 
     background: #479eff;
@@ -367,7 +374,6 @@ button:hover {
     z-index: 10;
 
     left: 14px;
-
     bottom: 14px;
 
     padding: 8px 11px;
@@ -385,11 +391,19 @@ button:hover {
 
     font-size: 11px;
 
+    text-shadow:
+        0 1px 5px
+        rgba(0,0,0,.9);
+
     backdrop-filter:
+        blur(2px);
+
+    -webkit-backdrop-filter:
         blur(2px);
 }
 
 </style>
+
 </head>
 
 <body>
@@ -402,7 +416,7 @@ button:hover {
 <div id="ui" class="panel">
 
     <div class="title">
-        🧠 Neural World 2.2
+        🧠 Neural World 3.0
     </div>
 
     <div class="subtitle">
@@ -412,58 +426,47 @@ button:hover {
     <div class="stat">
 
         Curriculum:
-        <span id="level" class="value">
-            1
-        </span>
+        <span id="level" class="value">1</span>
 
         <br>
 
         Episode:
-        <span id="episode" class="value">
-            1
-        </span>
+        <span id="episode" class="value">1</span>
 
         <br>
 
         Erfolge:
-        <span id="success" class="value">
-            0
-        </span>
+        <span id="success" class="value">0</span>
 
         <br>
 
         Schritte:
-        <span id="steps" class="value">
-            0
-        </span>
+        <span id="steps" class="value">0</span>
 
         <br>
 
         Replay:
-        <span id="replay" class="value">
-            0
-        </span>
+        <span id="replay" class="value">0</span>
 
         <br>
 
         Zustände:
-        <span id="states" class="value">
-            0
-        </span>
+        <span id="states" class="value">0</span>
 
         <br>
 
         Epsilon:
-        <span id="epsilon" class="value">
-            1.000
-        </span>
+        <span id="epsilon" class="value">1.000</span>
 
         <br>
 
         Distanz:
-        <span id="distance" class="value">
-            0
-        </span>
+        <span id="distance" class="value">0</span>
+
+        <br>
+
+        Lehrer:
+        <span id="teacher" class="value">20%</span>
 
     </div>
 
@@ -473,12 +476,10 @@ button:hover {
     </div>
 
     <div class="progress">
-
         <div
             id="curriculumProgress"
             class="progressInner">
         </div>
-
     </div>
 
 
@@ -487,12 +488,10 @@ button:hover {
     </div>
 
     <div class="progress">
-
         <div
             id="memoryProgress"
             class="progressInner">
         </div>
-
     </div>
 
 
@@ -504,34 +503,13 @@ button:hover {
     <button
         id="pauseButton"
         onclick="toggleTraining()">
-
         Pause
-
     </button>
 
 
     <button
         onclick="resetEverything()">
-
         Neues Gehirn
-
-    </button>
-
-
-    <br>
-
-
-    <button onclick="saveBrain()">
-
-        💾 Speichern
-
-    </button>
-
-
-    <button onclick="loadBrain()">
-
-        📂 Laden
-
     </button>
 
 </div>
@@ -544,34 +522,26 @@ button:hover {
 <div id="brain" class="panel">
 
     <div class="brainTitle">
-
         🧠 NEURONALE AKTIVITÄT
-
     </div>
 
 
     <div class="layerTitle">
-
         SENSORIK · 24
-
     </div>
 
     <div id="sensorLayer"></div>
 
 
     <div class="layerTitle">
-
         MEMORY · 24
-
     </div>
 
     <div id="memoryLayer"></div>
 
 
     <div class="layerTitle">
-
         MOTORIK · 16
-
     </div>
 
     <div id="motorLayer"></div>
@@ -581,9 +551,9 @@ button:hover {
 
 <div id="hint">
 
-    🟢 Ziel · 🌲 Wald · 🧱 Labyrinth · ⛰️ Berge
+    🟢 Ziel · 🌲 Wald · 🧱 Labyrinth
     &nbsp; · &nbsp;
-    🖱️ Mausrad / 🤏 Pinch = Zoom
+    🖱️ Zoom · ⌨️ Pfeile = Kamera
 
 </div>
 
@@ -592,10 +562,50 @@ button:hover {
      THREE.JS
      ======================================================= -->
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<script
+    src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js">
+</script>
 
 
 <script>
+
+/* =========================================================
+   THREE PRÜFEN
+   ========================================================= */
+
+if (
+    typeof THREE === "undefined"
+) {
+
+    document.body.innerHTML = `
+
+        <div style="
+            padding:30px;
+            color:white;
+            font-family:Arial;
+            background:#071019;
+            height:100vh;
+        ">
+
+            <h2>⚠️ Three.js konnte nicht geladen werden</h2>
+
+            <p>
+                Die 3D-Engine wurde vom Browser nicht geladen.
+            </p>
+
+            <p>
+                Bitte prüfe die Internetverbindung
+                oder öffne die Datei erneut.
+            </p>
+
+        </div>
+    `;
+
+    throw new Error(
+        "Three.js konnte nicht geladen werden."
+    );
+}
+
 
 /* =========================================================
    THREE.JS
@@ -604,12 +614,10 @@ button:hover {
 const scene =
     new THREE.Scene();
 
-
 scene.background =
     new THREE.Color(
         0x86bde8
     );
-
 
 scene.fog =
     new THREE.Fog(
@@ -625,13 +633,18 @@ const camera =
         window.innerWidth /
         window.innerHeight,
         .1,
-        200
+        250
     );
 
 
 const renderer =
     new THREE.WebGLRenderer({
-        antialias: true
+
+        antialias: true,
+
+        powerPreference:
+            "high-performance"
+
     });
 
 
@@ -644,7 +657,7 @@ renderer.setSize(
 renderer.setPixelRatio(
     Math.min(
         window.devicePixelRatio,
-        2
+        1.5
     )
 );
 
@@ -659,19 +672,49 @@ document.body.appendChild(
 
 
 /* =========================================================
-   ZOOM
+   KAMERA
    ========================================================= */
 
 let cameraHeight = 88;
+
+let cameraX = 0;
+
+let cameraZ = 0;
+
+const CAMERA_SPEED = 1.2;
 
 const MIN_ZOOM = 30;
 
 const MAX_ZOOM = 150;
 
 
+/* Pfeiltasten */
+
+const keys = {};
+
+window.addEventListener(
+    "keydown",
+    event => {
+
+        keys[event.key] = true;
+
+    }
+);
+
+window.addEventListener(
+    "keyup",
+    event => {
+
+        keys[event.key] = false;
+
+    }
+);
+
+
+/* Mausrad */
+
 renderer.domElement.addEventListener(
     "wheel",
-
     event => {
 
         event.preventDefault();
@@ -689,12 +732,13 @@ renderer.domElement.addEventListener(
             );
 
     },
-
     {
         passive:false
     }
 );
 
+
+/* Touch Pinch */
 
 let lastPinchDistance =
     null;
@@ -702,15 +746,13 @@ let lastPinchDistance =
 
 renderer.domElement.addEventListener(
     "touchmove",
-
     event => {
 
         if (
             event.touches.length !== 2
         ) {
 
-            lastPinchDistance =
-                null;
+            lastPinchDistance = null;
 
             return;
         }
@@ -732,9 +774,9 @@ renderer.domElement.addEventListener(
             b.clientY;
 
 
-        const distance =
+        const d =
             Math.sqrt(
-                dx*dx+
+                dx*dx +
                 dy*dy
             );
 
@@ -745,7 +787,7 @@ renderer.domElement.addEventListener(
 
             cameraHeight -=
                 (
-                    distance -
+                    d -
                     lastPinchDistance
                 )*.12;
 
@@ -761,11 +803,9 @@ renderer.domElement.addEventListener(
         }
 
 
-        lastPinchDistance =
-            distance;
+        lastPinchDistance = d;
 
     },
-
     {
         passive:true
     }
@@ -774,11 +814,9 @@ renderer.domElement.addEventListener(
 
 renderer.domElement.addEventListener(
     "touchend",
-
     () => {
 
-        lastPinchDistance =
-            null;
+        lastPinchDistance = null;
 
     }
 );
@@ -811,9 +849,7 @@ sun.position.set(
 );
 
 
-sun.castShadow =
-    true;
-
+sun.castShadow = true;
 
 scene.add(sun);
 
@@ -825,24 +861,31 @@ scene.add(sun);
 const WORLD_SIZE = 100;
 
 
-function terrainNoise(x,z) {
+function terrainNoise(
+    x,
+    z
+) {
 
     return (
 
-        Math.sin(x*.045) *
-        Math.cos(z*.055)
+        Math.sin(
+            x*.045
+        ) *
+        Math.cos(
+            z*.055
+        )
 
         +
 
         Math.sin(
-            x*.095+
+            x*.095 +
             z*.035
         )*.35
 
         +
 
         Math.cos(
-            z*.08-
+            z*.08 -
             x*.03
         )*.25
 
@@ -859,7 +902,7 @@ function mountain(
 
     const d =
         Math.sqrt(
-            x*x+
+            x*x +
             z*z
         );
 
@@ -867,11 +910,14 @@ function mountain(
     return Math.max(
         0,
         1-d/radius
-    )*height;
+    ) * height;
 }
 
 
-function terrainHeight(x,z) {
+function terrainHeight(
+    x,
+    z
+) {
 
     let h =
         terrainNoise(x,z)*2.2;
@@ -958,9 +1004,7 @@ const terrain =
     );
 
 
-terrain.receiveShadow =
-    true;
-
+terrain.receiveShadow = true;
 
 scene.add(terrain);
 
@@ -971,7 +1015,6 @@ scene.add(terrain);
 
 const treeGroup =
     new THREE.Group();
-
 
 scene.add(treeGroup);
 
@@ -1063,20 +1106,20 @@ for (
 
     const x =
         Math.random()*
-        WORLD_SIZE-
+        WORLD_SIZE -
         WORLD_SIZE/2;
 
 
     const z =
         Math.random()*
-        WORLD_SIZE-
+        WORLD_SIZE -
         WORLD_SIZE/2;
 
 
     createTree(
         x,
         z,
-        .65+
+        .65 +
         Math.random()*.7
     );
 }
@@ -1154,7 +1197,6 @@ const goalPad =
 
 goalPad.position.y=.15;
 
-
 goalGroup.add(goalPad);
 
 
@@ -1175,8 +1217,554 @@ const goalPole =
 
 goalPole.position.y=1.6;
 
-
 goalGroup.add(goalPole);
+
+
+/* =========================================================
+   LABYRINTH
+   =========================================================
+
+   Das Labyrinth wird EINMAL erzeugt.
+
+   21 × 21 Zellen
+   Zellgröße = 4
+
+   DFS erzeugt garantiert ein zusammenhängendes
+   Labyrinth.
+
+   Start = linke untere Ecke
+   Ziel  = rechte obere Ecke
+
+   Dadurch existiert garantiert ein Weg.
+   ========================================================= */
+
+const mazeGroup =
+    new THREE.Group();
+
+scene.add(mazeGroup);
+
+
+const MAZE_SIZE = 21;
+
+const MAZE_CELL = 4;
+
+const MAZE_OFFSET =
+    -(MAZE_SIZE *
+      MAZE_CELL)/2;
+
+
+const mazeWalls = [];
+
+const mazeCells =
+    Array.from(
+        {
+            length:MAZE_SIZE
+        },
+        () =>
+            Array(
+                MAZE_SIZE
+            ).fill(false)
+    );
+
+
+const mazeVisited =
+    Array.from(
+        {
+            length:MAZE_SIZE
+        },
+        () =>
+            Array(
+                MAZE_SIZE
+            ).fill(false)
+    );
+
+
+function mazeInside(
+    x,
+    z
+) {
+
+    return (
+        x>=0 &&
+        z>=0 &&
+        x<MAZE_SIZE &&
+        z<MAZE_SIZE
+    );
+}
+
+
+/*
+   DFS-Maze.
+
+   Jede Zelle wird erreicht.
+   Deshalb gibt es garantiert
+   einen Weg zwischen Start
+   und Ziel.
+*/
+
+function generateMaze() {
+
+    const stack = [];
+
+    const startCell = {
+        x:0,
+        z:MAZE_SIZE-1
+    };
+
+
+    mazeVisited[
+        startCell.z
+    ][
+        startCell.x
+    ] = true;
+
+
+    stack.push(
+        startCell
+    );
+
+
+    const directions = [
+
+        {
+            x:0,
+            z:-1
+        },
+
+        {
+            x:1,
+            z:0
+        },
+
+        {
+            x:0,
+            z:1
+        },
+
+        {
+            x:-1,
+            z:0
+        }
+
+    ];
+
+
+    while (
+        stack.length
+    ) {
+
+        const current =
+            stack[
+                stack.length-1
+            ];
+
+
+        const options=[];
+
+
+        for (
+            const d
+            of directions
+        ) {
+
+            const nx =
+                current.x+d.x*2;
+
+            const nz =
+                current.z+d.z*2;
+
+
+            if (
+                mazeInside(
+                    nx,
+                    nz
+                ) &&
+                !mazeVisited[nz][nx]
+            ) {
+
+                options.push({
+                    x:nx,
+                    z:nz,
+                    wallX:
+                        current.x+d.x,
+                    wallZ:
+                        current.z+d.z
+                });
+            }
+        }
+
+
+        if (
+            options.length===0
+        ) {
+
+            stack.pop();
+
+            continue;
+        }
+
+
+        const next =
+            options[
+                Math.floor(
+                    Math.random()*
+                    options.length
+                )
+            ];
+
+
+        mazeVisited[
+            next.z
+        ][
+            next.x
+        ] = true;
+
+
+        mazeCells[
+            next.wallZ
+        ][
+            next.wallX
+        ] = true;
+
+
+        mazeCells[
+            next.z
+        ][
+            next.x
+        ] = true;
+
+
+        stack.push({
+            x:next.x,
+            z:next.z
+        });
+    }
+
+
+    /*
+       Start- und Zielzelle
+       sicher offen halten.
+    */
+
+    mazeCells[
+        MAZE_SIZE-1
+    ][0] = true;
+
+
+    mazeCells[0][
+        MAZE_SIZE-1
+    ] = true;
+}
+
+
+/*
+   Wand als Box erzeugen.
+*/
+
+function createMazeWall(
+    x,
+    z,
+    width,
+    depth
+) {
+
+    const y =
+        terrainHeight(
+            x,z
+        );
+
+
+    const wall =
+        new THREE.Mesh(
+
+            new THREE.BoxGeometry(
+                width,
+                3.4,
+                depth
+            ),
+
+            new THREE.MeshStandardMaterial({
+
+                color:0x59636b,
+
+                roughness:.9
+
+            })
+        );
+
+
+    wall.position.set(
+        x,
+        y+1.7,
+        z
+    );
+
+
+    wall.castShadow = true;
+
+    wall.receiveShadow = true;
+
+
+    mazeGroup.add(wall);
+
+
+    mazeWalls.push({
+        x:x,
+        z:z,
+        halfX:width/2,
+        halfZ:depth/2
+    });
+}
+
+
+/*
+   Aus dem Zellraster echte Wände erzeugen.
+
+   Wichtig:
+   Wir bauen nur Wände zwischen
+   offenen und nicht offenen Zellen.
+*/
+
+function buildMaze() {
+
+    generateMaze();
+
+
+    const half =
+        MAZE_CELL/2;
+
+
+    /*
+       Vertikale Grenzen
+    */
+
+    for (
+        let z=0;
+        z<MAZE_SIZE;
+        z++
+    ) {
+
+        for (
+            let x=0;
+            x<=MAZE_SIZE;
+            x++
+        ) {
+
+            let shouldWall=false;
+
+
+            if (
+                x===0 ||
+                x===MAZE_SIZE
+            ) {
+
+                shouldWall=true;
+
+            } else {
+
+                const left =
+                    mazeCells[z][x-1];
+
+                const right =
+                    mazeCells[z][x];
+
+                shouldWall =
+                    left!==right;
+            }
+
+
+            /*
+               Eingang unten links
+            */
+
+            if (
+                x===0 &&
+                z===MAZE_SIZE-1
+            ) {
+
+                shouldWall=false;
+            }
+
+
+            /*
+               Ausgang oben rechts
+            */
+
+            if (
+                x===MAZE_SIZE &&
+                z===0
+            ) {
+
+                shouldWall=false;
+            }
+
+
+            if (
+                shouldWall
+            ) {
+
+                const wx =
+                    MAZE_OFFSET+
+                    x*MAZE_CELL;
+
+                const wz =
+                    MAZE_OFFSET+
+                    z*MAZE_CELL+
+                    half;
+
+
+                createMazeWall(
+                    wx,
+                    wz,
+                    .35,
+                    MAZE_CELL+.35
+                );
+            }
+        }
+    }
+
+
+    /*
+       Horizontale Grenzen
+    */
+
+    for (
+        let z=0;
+        z<=MAZE_SIZE;
+        z++
+    ) {
+
+        for (
+            let x=0;
+            x<MAZE_SIZE;
+            x++
+        ) {
+
+            let shouldWall=false;
+
+
+            if (
+                z===0 ||
+                z===MAZE_SIZE
+            ) {
+
+                shouldWall=true;
+
+            } else {
+
+                const top =
+                    mazeCells[z-1][x];
+
+                const bottom =
+                    mazeCells[z][x];
+
+                shouldWall =
+                    top!==bottom;
+            }
+
+
+            /*
+               Eingang unten links
+            */
+
+            if (
+                z===MAZE_SIZE &&
+                x===0
+            ) {
+
+                shouldWall=false;
+            }
+
+
+            /*
+               Ausgang oben rechts
+            */
+
+            if (
+                z===0 &&
+                x===MAZE_SIZE-1
+            ) {
+
+                shouldWall=false;
+            }
+
+
+            if (
+                shouldWall
+            ) {
+
+                const wx =
+                    MAZE_OFFSET+
+                    x*MAZE_CELL+
+                    half;
+
+                const wz =
+                    MAZE_OFFSET+
+                    z*MAZE_CELL;
+
+
+                createMazeWall(
+                    wx,
+                    wz,
+                    MAZE_CELL+.35,
+                    .35
+                );
+            }
+        }
+    }
+}
+
+
+/*
+   DAS LABYRINTH WIRD HIER EINMAL
+   ERZEUGT UND DANACH NICHT MEHR
+   VERÄNDERT.
+*/
+
+buildMaze();
+
+
+/* =========================================================
+   LABYRINTH KOLLISION
+   ========================================================= */
+
+function mazeNear(
+    x,
+    z,
+    radius
+) {
+
+    for (
+        const wall
+        of mazeWalls
+    ) {
+
+        if (
+            Math.abs(
+                x-wall.x
+            ) >
+            wall.halfX+
+            radius
+        )
+            continue;
+
+
+        if (
+            Math.abs(
+                z-wall.z
+            ) >
+            wall.halfZ+
+            radius
+        )
+            continue;
+
+
+        return true;
+    }
+
+
+    return false;
+}
 
 
 /* =========================================================
@@ -1185,7 +1773,6 @@ goalGroup.add(goalPole);
 
 const agent =
     new THREE.Group();
-
 
 scene.add(agent);
 
@@ -1207,7 +1794,6 @@ const agentBody =
 
 agentBody.position.y=.75;
 
-
 agent.add(agentBody);
 
 
@@ -1228,7 +1814,6 @@ const agentHead =
 
 agentHead.position.y=1.55;
 
-
 agent.add(agentHead);
 
 
@@ -1245,11 +1830,11 @@ const curriculum = [
 
         mountains:false,
 
-        maze:false,
+        labyrinth:false,
 
         required:2,
 
-        guide:.20
+        teacher:.20
     },
 
     {
@@ -1259,25 +1844,25 @@ const curriculum = [
 
         mountains:false,
 
-        maze:false,
+        labyrinth:false,
 
         required:3,
 
-        guide:.05
+        teacher:.05
     },
 
     {
-        name:"Wald + Labyrinth",
+        name:"Labyrinth",
 
         trees:.30,
 
         mountains:false,
 
-        maze:true,
+        labyrinth:true,
 
         required:4,
 
-        guide:0
+        teacher:0
     },
 
     {
@@ -1287,11 +1872,11 @@ const curriculum = [
 
         mountains:true,
 
-        maze:true,
+        labyrinth:true,
 
         required:5,
 
-        guide:0
+        teacher:0
     },
 
     {
@@ -1301,11 +1886,11 @@ const curriculum = [
 
         mountains:true,
 
-        maze:true,
+        labyrinth:true,
 
         required:6,
 
-        guide:0
+        teacher:0
     },
 
     {
@@ -1315,11 +1900,11 @@ const curriculum = [
 
         mountains:true,
 
-        maze:true,
+        labyrinth:true,
 
         required:8,
 
-        guide:0
+        teacher:0
     }
 
 ];
@@ -1331,22 +1916,64 @@ let curriculumSuccess=0;
 
 
 /* =========================================================
+   BÄUME AKTIVIEREN
+   ========================================================= */
+
+function treeEnabled(
+    tree
+) {
+
+    const x =
+        Math.round(
+            tree.position.x*10
+        );
+
+
+    const z =
+        Math.round(
+            tree.position.z*10
+        );
+
+
+    const hash =
+        Math.abs(
+            (
+                x*928371+
+                z*523127
+            )%1000
+        )/1000;
+
+
+    return hash <
+        curriculum[
+            curriculumLevel
+        ].trees;
+}
+
+
+/* =========================================================
    TREE GRID
    ========================================================= */
 
 const treeGrid =
     new Map();
 
+const TREE_CELL = 2;
 
-const TREE_CELL=2;
 
-
-function gridKey(x,z) {
+function gridKey(
+    x,
+    z
+) {
 
     return (
-        Math.floor(x/TREE_CELL)+
+        Math.floor(
+            x/TREE_CELL
+        )+
         ":"+
-        Math.floor(z/TREE_CELL)
+        Math.floor(
+            z/TREE_CELL
+        )
     );
 }
 
@@ -1385,40 +2012,10 @@ function rebuildTreeGrid() {
         }
 
 
-        treeGrid
-            .get(key)
-            .push(tree);
+        treeGrid.get(key).push(
+            tree
+        );
     }
-}
-
-
-function treeEnabled(tree) {
-
-    const x =
-        Math.round(
-            tree.position.x*10
-        );
-
-
-    const z =
-        Math.round(
-            tree.position.z*10
-        );
-
-
-    const hash =
-        Math.abs(
-            (
-                x*928371+
-                z*523127
-            )%1000
-        )/1000;
-
-
-    return hash <
-        curriculum[
-            curriculumLevel
-        ].trees;
 }
 
 
@@ -1439,305 +2036,7 @@ function updateTrees() {
 
 
 /* =========================================================
-   LABYRINTH
-   ========================================================= */
-
-const mazeGroup =
-    new THREE.Group();
-
-
-scene.add(mazeGroup);
-
-
-const mazeWalls=[];
-
-
-const MAZE_SIZE=15;
-
-const MAZE_CELL=3;
-
-
-function clearMaze() {
-
-    while (
-        mazeGroup.children.length
-    ) {
-
-        mazeGroup.remove(
-            mazeGroup.children[0]
-        );
-    }
-
-
-    mazeWalls.length=0;
-}
-
-
-function mazeWall(
-    x,
-    z
-) {
-
-    const height=3;
-
-
-    const mesh =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                MAZE_CELL,
-                height,
-                MAZE_CELL
-            ),
-
-            new THREE.MeshStandardMaterial({
-                color:0x737b80,
-                roughness:1
-            })
-        );
-
-
-    mesh.position.set(
-        x,
-        terrainHeight(x,z)+
-        height/2,
-        z
-    );
-
-
-    mesh.castShadow=true;
-
-    mesh.receiveShadow=true;
-
-
-    mazeGroup.add(mesh);
-
-
-    mazeWalls.push({
-        x:x,
-        z:z
-    });
-}
-
-
-/*
-   Einfaches prozedurales Labyrinth.
-
-   Das Muster wird bei jeder Episode
-   neu gewürfelt.
-*/
-
-function generateMaze() {
-
-    clearMaze();
-
-
-    if (
-        !curriculum[
-            curriculumLevel
-        ].maze
-    ) {
-
-        return;
-    }
-
-
-    const half =
-        Math.floor(
-            MAZE_SIZE/2
-        );
-
-
-    const cells=[];
-
-
-    for (
-        let z=-half;
-        z<=half;
-        z++
-    ) {
-
-        for (
-            let x=-half;
-            x<=half;
-            x++
-        ) {
-
-            /*
-               Randwände
-            */
-
-            if (
-                x===-half ||
-                x===half ||
-                z===-half ||
-                z===half
-            ) {
-
-                cells.push([
-                    x,
-                    z
-                ]);
-
-                continue;
-            }
-
-
-            /*
-               Zufällige Wände.
-
-               Etwa 27 % der
-               Innenzellen werden
-               zunächst blockiert.
-            */
-
-            if (
-                Math.random()<.27
-            ) {
-
-                cells.push([
-                    x,
-                    z
-                ]);
-            }
-        }
-    }
-
-
-    /*
-       Hauptweg diagonal offen halten.
-    */
-
-    const protectedCells =
-        new Set();
-
-
-    for (
-        let i=-half;
-        i<=half;
-        i++
-    ) {
-
-        protectedCells.add(
-            i+":"+i
-        );
-
-        protectedCells.add(
-            i+":"+(-i)
-        );
-    }
-
-
-    for (
-        const [x,z]
-        of cells
-    ) {
-
-        if (
-            protectedCells.has(
-                x+":"+z
-            )
-        )
-            continue;
-
-
-        /*
-           Weltposition.
-
-           Das Labyrinth liegt
-           ungefähr im Zentrum.
-        */
-
-        const wx =
-            x*MAZE_CELL;
-
-        const wz =
-            z*MAZE_CELL;
-
-
-        /*
-           Start-/Zielbereich
-           frei halten.
-        */
-
-        if (
-            Math.hypot(
-                wx-start.x,
-                wz-start.z
-            )<8
-        )
-            continue;
-
-
-        if (
-            Math.hypot(
-                wx-goal.x,
-                wz-goal.z
-            )<8
-        )
-            continue;
-
-
-        mazeWall(
-            wx,
-            wz
-        );
-    }
-}
-
-
-/* =========================================================
-   LABYRINTH KOLLISION
-   ========================================================= */
-
-function mazeNear(
-    x,
-    z,
-    radius
-) {
-
-    if (
-        !curriculum[
-            curriculumLevel
-        ].maze
-    )
-        return false;
-
-
-    for (
-        const wall
-        of mazeWalls
-    ) {
-
-        const dx =
-            wall.x-x;
-
-        const dz =
-            wall.z-z;
-
-
-        if (
-            dx*dx+
-            dz*dz <
-            (
-                radius+1.4
-            )*
-            (
-                radius+1.4
-            )
-        ) {
-
-            return true;
-        }
-    }
-
-
-    return false;
-}
-
-
-/* =========================================================
-   KOLLISION
+   TREE KOLLISION
    ========================================================= */
 
 function treeNear(
@@ -1767,2284 +2066,4 @@ function treeNear(
         for (
             let dz=-1;
             dz<=1;
-            dz++
-        ) {
-
-            const bucket =
-                treeGrid.get(
-                    (
-                        cx+dx
-                    )+
-                    ":"+
-                    (
-                        cz+dz
-                    )
-                );
-
-
-            if (
-                !bucket
-            )
-                continue;
-
-
-            for (
-                const tree
-                of bucket
-            ) {
-
-                const ddx =
-                    tree.position.x-x;
-
-                const ddz =
-                    tree.position.z-z;
-
-
-                if (
-                    ddx*ddx+
-                    ddz*ddz <
-                    radius*radius
-                ) {
-
-                    return true;
-                }
-            }
-        }
-    }
-
-
-    return false;
-}
-
-
-function blocked(
-    x,
-    z
-) {
-
-    if (
-        Math.abs(x)>
-        WORLD_SIZE/2 ||
-
-        Math.abs(z)>
-        WORLD_SIZE/2
-    ) {
-
-        return true;
-    }
-
-
-    if (
-        curriculum[
-            curriculumLevel
-        ].mountains &&
-
-        terrainHeight(x,z)>8
-    ) {
-
-        return true;
-    }
-
-
-    if (
-        treeNear(
-            x,
-            z,
-            1.25
-        )
-    ) {
-
-        return true;
-    }
-
-
-    if (
-        mazeNear(
-            x,
-            z,
-            .7
-        )
-    ) {
-
-        return true;
-    }
-
-
-    return false;
-}
-
-
-/* =========================================================
-   NEURON
-   ========================================================= */
-
-class Neuron {
-
-    constructor() {
-
-        this.voltage=-70;
-
-        this.threshold=-55;
-
-        this.refractory=0;
-
-        this.memory=0;
-    }
-
-
-    stimulate(input) {
-
-        if (
-            this.refractory>0
-        ) {
-
-            this.refractory--;
-
-            this.voltage=-70;
-
-            this.memory*=.97;
-
-            return false;
-        }
-
-
-        this.voltage +=
-            (
-                -70-
-                this.voltage
-            )*.15;
-
-
-        this.voltage +=
-            this.memory*3;
-
-
-        this.voltage +=
-            input;
-
-
-        if (
-            this.voltage>=
-            this.threshold
-        ) {
-
-            this.voltage=30;
-
-            this.refractory=2;
-
-
-            this.memory =
-                Math.min(
-                    1,
-                    this.memory+.35
-                );
-
-
-            return true;
-        }
-
-
-        this.memory*=.985;
-
-
-        return false;
-    }
-}
-
-
-let neurons =
-    Array.from(
-        {length:64},
-        () => new Neuron()
-    );
-
-
-let spikes =
-    Array(64).fill(false);
-
-
-/* =========================================================
-   AKTIONEN
-   ========================================================= */
-
-const actions = [
-
-    [-1,0],
-    [1,0],
-    [0,-1],
-    [0,1],
-
-    [-.707,-.707],
-    [.707,-.707],
-    [-.707,.707],
-    [.707,.707],
-
-    [-1,-.35],
-    [1,-.35],
-    [-1,.35],
-    [1,.35],
-
-    [-.35,-1],
-    [.35,-1],
-    [-.35,1],
-    [.35,1]
-
-];
-
-
-const ACTIONS=16;
-
-
-/* =========================================================
-   Q LEARNING
-   ========================================================= */
-
-const Q =
-    new Map();
-
-
-const alpha=.16;
-
-const gamma=.96;
-
-let epsilon=1;
-
-const minEpsilon=.025;
-
-
-/* Q-Nutzungsstatistik */
-
-const qUsage =
-    new Map();
-
-
-const MAX_Q_STATES=150000;
-
-
-function qValues(state) {
-
-    if (
-        !Q.has(state)
-    ) {
-
-        /*
-           Speichergrenze.
-
-           Wir entfernen bei Bedarf
-           selten benutzte Zustände.
-        */
-
-        if (
-            Q.size>=
-            MAX_Q_STATES
-        ) {
-
-            let oldestState=null;
-
-            let oldestUsage=
-                Infinity;
-
-
-            for (
-                const [
-                    s,
-                    usage
-                ]
-                of qUsage
-            ) {
-
-                if (
-                    usage<
-                    oldestUsage
-                ) {
-
-                    oldestUsage=usage;
-
-                    oldestState=s;
-                }
-            }
-
-
-            if (
-                oldestState!==null
-            ) {
-
-                Q.delete(
-                    oldestState
-                );
-
-                qUsage.delete(
-                    oldestState
-                );
-            }
-        }
-
-
-        Q.set(
-            state,
-            Array(
-                ACTIONS
-            ).fill(0)
-        );
-
-
-        qUsage.set(
-            state,
-            0
-        );
-    }
-
-
-    qUsage.set(
-        state,
-        (
-            qUsage.get(state)||0
-        )+1
-    );
-
-
-    return Q.get(state);
-}
-
-
-/* =========================================================
-   DISTANZ
-   ========================================================= */
-
-function distance() {
-
-    const dx =
-        agent.position.x-
-        goal.x;
-
-
-    const dz =
-        agent.position.z-
-        goal.z;
-
-
-    return Math.sqrt(
-        dx*dx+
-        dz*dz
-    );
-}
-
-
-/* =========================================================
-   SENSORIK
-   ========================================================= */
-
-const rayDirections = [
-
-    [-1,0],
-    [-.707,-.707],
-    [0,-1],
-    [.707,-.707],
-
-    [1,0],
-    [.707,.707],
-    [0,1],
-    [-.707,.707]
-
-];
-
-
-function rayDistance(
-    dx,
-    dz
-) {
-
-    const max=12;
-
-
-    for (
-        let d=.5;
-        d<=max;
-        d+=.5
-    ) {
-
-        const x =
-            agent.position.x+
-            dx*d;
-
-
-        const z =
-            agent.position.z+
-            dz*d;
-
-
-        if (
-            blocked(x,z)
-        ) {
-
-            return d;
-        }
-    }
-
-
-    return max;
-}
-
-
-function getSensors() {
-
-    const result=[];
-
-
-    for (
-        const [
-            dx,
-            dz
-        ]
-        of rayDirections
-    ) {
-
-        const d =
-            rayDistance(
-                dx,
-                dz
-            );
-
-
-        result.push(
-            Math.min(
-                4,
-                Math.floor(
-                    (
-                        1-d/12
-                    )*5
-                )
-            )
-        );
-    }
-
-
-    const center =
-        terrainHeight(
-            agent.position.x,
-            agent.position.z
-        );
-
-
-    const offsets=[
-
-        [2,0],
-        [-2,0],
-        [0,2],
-        [0,-2]
-
-    ];
-
-
-    for (
-        const [
-            dx,
-            dz
-        ]
-        of offsets
-    ) {
-
-        const h =
-            terrainHeight(
-                agent.position.x+dx,
-                agent.position.z+dz
-            );
-
-
-        result.push(
-
-            h>center+1
-                ?2
-                :
-            h<center-1
-                ?0
-                :1
-
-        );
-    }
-
-
-    const dx =
-        goal.x-
-        agent.position.x;
-
-
-    const dz =
-        goal.z-
-        agent.position.z;
-
-
-    result.push(
-
-        dx<-8
-            ?0
-            :
-        dx>8
-            ?2
-            :1
-
-    );
-
-
-    result.push(
-
-        dz<-8
-            ?0
-            :
-        dz>8
-            ?2
-            :1
-
-    );
-
-
-    const d =
-        distance();
-
-
-    result.push(
-
-        d<4
-            ?0
-            :
-        d<10
-            ?1
-            :
-        d<20
-            ?2
-            :
-        d<40
-            ?3
-            :
-        d<70
-            ?4
-            :5
-
-    );
-
-
-    return result;
-}
-
-
-/* =========================================================
-   STATE
-   ========================================================= */
-
-function getState() {
-
-    const sensors =
-        getSensors();
-
-
-    const obstacles =
-        sensors
-        .slice(0,8)
-        .map(
-            v =>
-                Math.min(
-                    2,
-                    Math.floor(v/2)
-                )
-        );
-
-
-    const dx =
-        goal.x-
-        agent.position.x;
-
-
-    const dz =
-        goal.z-
-        agent.position.z;
-
-
-    const angle =
-        Math.atan2(
-            dx,
-            dz
-        );
-
-
-    let direction =
-        Math.round(
-            (
-                angle+
-                Math.PI
-            )/
-            (
-                Math.PI*2
-            )*8
-        )%8;
-
-
-    if (
-        direction<0
-    )
-        direction+=8;
-
-
-    const d =
-        distance();
-
-
-    let distanceClass;
-
-
-    if(d<4)
-        distanceClass=0;
-
-    else if(d<10)
-        distanceClass=1;
-
-    else if(d<20)
-        distanceClass=2;
-
-    else if(d<40)
-        distanceClass=3;
-
-    else if(d<70)
-        distanceClass=4;
-
-    else
-        distanceClass=5;
-
-
-    const h =
-        terrainHeight(
-            agent.position.x,
-            agent.position.z
-        );
-
-
-    const heightClass =
-        h<2
-            ?0
-            :
-        h<6
-            ?1
-            :2;
-
-
-    return [
-
-        ...obstacles,
-
-        direction,
-
-        distanceClass,
-
-        heightClass
-
-    ].join(",");
-}
-
-
-/* =========================================================
-   GUIDED ACTION
-   ========================================================= */
-
-function guidedAction() {
-
-    const dx =
-        goal.x-
-        agent.position.x;
-
-
-    const dz =
-        goal.z-
-        agent.position.z;
-
-
-    const targetAngle =
-        Math.atan2(
-            dx,
-            dz
-        );
-
-
-    let best=0;
-
-    let bestDifference=
-        Infinity;
-
-
-    for (
-        let i=0;
-        i<ACTIONS;
-        i++
-    ) {
-
-        const [
-            ax,
-            az
-        ] =
-            actions[i];
-
-
-        const angle =
-            Math.atan2(
-                ax,
-                az
-            );
-
-
-        let diff =
-            Math.abs(
-                targetAngle-angle
-            );
-
-
-        while (
-            diff>Math.PI
-        ) {
-
-            diff =
-                Math.abs(
-                    diff-
-                    Math.PI*2
-                );
-        }
-
-
-        const nx =
-            agent.position.x+
-            ax*2;
-
-
-        const nz =
-            agent.position.z+
-            az*2;
-
-
-        if (
-            blocked(nx,nz)
-        ) {
-
-            diff+=4;
-        }
-
-
-        if (
-            diff<
-            bestDifference
-        ) {
-
-            bestDifference=diff;
-
-            best=i;
-        }
-    }
-
-
-    return best;
-}
-
-
-/* =========================================================
-   AKTION
-   ========================================================= */
-
-function chooseAction(state) {
-
-    const guideChance =
-        curriculum[
-            curriculumLevel
-        ].guide;
-
-
-    /*
-       Der Lehrer ist unabhängig
-       von Epsilon.
-
-       Ab Stufe 3:
-       guideChance = 0.
-    */
-
-    if (
-        Math.random()<
-        guideChance
-    ) {
-
-        return guidedAction();
-    }
-
-
-    if (
-        Math.random()<
-        epsilon
-    ) {
-
-        return Math.floor(
-            Math.random()*
-            ACTIONS
-        );
-    }
-
-
-    const q =
-        qValues(state);
-
-
-    const maxQ =
-        Math.max(...q);
-
-
-    const candidates=[];
-
-
-    for (
-        let i=0;
-        i<ACTIONS;
-        i++
-    ) {
-
-        if (
-            Math.abs(
-                q[i]-maxQ
-            )<.000001
-        ) {
-
-            candidates.push(i);
-        }
-    }
-
-
-    return candidates[
-        Math.floor(
-            Math.random()*
-            candidates.length
-        )
-    ];
-}
-
-
-/* =========================================================
-   NEURONALE VERARBEITUNG
-   ========================================================= */
-
-function stimulateBrain(
-    state,
-    action
-) {
-
-    spikes.fill(false);
-
-
-    const values =
-        state
-        .split(",")
-        .map(Number);
-
-
-    for (
-        let i=0;
-        i<24;
-        i++
-    ) {
-
-        const value =
-            values[i]||0;
-
-
-        spikes[i] =
-            neurons[i]
-            .stimulate(
-                value*4
-            );
-    }
-
-
-    for (
-        let i=0;
-        i<24;
-        i++
-    ) {
-
-        let input=0;
-
-
-        for (
-            let j=0;
-            j<24;
-            j++
-        ) {
-
-            if (
-                spikes[j]
-            ) {
-
-                const weight =
-                    (
-                        (
-                            j*17+
-                            i*31
-                        )%9
-                    )-4;
-
-
-                input +=
-                    weight*.35;
-            }
-        }
-
-
-        for (
-            let j=0;
-            j<24;
-            j++
-        ) {
-
-            input +=
-                neurons[24+j].memory*
-                (
-                    (
-                        i*7+
-                        j*13
-                    )%5-2
-                )*.45;
-        }
-
-
-        spikes[24+i] =
-            neurons[24+i]
-            .stimulate(
-                input
-            );
-    }
-
-
-    const q =
-        qValues(state);
-
-
-    const minQ =
-        Math.min(...q);
-
-
-    const maxQ =
-        Math.max(...q);
-
-
-    for (
-        let i=0;
-        i<16;
-        i++
-    ) {
-
-        let qStrength=.5;
-
-
-        if (
-            maxQ!==minQ
-        ) {
-
-            qStrength =
-                (
-                    q[i]-minQ
-                )/
-                (
-                    maxQ-minQ
-                );
-        }
-
-
-        let memoryInfluence=0;
-
-
-        for (
-            let j=0;
-            j<24;
-            j++
-        ) {
-
-            memoryInfluence +=
-                neurons[24+j].memory*
-                (
-                    (
-                        i*11+
-                        j*7
-                    )%5-2
-                );
-        }
-
-
-        spikes[48+i] =
-            neurons[48+i]
-            .stimulate(
-                qStrength*5+
-                memoryInfluence*.08
-            );
-    }
-
-
-    spikes[48+action]=true;
-}
-
-
-/* =========================================================
-   BESUCHTES GELÄNDE
-   ========================================================= */
-
-const visitedCells =
-    new Set();
-
-
-function cellKey(x,z) {
-
-    return (
-
-        Math.round(x)+
-        ":"+
-        Math.round(z)
-
-    );
-}
-
-
-function wasVisited() {
-
-    return visitedCells.has(
-
-        cellKey(
-            agent.position.x,
-            agent.position.z
-        )
-
-    );
-}
-
-
-function rememberCell() {
-
-    visitedCells.add(
-
-        cellKey(
-            agent.position.x,
-            agent.position.z
-        )
-
-    );
-}
-
-
-/* =========================================================
-   EXPERIENCE REPLAY
-   ========================================================= */
-
-const replayBuffer=[];
-
-const REPLAY_SIZE=10000;
-
-
-/*
-   Sampling-Cache.
-
-   Wir bauen die Gewichte nicht
-   bei jeder einzelnen Ziehung
-   neu auf.
-*/
-
-let cumulativeWeights=[];
-
-let cumulativeDirty=true;
-
-
-function rebuildCumulative() {
-
-    cumulativeWeights=[];
-
-
-    let sum=0;
-
-
-    for (
-        const e
-        of replayBuffer
-    ) {
-
-        sum +=
-            e.priority;
-
-
-        cumulativeWeights.push(
-            sum
-        );
-    }
-
-
-    cumulativeDirty=false;
-}
-
-
-function addExperience(
-    experience
-) {
-
-    experience.priority =
-        Math.abs(
-            experience.reward
-        )+.5;
-
-
-    replayBuffer.push(
-        experience
-    );
-
-
-    if (
-        replayBuffer.length>
-        REPLAY_SIZE
-    ) {
-
-        replayBuffer.shift();
-    }
-
-
-    cumulativeDirty=true;
-}
-
-
-function sampleExperience() {
-
-    if (
-        replayBuffer.length===0
-    )
-        return null;
-
-
-    if (
-        cumulativeDirty
-    ) {
-
-        rebuildCumulative();
-    }
-
-
-    const total =
-        cumulativeWeights[
-            cumulativeWeights.length-1
-        ];
-
-
-    const target =
-        Math.random()*total;
-
-
-    let lo=0;
-
-    let hi=
-        cumulativeWeights.length-1;
-
-
-    while (
-        lo<hi
-    ) {
-
-        const mid =
-            (
-                lo+hi
-            )>>1;
-
-
-        if (
-            cumulativeWeights[mid]<
-            target
-        ) {
-
-            lo=mid+1;
-
-        } else {
-
-            hi=mid;
-        }
-    }
-
-
-    return replayBuffer[lo];
-}
-
-
-function replayLearn(
-    amount=16
-) {
-
-    for (
-        let i=0;
-        i<amount;
-        i++
-    ) {
-
-        const e =
-            sampleExperience();
-
-
-        if(!e)
-            return;
-
-
-        const q =
-            qValues(
-                e.state
-            );
-
-
-        const nextQ =
-            qValues(
-                e.nextState
-            );
-
-
-        let target;
-
-
-        if (
-            e.done
-        ) {
-
-            target=e.reward;
-
-        } else {
-
-            target =
-                e.reward+
-                gamma*
-                Math.max(
-                    ...nextQ
-                );
-        }
-
-
-        const error =
-            target-
-            q[e.action];
-
-
-        q[e.action] +=
-            alpha*error;
-
-
-        e.priority =
-            Math.abs(error)+.05;
-    }
-
-
-    /*
-       Prioritäten haben sich geändert.
-    */
-
-    cumulativeDirty=true;
-}
-
-
-/* =========================================================
-   BEWEGUNG
-   ========================================================= */
-
-function move(action) {
-
-    const [
-        dx,
-        dz
-    ] =
-        actions[action];
-
-
-    const nx =
-        agent.position.x+
-        dx;
-
-
-    const nz =
-        agent.position.z+
-        dz;
-
-
-    if (
-        blocked(nx,nz)
-    ) {
-
-        return false;
-    }
-
-
-    agent.position.x=nx;
-
-    agent.position.z=nz;
-
-
-    agent.position.y =
-        terrainHeight(
-            nx,
-            nz
-        );
-
-
-    agent.rotation.y =
-        Math.atan2(
-            dx,
-            dz
-        );
-
-
-    return true;
-}
-
-
-/* =========================================================
-   REWARD
-   ========================================================= */
-
-function calculateReward(
-    oldDistance,
-    newDistance,
-    moved,
-    visited
-) {
-
-    let reward=-.20;
-
-
-    const progress =
-        oldDistance-
-        newDistance;
-
-
-    reward +=
-        progress*15;
-
-
-    if(!moved)
-        reward-=6;
-
-
-    if(visited)
-        reward-=3;
-
-    else
-        reward+=.7;
-
-
-    let done=false;
-
-
-    if (
-        newDistance<2.5
-    ) {
-
-        reward+=500;
-
-        done=true;
-    }
-
-
-    return {
-
-        reward,
-
-        done
-
-    };
-}
-
-
-/* =========================================================
-   TRAINING
-   ========================================================= */
-
-let episode=1;
-
-let steps=0;
-
-let totalSuccesses=0;
-
-let training=true;
-
-
-function trainStep() {
-
-    const oldState =
-        getState();
-
-
-    const oldDistance =
-        distance();
-
-
-    const action =
-        chooseAction(
-            oldState
-        );
-
-
-    stimulateBrain(
-        oldState,
-        action
-    );
-
-
-    const moved =
-        move(action);
-
-
-    const newDistance =
-        distance();
-
-
-    const visited =
-        wasVisited();
-
-
-    const result =
-        calculateReward(
-            oldDistance,
-            newDistance,
-            moved,
-            visited
-        );
-
-
-    rememberCell();
-
-
-    const newState =
-        getState();
-
-
-    addExperience({
-
-        state:oldState,
-
-        action:action,
-
-        reward:result.reward,
-
-        nextState:newState,
-
-        done:result.done
-
-    });
-
-
-    replayLearn(3);
-
-
-    steps++;
-
-
-    if (
-        result.done ||
-        steps>=400
-    ) {
-
-        if (
-            result.done
-        ) {
-
-            totalSuccesses++;
-
-            curriculumSuccess++;
-
-
-            document.getElementById(
-                "message"
-            ).innerText =
-                "🎯 Ziel gefunden!";
-        }
-
-
-        epsilon =
-            Math.max(
-                minEpsilon,
-                epsilon*.997
-            );
-
-
-        const current =
-            curriculum[
-                curriculumLevel
-            ];
-
-
-        if (
-            curriculumSuccess>=
-            current.required
-        ) {
-
-            if (
-                curriculumLevel<
-                curriculum.length-1
-            ) {
-
-                curriculumLevel++;
-
-                curriculumSuccess=0;
-
-
-                document.getElementById(
-                    "message"
-                ).innerText =
-                    "⬆️ Neue Welt: "+
-                    curriculum[
-                        curriculumLevel
-                    ].name;
-            }
-        }
-
-
-        episode++;
-
-        resetEpisode();
-    }
-}
-
-
-/* =========================================================
-   EPISODE RESET
-   ========================================================= */
-
-function resetEpisode() {
-
-    agent.position.copy(
-        start
-    );
-
-
-    agent.position.y =
-        terrainHeight(
-            start.x,
-            start.z
-        );
-
-
-    agent.rotation.y=0;
-
-
-    steps=0;
-
-
-    visitedCells.clear();
-
-
-    rememberCell();
-
-
-    /*
-       Memory bleibt teilweise erhalten.
-    */
-
-    for (
-        let i=24;
-        i<48;
-        i++
-    ) {
-
-        neurons[i].memory*=.35;
-
-        neurons[i].voltage=-70;
-
-        neurons[i].refractory=0;
-    }
-
-
-    updateTrees();
-
-
-    /*
-       Ab Stufe 3 wird für jede
-       Episode ein neues Labyrinth
-       erzeugt.
-    */
-
-    generateMaze();
-}
-
-
-/* =========================================================
-   KOMPLETTER RESET
-   ========================================================= */
-
-function resetEverything() {
-
-    Q.clear();
-
-    qUsage.clear();
-
-
-    replayBuffer.length=0;
-
-
-    cumulativeWeights=[];
-
-    cumulativeDirty=true;
-
-
-    neurons =
-        Array.from(
-            {length:64},
-            () => new Neuron()
-        );
-
-
-    spikes =
-        Array(64).fill(false);
-
-
-    curriculumLevel=0;
-
-    curriculumSuccess=0;
-
-    totalSuccesses=0;
-
-    episode=1;
-
-    steps=0;
-
-    epsilon=1;
-
-
-    resetEpisode();
-
-
-    document.getElementById(
-        "message"
-    ).innerText =
-        "🧠 Neues Gehirn gestartet";
-}
-
-
-/* =========================================================
-   SPEICHERN
-   ========================================================= */
-
-function saveBrain() {
-
-    const data={
-
-        version:"NeuralWorld 2.2",
-
-        curriculumLevel:
-            curriculumLevel,
-
-        curriculumSuccess:
-            curriculumSuccess,
-
-        totalSuccesses:
-            totalSuccesses,
-
-        episode:
-            episode,
-
-        epsilon:
-            epsilon,
-
-        q:
-            [...Q.entries()],
-
-        qUsage:
-            [...qUsage.entries()],
-
-        replay:
-            replayBuffer,
-
-        neurons:
-            neurons.map(
-                n => ({
-                    voltage:n.voltage,
-                    threshold:n.threshold,
-                    refractory:n.refractory,
-                    memory:n.memory
-                })
-            )
-
-    };
-
-
-    const blob =
-        new Blob(
-            [
-                JSON.stringify(data)
-            ],
-            {
-                type:
-                    "application/json"
-            }
-        );
-
-
-    const url =
-        URL.createObjectURL(
-            blob
-        );
-
-
-    const a =
-        document.createElement(
-            "a"
-        );
-
-
-    a.href=url;
-
-
-    a.download =
-        "neuralworld-brain.json";
-
-
-    a.click();
-
-
-    URL.revokeObjectURL(url);
-
-
-    document.getElementById(
-        "message"
-    ).innerText =
-        "💾 Gehirn gespeichert";
-}
-
-
-/* =========================================================
-   LADEN
-   ========================================================= */
-
-function loadBrain() {
-
-    const input =
-        document.createElement(
-            "input"
-        );
-
-
-    input.type="file";
-
-    input.accept=
-        ".json,application/json";
-
-
-    input.onchange =
-        event => {
-
-            const file =
-                event.target.files[0];
-
-
-            if(!file)
-                return;
-
-
-            const reader =
-                new FileReader();
-
-
-            reader.onload =
-                () => {
-
-                    try {
-
-                        const data =
-                            JSON.parse(
-                                reader.result
-                            );
-
-
-                        Q.clear();
-
-                        qUsage.clear();
-
-
-                        for (
-                            const [
-                                state,
-                                values
-                            ]
-                            of data.q||[]
-                        ) {
-
-                            Q.set(
-                                state,
-                                values
-                            );
-                        }
-
-
-                        for (
-                            const [
-                                state,
-                                usage
-                            ]
-                            of data.qUsage||[]
-                        ) {
-
-                            qUsage.set(
-                                state,
-                                usage
-                            );
-                        }
-
-
-                        replayBuffer.length=0;
-
-
-                        for (
-                            const e
-                            of data.replay||[]
-                        ) {
-
-                            replayBuffer.push(
-                                e
-                            );
-                        }
-
-
-                        cumulativeWeights=[];
-
-                        cumulativeDirty=true;
-
-
-                        if (
-                            Array.isArray(
-                                data.neurons
-                            )
-                        ) {
-
-                            for (
-                                let i=0;
-                                i<Math.min(
-                                    64,
-                                    data.neurons.length
-                                );
-                                i++
-                            ) {
-
-                                neurons[i].voltage =
-                                    data.neurons[i].voltage;
-
-                                neurons[i].threshold =
-                                    data.neurons[i].threshold;
-
-                                neurons[i].refractory =
-                                    data.neurons[i].refractory;
-
-                                neurons[i].memory =
-                                    data.neurons[i].memory;
-                            }
-                        }
-
-
-                        curriculumLevel =
-                            Math.max(
-                                0,
-                                Math.min(
-                                    curriculum.length-1,
-                                    data.curriculumLevel||0
-                                )
-                            );
-
-
-                        curriculumSuccess =
-                            data.curriculumSuccess||0;
-
-
-                        totalSuccesses =
-                            data.totalSuccesses||0;
-
-
-                        episode =
-                            data.episode||1;
-
-
-                        epsilon =
-                            data.epsilon ??
-                            1;
-
-
-                        resetEpisode();
-
-
-                        document.getElementById(
-                            "message"
-                        ).innerText =
-                            "📂 Gehirn geladen!";
-
-
-                    } catch(error) {
-
-                        console.error(error);
-
-
-                        document.getElementById(
-                            "message"
-                        ).innerText =
-                            "❌ Datei konnte nicht geladen werden";
-
-                    }
-                };
-
-
-            reader.readAsText(file);
-        };
-
-
-    input.click();
-}
-
-
-/* =========================================================
-   NEURON UI
-   ========================================================= */
-
-function createNeuronUI(
-    element,
-    start,
-    end
-) {
-
-    for (
-        let i=start;
-        i<end;
-        i++
-    ) {
-
-        const row =
-            document.createElement(
-                "div"
-            );
-
-
-        row.className="neuron";
-
-
-        row.innerHTML=`
-
-            <div
-                id="dot${i}"
-                class="dot">
-            </div>
-
-            <div
-                class="num">
-                ${i+1}
-            </div>
-
-            <div
-                class="bar">
-
-                <div
-                    id="fill${i}"
-                    class="fill">
-                </div>
-
-            </div>
-
-        `;
-
-
-        element.appendChild(row);
-    }
-}
-
-
-createNeuronUI(
-    document.getElementById(
-        "sensorLayer"
-    ),
-    0,
-    24
-);
-
-
-createNeuronUI(
-    document.getElementById(
-        "memoryLayer"
-    ),
-    24,
-    48
-);
-
-
-createNeuronUI(
-    document.getElementById(
-        "motorLayer"
-    ),
-    48,
-    64
-);
-
-
-/* =========================================================
-   GEHIRN UI
-   ========================================================= */
-
-function updateBrainUI() {
-
-    let memoryTotal=0;
-
-
-    for (
-        let i=0;
-        i<64;
-        i++
-    ) {
-
-        const dot =
-            document.getElementById(
-                "dot"+i
-            );
-
-
-        const fill =
-            document.getElementById(
-                "fill"+i
-            );
-
-
-        dot.classList.toggle(
-            "active",
-            spikes[i]
-        );
-
-
-        let activity =
-            (
-                neurons[i].voltage+
-                70
-            )/100;
-
-
-        if (
-            i>=24 &&
-            i<48
-        ) {
-
-            activity =
-                Math.max(
-                    activity,
-                    neurons[i].memory
-                );
-
-
-            memoryTotal +=
-                neurons[i].memory;
-        }
-
-
-        activity =
-            Math.max(
-                0,
-                Math.min(
-                    1,
-                    activity
-                )
-            );
-
-
-        fill.style.width =
-            activity*100+
-            "%";
-    }
-
-
-    document.getElementById(
-        "memoryProgress"
-    ).style.width =
-        (
-            memoryTotal/
-            24*
-            100
-        )+
-        "%";
-}
-
-
-/* =========================================================
-   KAMERA
-   ========================================================= */
-
-function updateCamera() {
-
-    camera.position.set(
-        0,
-        cameraHeight,
-        0
-    );
-
-
-    camera.lookAt(
-        0,
-        0,
-        0
-    );
-}
-
-
-/* =========================================================
-   TRAINING PAUSE
-   ========================================================= */
-
-function toggleTraining() {
-
-    training=!training;
-
-
-    document.getElementById(
-        "pauseButton"
-    ).innerText =
-        training
-            ?"Pause"
-            :"Start";
-}
-
-
-/* =========================================================
-   RESIZE
-   ========================================================= */
-
-window.addEventListener(
-    "resize",
-
-    () => {
-
-        camera.aspect =
-            window.innerWidth/
-            window.innerHeight;
-
-
-        camera.updateProjectionMatrix();
-
-
-        renderer.setSize(
-            window.innerWidth,
-            window.innerHeight
-        );
-    }
-);
-
-
-/* =========================================================
-   HAUPTSCHLEIFE
-   ========================================================= */
-
-function animate() {
-
-    requestAnimationFrame(
-        animate
-    );
-
-
-    if (
-        training
-    ) {
-
-        for (
-            let i=0;
-            i<10;
-            i++
-        ) {
-
-            trainStep();
-        }
-
-
-        replayLearn(12);
-    }
-
-
-    updateCamera();
-
-    updateBrainUI();
-
-
-    const current =
-        curriculum[
-            curriculumLevel
-        ];
-
-
-    document.getElementById(
-        "level"
-    ).innerText =
-        (
-            curriculumLevel+1
-        )+
-        " · "+
-        current.name;
-
-
-    document.getElementById(
-        "episode"
-    ).innerText =
-        episode;
-
-
-    document.getElementById(
-        "success"
-    ).innerText =
-        totalSuccesses;
-
-
-    document.getElementById(
-        "steps"
-    ).innerText =
-        steps;
-
-
-    document.getElementById(
-        "replay"
-    ).innerText =
-        replayBuffer.length;
-
-
-    document.getElementById(
-        "states"
-    ).innerText =
-        Q.size;
-
-
-    document.getElementById(
-        "epsilon"
-    ).innerText =
-        epsilon.toFixed(3);
-
-
-    document.getElementById(
-        "distance"
-    ).innerText =
-        distance().toFixed(1);
-
-
-    const progress =
-        Math.min(
-            100,
-            curriculumSuccess/
-            current.required*
-            100
-        );
-
-
-    document.getElementById(
-        "curriculumProgress"
-    ).style.width =
-        progress+
-        "%";
-
-
-    renderer.render(
-        scene,
-        camera
-    );
-}
-
-
-/* =========================================================
-   START
-   ========================================================= */
-
-resetEpisode();
-
-animate();
-
-</script>
-
-</body>
-</html>
+           
