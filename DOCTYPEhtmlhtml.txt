@@ -1,0 +1,3133 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width,
+               initial-scale=1.0,
+               maximum-scale=1.0,
+               user-scalable=no">
+
+<title>Neural World 4.0 — Evolution</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    background: #071019;
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    touch-action: none;
+}
+
+canvas {
+    display: block;
+}
+
+.panel {
+    position: absolute;
+    z-index: 10;
+
+    background: rgba(8,14,21,.16);
+
+    border: 1px solid rgba(255,255,255,.15);
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.15);
+
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+}
+
+#ui {
+    left: 14px;
+    top: 14px;
+
+    width: 300px;
+
+    padding: 15px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 3px;
+
+    text-shadow:
+        0 1px 8px rgba(0,0,0,.8);
+}
+
+.subtitle {
+    font-size: 10px;
+    color: #d2dce5;
+    margin-bottom: 12px;
+}
+
+.stat {
+    font-size: 12px;
+    line-height: 1.7;
+
+    color: #eef5fa;
+
+    text-shadow:
+        0 1px 5px rgba(0,0,0,.9);
+}
+
+.value {
+    float: right;
+    color: white;
+    font-family: monospace;
+}
+
+.label {
+    margin-top: 8px;
+    margin-bottom: 4px;
+
+    font-size: 9px;
+
+    color: #dce7ef;
+
+    letter-spacing: .6px;
+}
+
+.progress {
+    height: 7px;
+    width: 100%;
+
+    overflow: hidden;
+
+    background: rgba(255,255,255,.12);
+
+    border-radius: 10px;
+}
+
+.progressInner {
+    height: 100%;
+    width: 0%;
+
+    border-radius: 10px;
+
+    background: #46e77c;
+}
+
+#fitnessProgress {
+    background: #ffb347;
+}
+
+#brainProgress {
+    background: #479eff;
+}
+
+button {
+    margin-top: 11px;
+    margin-right: 4px;
+
+    padding: 7px 12px;
+
+    border:
+        1px solid rgba(255,255,255,.18);
+
+    border-radius: 8px;
+
+    background:
+        rgba(20,30,40,.3);
+
+    color: white;
+
+    cursor: pointer;
+}
+
+button:hover {
+    background:
+        rgba(50,70,85,.4);
+}
+
+#message {
+    min-height: 20px;
+
+    margin-top: 9px;
+
+    color: #6de4ff;
+
+    font-size: 11px;
+
+    text-shadow:
+        0 1px 6px rgba(0,0,0,.9);
+}
+
+#brain {
+    top: 14px;
+    right: 14px;
+
+    width: 310px;
+
+    padding: 12px;
+
+    max-height:
+        calc(100vh - 28px);
+
+    overflow: hidden;
+}
+
+.brainTitle {
+    font-size: 13px;
+    font-weight: bold;
+
+    margin-bottom: 4px;
+}
+
+.layerTitle {
+    margin-top: 6px;
+    margin-bottom: 3px;
+
+    color: #d5e0e8;
+
+    font-size: 8px;
+
+    letter-spacing: .6px;
+}
+
+.neuron {
+    height: 4px;
+
+    display: flex;
+
+    align-items: center;
+
+    margin: 1px 0;
+}
+
+.dot {
+    width: 4px;
+    height: 4px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,.2);
+
+    margin-right: 4px;
+}
+
+.dot.active {
+    background: #48ff7b;
+
+    box-shadow:
+        0 0 6px rgba(72,255,123,.9);
+}
+
+.num {
+    width: 17px;
+
+    font-size: 6px;
+
+    color: #c8d3dc;
+}
+
+.bar {
+    flex: 1;
+
+    height: 3px;
+
+    background:
+        rgba(255,255,255,.11);
+
+    border-radius: 5px;
+
+    overflow: hidden;
+}
+
+.fill {
+    width: 0%;
+    height: 100%;
+
+    background: #479eff;
+
+    border-radius: 5px;
+}
+
+#hint {
+    position: absolute;
+
+    z-index: 10;
+
+    left: 14px;
+    bottom: 14px;
+
+    padding: 7px 10px;
+
+    border-radius: 8px;
+
+    background:
+        rgba(0,0,0,.12);
+
+    border:
+        1px solid rgba(255,255,255,.12);
+
+    color: #eef5fa;
+
+    font-size: 10px;
+
+    text-shadow:
+        0 1px 5px rgba(0,0,0,.9);
+}
+
+@media(max-width:700px) {
+
+    #ui {
+        width: 245px;
+        padding: 10px;
+    }
+
+    .title {
+        font-size: 17px;
+    }
+
+    #brain {
+        width: 190px;
+        padding: 8px;
+    }
+
+    .neuron {
+        height: 3px;
+    }
+
+    #hint {
+        font-size: 8px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="ui" class="panel">
+
+    <div class="title">
+        Neural World 4.0
+    </div>
+
+    <div class="subtitle">
+        256 Neuronen · Evolution · Mutation · Fitness
+    </div>
+
+    <div class="stat">
+
+        Generation:
+        <span id="generation" class="value">1</span>
+
+        <br>
+
+        Leben:
+        <span id="life" class="value">1</span>
+
+        <br>
+
+        Erfolge:
+        <span id="success" class="value">0</span>
+
+        <br>
+
+        Schritte:
+        <span id="steps" class="value">0</span>
+
+        <br>
+
+        Fitness:
+        <span id="fitness" class="value">0</span>
+
+        <br>
+
+        Beste Fitness:
+        <span id="bestFitness" class="value">0</span>
+
+        <br>
+
+        Distanz:
+        <span id="distance" class="value">0</span>
+
+        <br>
+
+        Mutation:
+        <span id="mutation" class="value">0</span>
+
+        <br>
+
+        Entdeckt:
+        <span id="exploration" class="value">0</span>
+
+    </div>
+
+    <div class="label">
+        FITNESS
+    </div>
+
+    <div class="progress">
+        <div
+            id="fitnessProgress"
+            class="progressInner">
+        </div>
+    </div>
+
+    <div class="label">
+        GEHIRN
+    </div>
+
+    <div class="progress">
+        <div
+            id="brainProgress"
+            class="progressInner">
+        </div>
+    </div>
+
+    <div id="message">
+        Evolution startet...
+    </div>
+
+    <button
+        id="pauseButton"
+        onclick="toggleTraining()">
+        Pause
+    </button>
+
+    <button
+        onclick="resetEverything()">
+        Neue Evolution
+    </button>
+
+</div>
+
+
+<div id="brain" class="panel">
+
+    <div class="brainTitle">
+        NEURONALE AKTIVITÄT — 256
+    </div>
+
+    <div class="layerTitle">
+        SENSORIK — 64
+    </div>
+
+    <div id="sensorLayer"></div>
+
+    <div class="layerTitle">
+        VERARBEITUNG — 96
+    </div>
+
+    <div id="processingLayer"></div>
+
+    <div class="layerTitle">
+        MEMORY — 64
+    </div>
+
+    <div id="memoryLayer"></div>
+
+    <div class="layerTitle">
+        MOTORIK — 32
+    </div>
+
+    <div id="motorLayer"></div>
+
+</div>
+
+
+<div id="hint">
+
+    🟢 Ziel
+    &nbsp;|&nbsp;
+    🔵 Agent
+    &nbsp;|&nbsp;
+    🟠 Start
+    &nbsp;|&nbsp;
+    🔴 Tod
+    &nbsp;|&nbsp;
+    Mausrad / Pinch = Zoom
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+
+<script>
+
+/* =========================================================
+   THREE
+   ========================================================= */
+
+if (typeof THREE === "undefined") {
+
+    document.body.innerHTML =
+        "<div style='padding:30px;color:white'>" +
+        "<h2>Three.js konnte nicht geladen werden.</h2>" +
+        "</div>";
+
+    throw new Error("Three.js fehlt.");
+
+}
+
+
+/* =========================================================
+   SZENE
+   ========================================================= */
+
+const scene =
+    new THREE.Scene();
+
+scene.background =
+    new THREE.Color(0x86bde8);
+
+scene.fog =
+    new THREE.Fog(
+        0x86bde8,
+        45,
+        125
+    );
+
+
+const camera =
+    new THREE.PerspectiveCamera(
+        55,
+        innerWidth / innerHeight,
+        .1,
+        200
+    );
+
+
+const renderer =
+    new THREE.WebGLRenderer({
+        antialias: true
+    });
+
+
+renderer.setSize(
+    innerWidth,
+    innerHeight
+);
+
+renderer.setPixelRatio(
+    Math.min(
+        devicePixelRatio || 1,
+        2
+    )
+);
+
+renderer.shadowMap.enabled = true;
+
+document.body.appendChild(
+    renderer.domElement
+);
+
+
+/* =========================================================
+   ZOOM
+   ========================================================= */
+
+let cameraHeight = 78;
+
+renderer.domElement.addEventListener(
+    "wheel",
+    e => {
+
+        e.preventDefault();
+
+        cameraHeight +=
+            e.deltaY * .08;
+
+        cameraHeight =
+            Math.max(
+                28,
+                Math.min(
+                    125,
+                    cameraHeight
+                )
+            );
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+let lastPinch = null;
+
+renderer.domElement.addEventListener(
+    "touchmove",
+    e => {
+
+        if (
+            e.touches.length !== 2
+        ) {
+
+            lastPinch = null;
+
+            return;
+        }
+
+        const a =
+            e.touches[0];
+
+        const b =
+            e.touches[1];
+
+        const dx =
+            a.clientX -
+            b.clientX;
+
+        const dy =
+            a.clientY -
+            b.clientY;
+
+        const d =
+            Math.sqrt(
+                dx * dx +
+                dy * dy
+            );
+
+        if (
+            lastPinch !== null
+        ) {
+
+            cameraHeight -=
+                (d - lastPinch) * .12;
+
+            cameraHeight =
+                Math.max(
+                    28,
+                    Math.min(
+                        125,
+                        cameraHeight
+                    )
+                );
+        }
+
+        lastPinch = d;
+
+    },
+    {
+        passive:true
+    }
+);
+
+renderer.domElement.addEventListener(
+    "touchend",
+    () => {
+        lastPinch = null;
+    }
+);
+
+
+/* =========================================================
+   LICHT
+   ========================================================= */
+
+scene.add(
+    new THREE.HemisphereLight(
+        0xdff2ff,
+        0x344c2d,
+        1.8
+    )
+);
+
+
+const sun =
+    new THREE.DirectionalLight(
+        0xffffff,
+        2.3
+    );
+
+sun.position.set(
+    -30,
+    70,
+    -30
+);
+
+sun.castShadow = true;
+
+scene.add(sun);
+
+
+/* =========================================================
+   TERRAIN
+   ========================================================= */
+
+const WORLD_SIZE = 100;
+
+
+function terrainNoise(x,z) {
+
+    return (
+        Math.sin(x*.045) *
+        Math.cos(z*.055)
+
+        +
+
+        Math.sin(
+            x*.095 +
+            z*.035
+        )*.35
+
+        +
+
+        Math.cos(
+            z*.08 -
+            x*.03
+        )*.25
+    );
+}
+
+
+function mountain(
+    x,
+    z,
+    radius,
+    height
+) {
+
+    const d =
+        Math.sqrt(
+            x*x +
+            z*z
+        );
+
+    return Math.max(
+        0,
+        1-d/radius
+    ) * height;
+}
+
+
+function terrainHeight(x,z) {
+
+    let h =
+        terrainNoise(x,z)*2.2;
+
+    h +=
+        mountain(
+            x+13,
+            z-10,
+            24,
+            15
+        );
+
+    h +=
+        mountain(
+            x-29,
+            z+23,
+            20,
+            9
+        );
+
+    return h;
+}
+
+
+const terrainGeometry =
+    new THREE.PlaneGeometry(
+        WORLD_SIZE,
+        WORLD_SIZE,
+        100,
+        100
+    );
+
+terrainGeometry.rotateX(
+    -Math.PI/2
+);
+
+
+const pos =
+    terrainGeometry.attributes.position;
+
+for (
+    let i=0;
+    i<pos.count;
+    i++
+) {
+
+    const x =
+        pos.getX(i);
+
+    const z =
+        pos.getZ(i);
+
+    pos.setY(
+        i,
+        terrainHeight(x,z)
+    );
+}
+
+terrainGeometry.computeVertexNormals();
+
+
+const terrain =
+    new THREE.Mesh(
+        terrainGeometry,
+        new THREE.MeshStandardMaterial({
+            color:0x4f8d45,
+            roughness:1
+        })
+    );
+
+terrain.receiveShadow = true;
+
+scene.add(terrain);
+
+
+/* =========================================================
+   BÄUME
+   ========================================================= */
+
+const treeGroup =
+    new THREE.Group();
+
+scene.add(treeGroup);
+
+
+function createTree(
+    x,
+    z,
+    scale
+) {
+
+    const y =
+        terrainHeight(x,z);
+
+    const tree =
+        new THREE.Group();
+
+    tree.position.set(
+        x,
+        y,
+        z
+    );
+
+    tree.scale.setScalar(
+        scale
+    );
+
+
+    const trunk =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                .15,
+                .24,
+                1.8,
+                7
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x70472e
+            })
+        );
+
+    trunk.position.y=.9;
+
+    tree.add(trunk);
+
+
+    const crown =
+        new THREE.Mesh(
+            new THREE.ConeGeometry(
+                1.15,
+                2.8,
+                8
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x276a32
+            })
+        );
+
+    crown.position.y=2.7;
+
+    tree.add(crown);
+
+    treeGroup.add(tree);
+}
+
+
+for (
+    let i=0;
+    i<350;
+    i++
+) {
+
+    createTree(
+        Math.random()*WORLD_SIZE -
+        WORLD_SIZE/2,
+
+        Math.random()*WORLD_SIZE -
+        WORLD_SIZE/2,
+
+        .65 +
+        Math.random()*.7
+    );
+}
+
+
+/* =========================================================
+   START / ZIEL
+   ========================================================= */
+
+const start =
+    new THREE.Vector3(
+        -18,
+        0,
+        18
+    );
+
+const goal =
+    new THREE.Vector3(
+        18,
+        0,
+        -18
+    );
+
+start.y =
+    terrainHeight(
+        start.x,
+        start.z
+    );
+
+goal.y =
+    terrainHeight(
+        goal.x,
+        goal.z
+    );
+
+
+/* =========================================================
+   MARKER
+   ========================================================= */
+
+const goalMarker =
+    new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            1.6,
+            1.6,
+            .25,
+            24
+        ),
+        new THREE.MeshStandardMaterial({
+            color:0x24ed6b,
+            emissive:0x073d1c
+        })
+    );
+
+goalMarker.position.set(
+    goal.x,
+    goal.y+.15,
+    goal.z
+);
+
+scene.add(goalMarker);
+
+
+const startMarker =
+    new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            1.25,
+            1.25,
+            .2,
+            24
+        ),
+        new THREE.MeshStandardMaterial({
+            color:0xffa52f,
+            emissive:0x4a2400
+        })
+    );
+
+startMarker.position.set(
+    start.x,
+    start.y+.12,
+    start.z
+);
+
+scene.add(startMarker);
+
+
+/* =========================================================
+   AGENT
+   ========================================================= */
+
+const agent =
+    new THREE.Group();
+
+scene.add(agent);
+
+
+const agentBody =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            .65,
+            16,
+            12
+        ),
+        new THREE.MeshStandardMaterial({
+            color:0x397fff
+        })
+    );
+
+agentBody.position.y=.75;
+
+agent.add(agentBody);
+
+
+const agentHead =
+    new THREE.Mesh(
+        new THREE.SphereGeometry(
+            .4,
+            16,
+            12
+        ),
+        new THREE.MeshStandardMaterial({
+            color:0xffc49f
+        })
+    );
+
+agentHead.position.y=1.55;
+
+agent.add(agentHead);
+
+
+/* =========================================================
+   TREE COLLISION GRID
+   ========================================================= */
+
+const treeGrid =
+    new Map();
+
+const TREE_CELL=2;
+
+
+function gridKey(x,z) {
+
+    return (
+        Math.floor(x/TREE_CELL)
+        + ":" +
+        Math.floor(z/TREE_CELL)
+    );
+}
+
+
+function rebuildTreeGrid() {
+
+    treeGrid.clear();
+
+    for (
+        const tree of treeGroup.children
+    ) {
+
+        if (!tree.visible)
+            continue;
+
+        const key =
+            gridKey(
+                tree.position.x,
+                tree.position.z
+            );
+
+        if (!treeGrid.has(key))
+            treeGrid.set(key,[]);
+
+        treeGrid.get(key).push(tree);
+    }
+}
+
+
+function treeNear(
+    x,
+    z,
+    radius
+) {
+
+    const cx =
+        Math.floor(x/TREE_CELL);
+
+    const cz =
+        Math.floor(z/TREE_CELL);
+
+    const r =
+        Math.ceil(radius/TREE_CELL);
+
+
+    for (
+        let dx=-r;
+        dx<=r;
+        dx++
+    ) {
+
+        for (
+            let dz=-r;
+            dz<=r;
+            dz++
+        ) {
+
+            const bucket =
+                treeGrid.get(
+                    (cx+dx)+":"+(cz+dz)
+                );
+
+            if (!bucket)
+                continue;
+
+            for (
+                const tree of bucket
+            ) {
+
+                const ax =
+                    tree.position.x-x;
+
+                const az =
+                    tree.position.z-z;
+
+                if (
+                    ax*ax+
+                    az*az <
+                    radius*radius
+                )
+                    return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+
+/* =========================================================
+   LABYRINTH
+   ========================================================= */
+
+const mazeGroup =
+    new THREE.Group();
+
+scene.add(mazeGroup);
+
+const mazeWalls=[];
+
+const MAZE_SIZE=13;
+const MAZE_CELL=3;
+
+const MAZE_TOTAL =
+    MAZE_SIZE*MAZE_CELL;
+
+const MAZE_MIN =
+    -MAZE_TOTAL/2;
+
+
+function mazeWorld(x,z) {
+
+    return {
+
+        x:
+            MAZE_MIN +
+            x*MAZE_CELL +
+            MAZE_CELL/2,
+
+        z:
+            MAZE_MIN +
+            z*MAZE_CELL +
+            MAZE_CELL/2
+
+    };
+}
+
+
+let mazeSeed=918273;
+
+
+function randomMaze() {
+
+    mazeSeed =
+        (
+            mazeSeed*1664525+
+            1013904223
+        ) >>> 0;
+
+    return mazeSeed/
+        4294967296;
+}
+
+
+function addWall(
+    x,
+    z,
+    width,
+    depth
+) {
+
+    const wall =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                width,
+                4,
+                depth
+            ),
+            new THREE.MeshStandardMaterial({
+                color:0x555b63
+            })
+        );
+
+    wall.position.set(
+        x,
+        terrainHeight(x,z)+2,
+        z
+    );
+
+    wall.castShadow=true;
+
+    mazeGroup.add(wall);
+
+    mazeWalls.push(wall);
+}
+
+
+function generateMaze() {
+
+    const cells =
+        Array.from(
+            {length:MAZE_SIZE},
+            () =>
+                Array.from(
+                    {length:MAZE_SIZE},
+                    () => ({
+                        visited:false,
+                        walls:{
+                            N:true,
+                            E:true,
+                            S:true,
+                            W:true
+                        }
+                    })
+                )
+        );
+
+
+    const stack=[];
+
+    cells[
+        MAZE_SIZE-1
+    ][0].visited=true;
+
+    stack.push({
+        x:0,
+        z:MAZE_SIZE-1
+    });
+
+
+    const dirs=[
+
+        {dx:0,dz:-1,a:"N",b:"S"},
+        {dx:1,dz:0,a:"E",b:"W"},
+        {dx:0,dz:1,a:"S",b:"N"},
+        {dx:-1,dz:0,a:"W",b:"E"}
+
+    ];
+
+
+    while(stack.length) {
+
+        const current =
+            stack[stack.length-1];
+
+        const options=[];
+
+
+        for(const d of dirs) {
+
+            const nx=
+                current.x+d.dx;
+
+            const nz=
+                current.z+d.dz;
+
+            if(
+                nx>=0 &&
+                nx<MAZE_SIZE &&
+                nz>=0 &&
+                nz<MAZE_SIZE &&
+                !cells[nz][nx].visited
+            ) {
+
+                options.push({
+                    d,
+                    nx,
+                    nz
+                });
+            }
+        }
+
+
+        if(!options.length) {
+
+            stack.pop();
+            continue;
+        }
+
+
+        const pick =
+            options[
+                Math.floor(
+                    randomMaze()*
+                    options.length
+                )
+            ];
+
+
+        cells[
+            current.z
+        ][
+            current.x
+        ].walls[
+            pick.d.a
+        ]=false;
+
+
+        cells[
+            pick.nz
+        ][
+            pick.nx
+        ].walls[
+            pick.d.b
+        ]=false;
+
+
+        cells[
+            pick.nz
+        ][
+            pick.nx
+        ].visited=true;
+
+
+        stack.push({
+            x:pick.nx,
+            z:pick.nz
+        });
+    }
+
+
+    cells[MAZE_SIZE-1][0]
+        .walls.S=false;
+
+    cells[0][MAZE_SIZE-1]
+        .walls.N=false;
+
+
+    for(
+        let z=0;
+        z<MAZE_SIZE;
+        z++
+    ) {
+
+        for(
+            let x=0;
+            x<MAZE_SIZE;
+            x++
+        ) {
+
+            const cell =
+                cells[z][x];
+
+            const p =
+                mazeWorld(x,z);
+
+            if(cell.walls.N)
+                addWall(
+                    p.x,
+                    p.z-1.5,
+                    3.45,
+                    .45
+                );
+
+            if(cell.walls.W)
+                addWall(
+                    p.x-1.5,
+                    p.z,
+                    .45,
+                    3.45
+                );
+
+            if(
+                z===MAZE_SIZE-1 &&
+                cell.walls.S
+            )
+                addWall(
+                    p.x,
+                    p.z+1.5,
+                    3.45,
+                    .45
+                );
+
+            if(
+                x===MAZE_SIZE-1 &&
+                cell.walls.E
+            )
+                addWall(
+                    p.x+1.5,
+                    p.z,
+                    .45,
+                    3.45
+                );
+        }
+    }
+}
+
+
+generateMaze();
+
+
+function mazeBlocked(x,z) {
+
+    for(
+        const wall of mazeWalls
+    ) {
+
+        const dx=
+            Math.abs(
+                wall.position.x-x
+            );
+
+        const dz=
+            Math.abs(
+                wall.position.z-z
+            );
+
+        const hx=
+            wall.geometry.parameters.width/2+
+            .45;
+
+        const hz=
+            wall.geometry.parameters.depth/2+
+            .45;
+
+        if(
+            dx<hx &&
+            dz<hz
+        )
+            return true;
+    }
+
+    return false;
+}
+
+
+/* =========================================================
+   KOLLISION
+   ========================================================= */
+
+function blocked(x,z) {
+
+    if(
+        Math.abs(x)>50 ||
+        Math.abs(z)>50
+    )
+        return true;
+
+
+    if(
+        terrainHeight(x,z)>8
+    )
+        return true;
+
+
+    if(
+        treeNear(x,z,1.2)
+    )
+        return true;
+
+
+    if(
+        Math.abs(x)<20 &&
+        Math.abs(z)<20 &&
+        mazeBlocked(x,z)
+    )
+        return true;
+
+
+    return false;
+}
+
+
+/* =========================================================
+   256 NEURONEN
+   ========================================================= */
+
+const SENSOR_COUNT=64;
+const PROCESS_COUNT=96;
+const MEMORY_COUNT=64;
+const MOTOR_COUNT=32;
+
+const TOTAL_NEURONS=256;
+
+
+class Neuron {
+
+    constructor() {
+
+        this.voltage=
+            -70+
+            Math.random()*8;
+
+        this.memory=
+            Math.random()*.05;
+
+        this.threshold=
+            -50+
+            Math.random()*10;
+
+        this.refractory=0;
+    }
+
+
+    stimulate(input) {
+
+        if(this.refractory>0) {
+
+            this.refractory--;
+
+            this.voltage=-70;
+
+            this.memory*=.97;
+
+            return false;
+        }
+
+
+        this.voltage+=
+            (-70-this.voltage)*.12;
+
+        this.voltage+=
+            this.memory*2;
+
+        this.voltage+=input;
+
+
+        if(
+            this.voltage>=
+            this.threshold
+        ) {
+
+            this.voltage=30;
+
+            this.refractory=2;
+
+            this.memory=
+                Math.min(
+                    1,
+                    this.memory+.3
+                );
+
+            return true;
+        }
+
+
+        this.memory*=.985;
+
+        return false;
+    }
+}
+
+
+let neurons =
+    Array.from(
+        {length:TOTAL_NEURONS},
+        () => new Neuron()
+    );
+
+
+let spikes =
+    Array(TOTAL_NEURONS)
+        .fill(false);
+
+
+/* =========================================================
+   AKTIONEN
+   ========================================================= */
+
+const actions=[
+
+    [-1,0],
+    [1,0],
+    [0,-1],
+    [0,1],
+
+    [-.707,-.707],
+    [.707,-.707],
+    [-.707,.707],
+    [.707,.707],
+
+    [-1,-.35],
+    [1,-.35],
+    [-1,.35],
+    [1,.35],
+
+    [-.35,-1],
+    [.35,-1],
+    [-.35,1],
+    [.35,1],
+
+    [-.5,0],
+    [.5,0],
+    [0,-.5],
+    [0,.5],
+
+    [-.85,-.2],
+    [.85,-.2],
+    [-.85,.2],
+    [.85,.2],
+
+    [-.2,-.85],
+    [.2,-.85],
+    [-.2,.85],
+    [.2,.85],
+
+    [-.55,-.55],
+    [.55,-.55],
+    [-.55,.55],
+    [.55,.55]
+
+];
+
+const ACTIONS=32;
+
+
+/* =========================================================
+   GENOM
+   ========================================================= */
+
+/*
+   Das Genom enthält echte Parameter
+   des neuronalen Netzes.
+
+   Es wird nicht nur ein Q-Wert kopiert.
+*/
+
+const GENOME_SIZE=768;
+
+
+function randomGenome() {
+
+    const g =
+        new Float32Array(
+            GENOME_SIZE
+        );
+
+    for(
+        let i=0;
+        i<GENOME_SIZE;
+        i++
+    ) {
+
+        g[i]=
+            (Math.random()*2-1);
+    }
+
+    return g;
+}
+
+
+function cloneGenome(g) {
+
+    return new Float32Array(g);
+}
+
+
+function mutateGenome(
+    parent,
+    amount
+) {
+
+    const child =
+        cloneGenome(parent);
+
+
+    for(
+        let i=0;
+        i<child.length;
+        i++
+    ) {
+
+        /*
+           Viele Gene bleiben stabil.
+           Wenige werden stärker verändert.
+        */
+
+        const r=Math.random();
+
+        if(r<.035) {
+
+            child[i]+=
+                (
+                    Math.random()*2-1
+                )*amount*2;
+
+        }
+
+        else if(r<.12) {
+
+            child[i]+=
+                (
+                    Math.random()*2-1
+                )*amount;
+        }
+    }
+
+
+    return child;
+}
+
+
+let genome =
+    randomGenome();
+
+
+let bestGenome=null;
+
+let bestFitness=-Infinity;
+
+
+/* =========================================================
+   EVOLUTION
+   ========================================================= */
+
+let generation=1;
+
+let life=1;
+
+let totalSuccesses=0;
+
+let fitness=0;
+
+let bestDistance=Infinity;
+
+let exploration=0;
+
+let steps=0;
+
+let stagnantSteps=0;
+
+
+/*
+   Zeitlimit pro Leben.
+*/
+
+const MAX_LIFE=600;
+
+
+/*
+   Wenn zu lange nichts passiert,
+   wird die Mutation erhöht.
+*/
+
+let mutationRate=.10;
+
+const BASE_MUTATION=.10;
+
+const MAX_MUTATION=.75;
+
+
+/*
+   globale Stagnation
+*/
+
+let stagnantGenerations=0;
+
+
+/* =========================================================
+   BESUCHTE BEREICHE
+   ========================================================= */
+
+const visited =
+    new Set();
+
+
+function positionKey() {
+
+    return (
+        Math.floor(
+            agent.position.x/2
+        )
+        +
+        ":"+
+        Math.floor(
+            agent.position.z/2
+        )
+    );
+}
+
+
+function rememberExploration() {
+
+    const key=
+        positionKey();
+
+    if(!visited.has(key)) {
+
+        visited.add(key);
+
+        exploration++;
+
+        return true;
+    }
+
+    return false;
+}
+
+
+/* =========================================================
+   DISTANZ
+   ========================================================= */
+
+function distance() {
+
+    const dx=
+        agent.position.x-
+        goal.x;
+
+    const dz=
+        agent.position.z-
+        goal.z;
+
+    return Math.sqrt(
+        dx*dx+
+        dz*dz
+    );
+}
+
+
+/* =========================================================
+   SENSORIK
+   ========================================================= */
+
+const rayDirections=[
+
+    [-1,0],
+    [-.707,-.707],
+    [0,-1],
+    [.707,-.707],
+
+    [1,0],
+    [.707,.707],
+    [0,1],
+    [-.707,.707]
+
+];
+
+
+function rayDistance(dx,dz) {
+
+    for(
+        let d=.5;
+        d<=12;
+        d+=.5
+    ) {
+
+        if(
+            blocked(
+                agent.position.x+
+                dx*d,
+
+                agent.position.z+
+                dz*d
+            )
+        )
+            return d;
+    }
+
+    return 12;
+}
+
+
+function getSensors() {
+
+    const result=[];
+
+
+    for(
+        const direction of
+        rayDirections
+    ) {
+
+        result.push(
+            rayDistance(
+                direction[0],
+                direction[1]
+            )/12
+        );
+    }
+
+
+    /*
+       Zielrichtung
+    */
+
+    const dx=
+        goal.x-
+        agent.position.x;
+
+    const dz=
+        goal.z-
+        agent.position.z;
+
+
+    result.push(
+        Math.sign(dx)
+    );
+
+    result.push(
+        Math.sign(dz)
+    );
+
+
+    result.push(
+        Math.min(
+            1,
+            distance()/70
+        )
+    );
+
+
+    /*
+       Terrain
+    */
+
+    const h=
+        terrainHeight(
+            agent.position.x,
+            agent.position.z
+        );
+
+
+    result.push(
+        Math.min(
+            1,
+            Math.max(
+                0,
+                h/15
+            )
+        )
+    );
+
+
+    /*
+       Auffüllen auf 64 Sensorwerte.
+    */
+
+    while(
+        result.length<64
+    ) {
+
+        const i=
+            result.length;
+
+        result.push(
+            Math.sin(
+                i*1.73+
+                agent.position.x*.05+
+                agent.position.z*.04
+            )
+        );
+    }
+
+
+    return result;
+}
+
+
+/* =========================================================
+   GEHIRN
+   ========================================================= */
+
+function brainStep(
+    sensors
+) {
+
+    spikes.fill(false);
+
+
+    /*
+       SENSORIK
+    */
+
+    for(
+        let i=0;
+        i<SENSOR_COUNT;
+        i++
+    ) {
+
+        spikes[i]=
+            neurons[i]
+                .stimulate(
+                    sensors[i]*4
+                );
+    }
+
+
+    /*
+       VERARBEITUNG
+    */
+
+    for(
+        let i=0;
+        i<PROCESS_COUNT;
+        i++
+    ) {
+
+        let input=
+            genome[
+                i%GENOME_SIZE
+            ]*.8;
+
+
+        for(
+            let j=0;
+            j<SENSOR_COUNT;
+            j+=4
+        ) {
+
+            if(
+                spikes[j]
+            ) {
+
+                const gene=
+                    genome[
+                        (
+                            i*7+
+                            j
+                        )%GENOME_SIZE
+                    ];
+
+                input+=
+                    gene*.7;
+            }
+        }
+
+
+        spikes[
+            SENSOR_COUNT+i
+        ]=
+            neurons[
+                SENSOR_COUNT+i
+            ].stimulate(input);
+    }
+
+
+    /*
+       MEMORY
+    */
+
+    for(
+        let i=0;
+        i<MEMORY_COUNT;
+        i++
+    ) {
+
+        let input=0;
+
+
+        for(
+            let j=0;
+            j<PROCESS_COUNT;
+            j+=6
+        ) {
+
+            if(
+                spikes[
+                    SENSOR_COUNT+j
+                ]
+            ) {
+
+                input+=
+                    genome[
+                        (
+                            i*13+
+                            j
+                        )%GENOME_SIZE
+                    ]*.35;
+            }
+        }
+
+
+        /*
+           eigener Speicher
+        */
+
+        input+=
+            neurons[
+                SENSOR_COUNT+
+                PROCESS_COUNT+
+                i
+            ].memory*
+            1.5;
+
+
+        spikes[
+            SENSOR_COUNT+
+            PROCESS_COUNT+
+            i
+        ]=
+            neurons[
+                SENSOR_COUNT+
+                PROCESS_COUNT+
+                i
+            ].stimulate(
+                input
+            );
+    }
+
+
+    /*
+       MOTORIK
+    */
+
+    const motorStart=
+        SENSOR_COUNT+
+        PROCESS_COUNT+
+        MEMORY_COUNT;
+
+
+    const outputs=[];
+
+
+    for(
+        let i=0;
+        i<MOTOR_COUNT;
+        i++
+    ) {
+
+        let input=
+            genome[
+                (
+                    500+
+                    i*3
+                )%GENOME_SIZE
+            ];
+
+
+        for(
+            let j=0;
+            j<MEMORY_COUNT;
+            j+=4
+        ) {
+
+            if(
+                spikes[
+                    SENSOR_COUNT+
+                    PROCESS_COUNT+
+                    j
+                ]
+            ) {
+
+                input+=
+                    genome[
+                        (
+                            300+
+                            i*11+
+                            j
+                        )%GENOME_SIZE
+                    ]*.6;
+            }
+        }
+
+
+        const fired=
+            neurons[
+                motorStart+i
+            ].stimulate(input);
+
+
+        outputs.push(
+            input+
+            (fired?2:0)
+        );
+    }
+
+
+    let best=0;
+
+    for(
+        let i=1;
+        i<MOTOR_COUNT;
+        i++
+    ) {
+
+        if(
+            outputs[i]>
+            outputs[best]
+        )
+            best=i;
+    }
+
+
+    return best;
+}
+
+
+/* =========================================================
+   BEWEGUNG
+   ========================================================= */
+
+function move(action) {
+
+    const dx=
+        actions[action][0];
+
+    const dz=
+        actions[action][1];
+
+
+    const nx=
+        agent.position.x+
+        dx;
+
+    const nz=
+        agent.position.z+
+        dz;
+
+
+    if(
+        blocked(nx,nz)
+    )
+        return false;
+
+
+    agent.position.x=nx;
+
+    agent.position.z=nz;
+
+    agent.position.y=
+        terrainHeight(nx,nz);
+
+
+    agent.rotation.y=
+        Math.atan2(dx,dz);
+
+
+    return true;
+}
+
+
+/* =========================================================
+   FITNESS
+   ========================================================= */
+
+function calculateFitness(
+    oldDistance,
+    newDistance,
+    moved,
+    newArea
+) {
+
+    let reward=0;
+
+
+    /*
+       Grundsätzliches Leben kostet
+       etwas Fitness.
+    */
+
+    reward-=.08;
+
+
+    /*
+       Annäherung wird belohnt.
+    */
+
+    const progress=
+        oldDistance-
+        newDistance;
+
+    reward+=
+        progress*18;
+
+
+    /*
+       Bewegung selbst.
+    */
+
+    if(moved) {
+
+        reward+=.18;
+
+        stagnantSteps=0;
+
+    }
+
+    else {
+
+        reward-=2;
+
+        stagnantSteps++;
+    }
+
+
+    /*
+       Neue Gebiete.
+    */
+
+    if(newArea) {
+
+        reward+=3;
+    }
+
+
+    /*
+       Stehen wird zunehmend schlimmer.
+    */
+
+    if(
+        stagnantSteps>10
+    ) {
+
+        reward-=
+            stagnantSteps*.35;
+    }
+
+
+    /*
+       Ziel.
+    */
+
+    if(
+        newDistance<2.5
+    ) {
+
+        reward+=1000;
+    }
+
+
+    return reward;
+}
+
+
+/* =========================================================
+   ACTION EXPLORATION
+   ========================================================= */
+
+function chooseAction(
+    sensors
+) {
+
+    let action=
+        brainStep(sensors);
+
+
+    /*
+       Sehr kleine Exploration.
+
+       Anders als früher ist das nicht
+       der Hauptbestandteil des Verhaltens.
+    */
+
+    let explorationChance=.025;
+
+
+    /*
+       Wenn der Agent feststeckt:
+       deutlich mehr ausprobieren.
+    */
+
+    if(
+        stagnantSteps>8
+    ) {
+
+        explorationChance=.45;
+    }
+
+
+    if(
+        Math.random()<
+        explorationChance
+    ) {
+
+        action=
+            Math.floor(
+                Math.random()*
+                ACTIONS
+            );
+    }
+
+
+    return action;
+}
+
+
+/* =========================================================
+   NEUER AGENT
+   ========================================================= */
+
+function createNextAgent(
+    success
+) {
+
+    if(success) {
+
+        /*
+           Erfolgreiches Genom behalten.
+        */
+
+        if(
+            fitness>
+            bestFitness
+        ) {
+
+            bestFitness=
+                fitness;
+
+            bestGenome=
+                cloneGenome(
+                    genome
+                );
+        }
+
+
+        totalSuccesses++;
+
+        stagnantGenerations=0;
+
+        /*
+           Erfolg erlaubt kleinere
+           Mutationen.
+        */
+
+        mutationRate=
+            Math.max(
+                BASE_MUTATION,
+                mutationRate*.85
+            );
+
+        document.getElementById(
+            "message"
+        ).textContent=
+            "🧬 Erfolg! Genom wird vererbt.";
+    }
+
+    else {
+
+        stagnantGenerations++;
+
+
+        /*
+           Nach vielen erfolglosen
+           Generationen stärker mutieren.
+        */
+
+        if(
+            stagnantGenerations%5===0
+        ) {
+
+            mutationRate=
+                Math.min(
+                    MAX_MUTATION,
+                    mutationRate+.05
+                );
+        }
+
+        document.getElementById(
+            "message"
+        ).textContent=
+            "☠️ Agent gestorben — neue Mutation.";
+    }
+
+
+    /*
+       Neuer Agent.
+    */
+
+    if(
+        bestGenome
+    ) {
+
+        genome=
+            mutateGenome(
+                bestGenome,
+                mutationRate
+            );
+
+    }
+
+    else {
+
+        /*
+           Noch kein Erfolg:
+           komplett neues Genom.
+        */
+
+        genome=
+            randomGenome();
+    }
+
+
+    /*
+       Gehirn neu aus Genom aufbauen.
+    */
+
+    neurons=
+        Array.from(
+            {
+                length:TOTAL_NEURONS
+            },
+            () =>
+                new Neuron()
+        );
+
+
+    spikes=
+        Array(
+            TOTAL_NEURONS
+        ).fill(false);
+
+
+    generation++;
+
+    life++;
+
+    steps=0;
+
+    fitness=0;
+
+    stagnantSteps=0;
+
+    exploration=0;
+
+    visited.clear();
+
+
+    resetAgent();
+}
+
+
+/* =========================================================
+   RESET AGENT
+   ========================================================= */
+
+function resetAgent() {
+
+    agent.position.copy(
+        start
+    );
+
+    agent.position.y=
+        terrainHeight(
+            start.x,
+            start.z
+        );
+
+    agent.rotation.y=0;
+
+    visited.clear();
+
+    rememberExploration();
+
+    bestDistance=
+        distance();
+}
+
+
+/* =========================================================
+   TRAINING STEP
+   ========================================================= */
+
+function trainStep() {
+
+    const oldDistance=
+        distance();
+
+
+    const sensors=
+        getSensors();
+
+
+    const action=
+        chooseAction(
+            sensors
+        );
+
+
+    const moved=
+        move(action);
+
+
+    const newDistance=
+        distance();
+
+
+    const newArea=
+        rememberExploration();
+
+
+    const reward=
+        calculateFitness(
+            oldDistance,
+            newDistance,
+            moved,
+            newArea
+        );
+
+
+    fitness+=reward;
+
+
+    bestDistance=
+        Math.min(
+            bestDistance,
+            newDistance
+        );
+
+
+    steps++;
+
+
+    /*
+       Ziel erreicht.
+    */
+
+    if(
+        newDistance<2.5
+    ) {
+
+        fitness+=1000;
+
+        createNextAgent(true);
+
+        return;
+    }
+
+
+    /*
+       Lebenszeit abgelaufen.
+    */
+
+    if(
+        steps>=MAX_LIFE
+    ) {
+
+        createNextAgent(false);
+
+        return;
+    }
+
+
+    /*
+       Wenn der Agent extrem lange
+       komplett feststeckt, bekommt er
+       einen zusätzlichen Evolutionsdruck.
+    */
+
+    if(
+        stagnantSteps>45
+    ) {
+
+        fitness-=50;
+
+        createNextAgent(false);
+    }
+}
+
+
+/* =========================================================
+   BRAIN UI
+   ========================================================= */
+
+function buildBrainUI() {
+
+    const layers=[
+
+        ["sensorLayer",64],
+        ["processingLayer",96],
+        ["memoryLayer",64],
+        ["motorLayer",32]
+
+    ];
+
+
+    for(
+        const [id,count] of layers
+    ) {
+
+        const root=
+            document.getElementById(id);
+
+        root.innerHTML="";
+
+
+        for(
+            let i=0;
+            i<count;
+            i++
+        ) {
+
+            const row=
+                document.createElement(
+                    "div"
+                );
+
+            row.className=
+                "neuron";
+
+
+            const dot=
+                document.createElement(
+                    "div"
+                );
+
+            dot.className="dot";
+
+
+            const num=
+                document.createElement(
+                    "div"
+                );
+
+            num.className="num";
+
+            num.textContent=
+                String(
+                    i+1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const bar=
+                document.createElement(
+                    "div"
+                );
+
+            bar.className="bar";
+
+
+            const fill=
+                document.createElement(
+                    "div"
+                );
+
+            fill.className="fill";
+
+
+            bar.appendChild(fill);
+
+            row.append(
+                dot,
+                num,
+                bar
+            );
+
+            root.appendChild(row);
+        }
+    }
+}
+
+
+/* =========================================================
+   BRAIN UI UPDATE
+   ========================================================= */
+
+function updateBrainUI() {
+
+    const roots=[
+
+        document.getElementById(
+            "sensorLayer"
+        ),
+
+        document.getElementById(
+            "processingLayer"
+        ),
+
+        document.getElementById(
+            "memoryLayer"
+        ),
+
+        document.getElementById(
+            "motorLayer"
+        )
+
+    ];
+
+
+    const starts=[
+
+        0,
+        64,
+        160,
+        224
+
+    ];
+
+
+    const counts=[
+
+        64,
+        96,
+        64,
+        32
+
+    ];
+
+
+    for(
+        let r=0;
+        r<4;
+        r++
+    ) {
+
+        for(
+            let i=0;
+            i<counts[r];
+            i++
+        ) {
+
+            const index=
+                starts[r]+i;
+
+            const n=
+                neurons[index];
+
+            const row=
+                roots[r]
+                    .children[i];
+
+            row
+                .children[0]
+                .classList
+                .toggle(
+                    "active",
+                    spikes[index]
+                );
+
+
+            const value=
+                (
+                    n.memory*.75
+                    +
+                    (
+                        n.voltage+70
+                    )/100*.25
+                );
+
+
+            row
+                .children[2]
+                .firstChild
+                .style
+                .width=
+                    Math.max(
+                        0,
+                        Math.min(
+                            100,
+                            value*100
+                        )
+                    )+
+                    "%";
+        }
+    }
+}
+
+
+/* =========================================================
+   HUD
+   ========================================================= */
+
+function updateHUD() {
+
+    document.getElementById(
+        "generation"
+    ).textContent=
+        generation;
+
+
+    document.getElementById(
+        "life"
+    ).textContent=
+        life;
+
+
+    document.getElementById(
+        "success"
+    ).textContent=
+        totalSuccesses;
+
+
+    document.getElementById(
+        "steps"
+    ).textContent=
+        steps;
+
+
+    document.getElementById(
+        "fitness"
+    ).textContent=
+        fitness.toFixed(1);
+
+
+    document.getElementById(
+        "bestFitness"
+    ).textContent=
+        bestFitness===-Infinity
+            ? "-"
+            : bestFitness.toFixed(1);
+
+
+    document.getElementById(
+        "distance"
+    ).textContent=
+        distance().toFixed(1);
+
+
+    document.getElementById(
+        "mutation"
+    ).textContent=
+        mutationRate.toFixed(3);
+
+
+    document.getElementById(
+        "exploration"
+    ).textContent=
+        exploration;
+
+
+    document.getElementById(
+        "fitnessProgress"
+    ).style.width=
+        Math.min(
+            100,
+            Math.max(
+                0,
+                fitness/1000*100
+            )
+        )+"%";
+
+
+    document.getElementById(
+        "brainProgress"
+    ).style.width=
+        (
+            TOTAL_NEURONS/
+            256*100
+        )+"%";
+}
+
+
+/* =========================================================
+   PAUSE
+   ========================================================= */
+
+let training=true;
+
+
+function toggleTraining() {
+
+    training=!training;
+
+
+    document.getElementById(
+        "pauseButton"
+    ).textContent=
+        training
+            ? "Pause"
+            : "Weiter";
+
+
+    document.getElementById(
+        "message"
+    ).textContent=
+        training
+            ? "Evolution läuft..."
+            : "Evolution pausiert.";
+}
+
+
+/* =========================================================
+   NEUE EVOLUTION
+   ========================================================= */
+
+function resetEverything() {
+
+    generation=1;
+
+    life=1;
+
+    totalSuccesses=0;
+
+    fitness=0;
+
+    bestFitness=-Infinity;
+
+    bestDistance=Infinity;
+
+    exploration=0;
+
+    steps=0;
+
+    stagnantSteps=0;
+
+    stagnantGenerations=0;
+
+    mutationRate=
+        BASE_MUTATION;
+
+
+    bestGenome=null;
+
+    genome=
+        randomGenome();
+
+
+    neurons=
+        Array.from(
+            {
+                length:
+                    TOTAL_NEURONS
+            },
+            () =>
+                new Neuron()
+        );
+
+
+    spikes=
+        Array(
+            TOTAL_NEURONS
+        ).fill(false);
+
+
+    training=true;
+
+
+    document.getElementById(
+        "pauseButton"
+    ).textContent=
+        "Pause";
+
+
+    document.getElementById(
+        "message"
+    ).textContent=
+        "🧬 Neue Evolution gestartet.";
+
+
+    resetAgent();
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+buildBrainUI();
+
+resetAgent();
+
+
+/* =========================================================
+   ANIMATION
+   ========================================================= */
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    if(training) {
+
+        /*
+           Mehrere Evolutionsschritte
+           pro Frame.
+        */
+
+        for(
+            let i=0;
+            i<12;
+            i++
+        ) {
+
+            trainStep();
+        }
+    }
+
+
+    /*
+       Kamera.
+    */
+
+    const lookX=
+        (start.x+goal.x)/2;
+
+    const lookZ=
+        (start.z+goal.z)/2;
+
+
+    camera.position.set(
+        lookX,
+        cameraHeight,
+        lookZ
+    );
+
+
+    camera.lookAt(
+        lookX,
+        0,
+        lookZ
+    );
+
+
+    updateHUD();
+
+    updateBrainUI();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+
+animate();
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+window.addEventListener(
+    "resize",
+    () => {
+
+        camera.aspect=
+            innerWidth/
+            innerHeight;
+
+        camera.updateProjectionMatrix();
+
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
