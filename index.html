@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-
 <meta charset="UTF-8">
 
 <meta name="viewport"
@@ -14,10 +12,6 @@
 <title>Neural World 3.0</title>
 
 <style>
-
-/* =========================================================
-   BASIS
-   ========================================================= */
 
 * {
     box-sizing: border-box;
@@ -48,38 +42,24 @@ canvas {
    ========================================================= */
 
 .panel {
-
     position: absolute;
-
     z-index: 10;
 
-    background:
-        rgba(8,14,21,.08);
+    background: rgba(8, 14, 21, 0.10);
 
-    border:
-        1px solid
-        rgba(255,255,255,.15);
+    border: 1px solid rgba(255, 255, 255, 0.15);
 
     border-radius: 14px;
 
     box-shadow:
-        0 5px 20px
-        rgba(0,0,0,.12);
+        0 5px 20px rgba(0, 0, 0, 0.12);
 
-    backdrop-filter:
-        blur(2px);
-
-    -webkit-backdrop-filter:
-        blur(2px);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
 }
 
 
-/* =========================================================
-   LINKES PANEL
-   ========================================================= */
-
 #ui {
-
     left: 14px;
     top: 14px;
 
@@ -88,20 +68,19 @@ canvas {
     padding: 16px;
 }
 
-.title {
 
+.title {
     font-size: 23px;
     font-weight: bold;
 
     margin-bottom: 3px;
 
     text-shadow:
-        0 1px 8px
-        rgba(0,0,0,.8);
+        0 1px 8px rgba(0,0,0,.8);
 }
 
-.subtitle {
 
+.subtitle {
     font-size: 11px;
 
     color: #d2dce5;
@@ -109,37 +88,31 @@ canvas {
     margin-bottom: 13px;
 
     text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
+        0 1px 5px rgba(0,0,0,.9);
 }
 
-.stat {
 
+.stat {
     font-size: 13px;
     line-height: 1.65;
 
     color: #eef5fa;
 
     text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
+        0 1px 5px rgba(0,0,0,.9);
 }
 
-.value {
 
+.value {
     float: right;
 
     color: white;
 
     font-family: monospace;
-
-    text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
 }
 
-.label {
 
+.label {
     margin-top: 9px;
     margin-bottom: 4px;
 
@@ -148,27 +121,22 @@ canvas {
     color: #e1ebf2;
 
     letter-spacing: .6px;
-
-    text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
 }
 
-.progress {
 
+.progress {
     height: 7px;
     width: 100%;
 
     overflow: hidden;
 
-    background:
-        rgba(255,255,255,.13);
+    background: rgba(255,255,255,.13);
 
     border-radius: 10px;
 }
 
-.progressInner {
 
+.progressInner {
     height: 100%;
     width: 0%;
 
@@ -177,29 +145,34 @@ canvas {
     background: #46e77c;
 
     box-shadow:
-        0 0 8px
-        rgba(70,231,124,.7);
+        0 0 8px rgba(70,231,124,.7);
 }
 
-#memoryProgress {
 
+#memoryProgress {
     background: #4299ff;
 
     box-shadow:
-        0 0 8px
-        rgba(66,153,255,.7);
+        0 0 8px rgba(66,153,255,.7);
 }
 
-button {
 
+#teacherProgress {
+    background: #ffb347;
+
+    box-shadow:
+        0 0 8px rgba(255,179,71,.7);
+}
+
+
+button {
     margin-top: 12px;
     margin-right: 5px;
 
     padding: 8px 13px;
 
     border:
-        1px solid
-        rgba(255,255,255,.18);
+        1px solid rgba(255,255,255,.18);
 
     border-radius: 8px;
 
@@ -209,22 +182,16 @@ button {
     color: white;
 
     cursor: pointer;
-
-    backdrop-filter:
-        blur(3px);
-
-    -webkit-backdrop-filter:
-        blur(3px);
 }
 
-button:hover {
 
+button:hover {
     background:
         rgba(50,70,85,.35);
 }
 
-#message {
 
+#message {
     min-height: 20px;
 
     margin-top: 10px;
@@ -234,8 +201,7 @@ button:hover {
     font-size: 12px;
 
     text-shadow:
-        0 1px 6px
-        rgba(0,0,0,.9);
+        0 1px 6px rgba(0,0,0,.9);
 }
 
 
@@ -244,7 +210,6 @@ button:hover {
    ========================================================= */
 
 #brain {
-
     top: 14px;
     right: 14px;
 
@@ -258,20 +223,16 @@ button:hover {
     overflow: hidden;
 }
 
-.brainTitle {
 
+.brainTitle {
     font-size: 14px;
     font-weight: bold;
 
     margin-bottom: 5px;
-
-    text-shadow:
-        0 1px 7px
-        rgba(0,0,0,.9);
 }
 
-.layerTitle {
 
+.layerTitle {
     margin-top: 8px;
     margin-bottom: 4px;
 
@@ -280,14 +241,10 @@ button:hover {
     font-size: 9px;
 
     letter-spacing: .7px;
-
-    text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
 }
 
-.neuron {
 
+.neuron {
     height: 7px;
 
     display: flex;
@@ -297,8 +254,8 @@ button:hover {
     margin: 1px 0;
 }
 
-.dot {
 
+.dot {
     width: 6px;
     height: 6px;
 
@@ -312,30 +269,25 @@ button:hover {
     margin-right: 5px;
 }
 
-.dot.active {
 
+.dot.active {
     background: #48ff7b;
 
     box-shadow:
-        0 0 8px
-        rgba(72,255,123,.9);
+        0 0 8px rgba(72,255,123,.9);
 }
 
-.num {
 
+.num {
     width: 21px;
 
     font-size: 7px;
 
     color: #c8d3dc;
-
-    text-shadow:
-        0 1px 4px
-        rgba(0,0,0,.9);
 }
 
-.bar {
 
+.bar {
     flex: 1;
 
     height: 4px;
@@ -348,8 +300,8 @@ button:hover {
     overflow: hidden;
 }
 
-.fill {
 
+.fill {
     width: 0%;
     height: 100%;
 
@@ -358,8 +310,7 @@ button:hover {
     border-radius: 5px;
 
     box-shadow:
-        0 0 5px
-        rgba(71,158,255,.7);
+        0 0 5px rgba(71,158,255,.7);
 }
 
 
@@ -368,7 +319,6 @@ button:hover {
    ========================================================= */
 
 #hint {
-
     position: absolute;
 
     z-index: 10;
@@ -384,43 +334,56 @@ button:hover {
         rgba(0,0,0,.12);
 
     border:
-        1px solid
-        rgba(255,255,255,.12);
+        1px solid rgba(255,255,255,.12);
 
     color: #eef5fa;
 
     font-size: 11px;
 
     text-shadow:
-        0 1px 5px
-        rgba(0,0,0,.9);
+        0 1px 5px rgba(0,0,0,.9);
 
-    backdrop-filter:
-        blur(2px);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+}
 
-    -webkit-backdrop-filter:
-        blur(2px);
+
+@media(max-width:700px) {
+
+    #ui {
+        width: 245px;
+        padding: 11px;
+    }
+
+    .title {
+        font-size: 18px;
+    }
+
+    #brain {
+        width: 220px;
+        padding: 10px;
+    }
+
+    .neuron {
+        height: 6px;
+    }
+
 }
 
 </style>
-
 </head>
 
 <body>
 
 
-<!-- =======================================================
-     HUD
-     ======================================================= -->
-
 <div id="ui" class="panel">
 
     <div class="title">
-        🧠 Neural World 3.0
+        Neural World 3.0
     </div>
 
     <div class="subtitle">
-        64 Neuronen · Memory · RL · Curriculum
+        64 Neuronen - Memory - RL - Curriculum
     </div>
 
     <div class="stat">
@@ -463,11 +426,6 @@ button:hover {
         Distanz:
         <span id="distance" class="value">0</span>
 
-        <br>
-
-        Lehrer:
-        <span id="teacher" class="value">20%</span>
-
     </div>
 
 
@@ -484,12 +442,24 @@ button:hover {
 
 
     <div class="label">
-        GEDÄCHTNIS
+        GEDAECHTNIS
     </div>
 
     <div class="progress">
         <div
             id="memoryProgress"
+            class="progressInner">
+        </div>
+    </div>
+
+
+    <div class="label">
+        LEHRERHILFE
+    </div>
+
+    <div class="progress">
+        <div
+            id="teacherProgress"
             class="progressInner">
         </div>
     </div>
@@ -515,33 +485,26 @@ button:hover {
 </div>
 
 
-<!-- =======================================================
-     GEHIRN-PANEL
-     ======================================================= -->
-
 <div id="brain" class="panel">
 
     <div class="brainTitle">
-        🧠 NEURONALE AKTIVITÄT
+        NEURONALE AKTIVITAET
     </div>
 
-
     <div class="layerTitle">
-        SENSORIK · 24
+        SENSORIK - 24
     </div>
 
     <div id="sensorLayer"></div>
 
-
     <div class="layerTitle">
-        MEMORY · 24
+        MEMORY - 24
     </div>
 
     <div id="memoryLayer"></div>
 
-
     <div class="layerTitle">
-        MOTORIK · 16
+        MOTORIK - 16
     </div>
 
     <div id="motorLayer"></div>
@@ -551,55 +514,37 @@ button:hover {
 
 <div id="hint">
 
-    🟢 Ziel · 🌲 Wald · 🧱 Labyrinth
-    &nbsp; · &nbsp;
-    🖱️ Zoom · ⌨️ Pfeile = Kamera
+    Gruen = Ziel
+    &nbsp; | &nbsp;
+    Blau = Agent
+    &nbsp; | &nbsp;
+    Orange = Eingang
+    &nbsp; | &nbsp;
+    Rot = Ausgang
+    &nbsp; | &nbsp;
+    Pinch / Mausrad = Zoom
 
 </div>
 
 
-<!-- =======================================================
-     THREE.JS
-     ======================================================= -->
-
-<script
-    src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js">
-</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 
 
 <script>
 
 /* =========================================================
-   THREE PRÜFEN
+   THREE.JS
    ========================================================= */
 
 if (
     typeof THREE === "undefined"
 ) {
 
-    document.body.innerHTML = `
-
-        <div style="
-            padding:30px;
-            color:white;
-            font-family:Arial;
-            background:#071019;
-            height:100vh;
-        ">
-
-            <h2>⚠️ Three.js konnte nicht geladen werden</h2>
-
-            <p>
-                Die 3D-Engine wurde vom Browser nicht geladen.
-            </p>
-
-            <p>
-                Bitte prüfe die Internetverbindung
-                oder öffne die Datei erneut.
-            </p>
-
-        </div>
-    `;
+    document.body.innerHTML =
+        "<div style='padding:30px;color:white;font-family:Arial'>" +
+        "<h2>Three.js konnte nicht geladen werden.</h2>" +
+        "<p>Bitte Internetverbindung pruefen und die Seite neu laden.</p>" +
+        "</div>";
 
     throw new Error(
         "Three.js konnte nicht geladen werden."
@@ -608,7 +553,7 @@ if (
 
 
 /* =========================================================
-   THREE.JS
+   SZENE
    ========================================================= */
 
 const scene =
@@ -630,40 +575,33 @@ scene.fog =
 const camera =
     new THREE.PerspectiveCamera(
         55,
-        window.innerWidth /
-        window.innerHeight,
-        .1,
-        250
+        innerWidth / innerHeight,
+        0.1,
+        200
     );
 
 
 const renderer =
     new THREE.WebGLRenderer({
-
-        antialias: true,
-
-        powerPreference:
-            "high-performance"
-
+        antialias: true
     });
 
 
 renderer.setSize(
-    window.innerWidth,
-    window.innerHeight
+    innerWidth,
+    innerHeight
 );
 
 
 renderer.setPixelRatio(
     Math.min(
-        window.devicePixelRatio,
-        1.5
+        devicePixelRatio || 1,
+        2
     )
 );
 
 
-renderer.shadowMap.enabled =
-    true;
+renderer.shadowMap.enabled = true;
 
 
 document.body.appendChild(
@@ -672,55 +610,23 @@ document.body.appendChild(
 
 
 /* =========================================================
-   KAMERA
+   ZOOM
    ========================================================= */
 
-let cameraHeight = 88;
+let cameraHeight = 78;
 
-let cameraX = 0;
+const MIN_ZOOM = 28;
+const MAX_ZOOM = 125;
 
-let cameraZ = 0;
-
-const CAMERA_SPEED = 1.2;
-
-const MIN_ZOOM = 30;
-
-const MAX_ZOOM = 150;
-
-
-/* Pfeiltasten */
-
-const keys = {};
-
-window.addEventListener(
-    "keydown",
-    event => {
-
-        keys[event.key] = true;
-
-    }
-);
-
-window.addEventListener(
-    "keyup",
-    event => {
-
-        keys[event.key] = false;
-
-    }
-);
-
-
-/* Mausrad */
 
 renderer.domElement.addEventListener(
     "wheel",
-    event => {
+    function(event) {
 
         event.preventDefault();
 
         cameraHeight +=
-            event.deltaY * .08;
+            event.deltaY * 0.08;
 
         cameraHeight =
             Math.max(
@@ -733,20 +639,17 @@ renderer.domElement.addEventListener(
 
     },
     {
-        passive:false
+        passive: false
     }
 );
 
 
-/* Touch Pinch */
-
-let lastPinchDistance =
-    null;
+let lastPinchDistance = null;
 
 
 renderer.domElement.addEventListener(
     "touchmove",
-    event => {
+    function(event) {
 
         if (
             event.touches.length !== 2
@@ -776,8 +679,8 @@ renderer.domElement.addEventListener(
 
         const d =
             Math.sqrt(
-                dx*dx +
-                dy*dy
+                dx * dx +
+                dy * dy
             );
 
 
@@ -789,7 +692,7 @@ renderer.domElement.addEventListener(
                 (
                     d -
                     lastPinchDistance
-                )*.12;
+                ) * 0.12;
 
 
             cameraHeight =
@@ -807,14 +710,14 @@ renderer.domElement.addEventListener(
 
     },
     {
-        passive:true
+        passive: true
     }
 );
 
 
 renderer.domElement.addEventListener(
     "touchend",
-    () => {
+    function() {
 
         lastPinchDistance = null;
 
@@ -855,7 +758,7 @@ scene.add(sun);
 
 
 /* =========================================================
-   WELT
+   TERRAIN
    ========================================================= */
 
 const WORLD_SIZE = 100;
@@ -867,28 +770,22 @@ function terrainNoise(
 ) {
 
     return (
-
-        Math.sin(
-            x*.045
-        ) *
-        Math.cos(
-            z*.055
-        )
+        Math.sin(x * 0.045) *
+        Math.cos(z * 0.055)
 
         +
 
         Math.sin(
-            x*.095 +
-            z*.035
-        )*.35
+            x * 0.095 +
+            z * 0.035
+        ) * 0.35
 
         +
 
         Math.cos(
-            z*.08 -
-            x*.03
-        )*.25
-
+            z * 0.08 -
+            x * 0.03
+        ) * 0.25
     );
 }
 
@@ -902,14 +799,14 @@ function mountain(
 
     const d =
         Math.sqrt(
-            x*x +
-            z*z
+            x * x +
+            z * z
         );
 
 
     return Math.max(
         0,
-        1-d/radius
+        1 - d / radius
     ) * height;
 }
 
@@ -920,13 +817,13 @@ function terrainHeight(
 ) {
 
     let h =
-        terrainNoise(x,z)*2.2;
+        terrainNoise(x, z) * 2.2;
 
 
     h +=
         mountain(
-            x+13,
-            z-10,
+            x + 13,
+            z - 10,
             24,
             15
         );
@@ -934,8 +831,8 @@ function terrainHeight(
 
     h +=
         mountain(
-            x-29,
-            z+23,
+            x - 29,
+            z + 23,
             20,
             9
         );
@@ -944,10 +841,6 @@ function terrainHeight(
     return h;
 }
 
-
-/* =========================================================
-   TERRAIN
-   ========================================================= */
 
 const terrainGeometry =
     new THREE.PlaneGeometry(
@@ -959,7 +852,7 @@ const terrainGeometry =
 
 
 terrainGeometry.rotateX(
-    -Math.PI/2
+    -Math.PI / 2
 );
 
 
@@ -968,8 +861,8 @@ const positions =
 
 
 for (
-    let i=0;
-    i<positions.count;
+    let i = 0;
+    i < positions.count;
     i++
 ) {
 
@@ -982,7 +875,7 @@ for (
 
     positions.setY(
         i,
-        terrainHeight(x,z)
+        terrainHeight(x, z)
     );
 }
 
@@ -993,13 +886,9 @@ terrainGeometry.computeVertexNormals();
 const terrain =
     new THREE.Mesh(
         terrainGeometry,
-
         new THREE.MeshStandardMaterial({
-
-            color:0x4f8d45,
-
-            roughness:1
-
+            color: 0x4f8d45,
+            roughness: 1
         })
     );
 
@@ -1026,13 +915,15 @@ function createTree(
 ) {
 
     const y =
-        terrainHeight(x,z);
+        terrainHeight(x, z);
 
 
     if (
-        y>7
-    )
+        y > 7
+    ) {
+
         return;
+    }
 
 
     const tree =
@@ -1053,21 +944,20 @@ function createTree(
 
     const trunk =
         new THREE.Mesh(
-
             new THREE.CylinderGeometry(
-                .15,
-                .24,
+                0.15,
+                0.24,
                 1.8,
                 7
             ),
-
             new THREE.MeshStandardMaterial({
-                color:0x70472e
+                color: 0x70472e
             })
         );
 
 
-    trunk.position.y=.9;
+    trunk.position.y =
+        0.9;
 
 
     tree.add(trunk);
@@ -1075,20 +965,19 @@ function createTree(
 
     const crown =
         new THREE.Mesh(
-
             new THREE.ConeGeometry(
                 1.15,
                 2.8,
                 8
             ),
-
             new THREE.MeshStandardMaterial({
-                color:0x276a32
+                color: 0x276a32
             })
         );
 
 
-    crown.position.y=2.7;
+    crown.position.y =
+        2.7;
 
 
     tree.add(crown);
@@ -1099,49 +988,55 @@ function createTree(
 
 
 for (
-    let i=0;
-    i<320;
+    let i = 0;
+    i < 320;
     i++
 ) {
 
-    const x =
-        Math.random()*
-        WORLD_SIZE -
-        WORLD_SIZE/2;
-
-
-    const z =
-        Math.random()*
-        WORLD_SIZE -
-        WORLD_SIZE/2;
-
-
     createTree(
-        x,
-        z,
-        .65 +
-        Math.random()*.7
+        Math.random() *
+            WORLD_SIZE -
+            WORLD_SIZE / 2,
+
+        Math.random() *
+            WORLD_SIZE -
+            WORLD_SIZE / 2,
+
+        0.65 +
+        Math.random() * 0.7
     );
 }
 
 
 /* =========================================================
-   START / ZIEL
+   START UND ZIEL
+   =========================================================
+
+   START:
+       unten links
+
+   ZIEL:
+       oben rechts
+
+   Koordinatensystem:
+       +Z = unten
+       -Z = oben
+
    ========================================================= */
 
 const start =
     new THREE.Vector3(
-        -40,
+        -18,
         0,
-        40
+        18
     );
 
 
 const goal =
     new THREE.Vector3(
-        38,
+        18,
         0,
-        -38
+        -18
     );
 
 
@@ -1160,7 +1055,7 @@ goal.y =
 
 
 /* =========================================================
-   ZIEL
+   ZIELMARKER
    ========================================================= */
 
 const goalGroup =
@@ -1177,594 +1072,79 @@ scene.add(goalGroup);
 
 const goalPad =
     new THREE.Mesh(
-
         new THREE.CylinderGeometry(
             1.6,
             1.6,
-            .25,
+            0.25,
             24
         ),
-
         new THREE.MeshStandardMaterial({
-
-            color:0x24ed6b,
-
-            emissive:0x073d1c
-
+            color: 0x24ed6b,
+            emissive: 0x073d1c
         })
     );
 
 
-goalPad.position.y=.15;
+goalPad.position.y =
+    0.15;
 
-goalGroup.add(goalPad);
+
+goalGroup.add(
+    goalPad
+);
 
 
 const goalPole =
     new THREE.Mesh(
-
         new THREE.CylinderGeometry(
-            .04,
-            .04,
+            0.04,
+            0.04,
             3
         ),
-
         new THREE.MeshStandardMaterial({
-            color:0xffffff
+            color: 0xffffff
         })
     );
 
 
-goalPole.position.y=1.6;
+goalPole.position.y =
+    1.6;
 
-goalGroup.add(goalPole);
+
+goalGroup.add(
+    goalPole
+);
 
 
 /* =========================================================
-   LABYRINTH
-   =========================================================
-
-   Das Labyrinth wird EINMAL erzeugt.
-
-   21 × 21 Zellen
-   Zellgröße = 4
-
-   DFS erzeugt garantiert ein zusammenhängendes
-   Labyrinth.
-
-   Start = linke untere Ecke
-   Ziel  = rechte obere Ecke
-
-   Dadurch existiert garantiert ein Weg.
+   STARTMARKER
    ========================================================= */
 
-const mazeGroup =
-    new THREE.Group();
-
-scene.add(mazeGroup);
-
-
-const MAZE_SIZE = 21;
-
-const MAZE_CELL = 4;
-
-const MAZE_OFFSET =
-    -(MAZE_SIZE *
-      MAZE_CELL)/2;
-
-
-const mazeWalls = [];
-
-const mazeCells =
-    Array.from(
-        {
-            length:MAZE_SIZE
-        },
-        () =>
-            Array(
-                MAZE_SIZE
-            ).fill(false)
+const startMarker =
+    new THREE.Mesh(
+        new THREE.CylinderGeometry(
+            1.25,
+            1.25,
+            0.2,
+            24
+        ),
+        new THREE.MeshStandardMaterial({
+            color: 0xffa52f,
+            emissive: 0x4a2400
+        })
     );
 
 
-const mazeVisited =
-    Array.from(
-        {
-            length:MAZE_SIZE
-        },
-        () =>
-            Array(
-                MAZE_SIZE
-            ).fill(false)
-    );
-
-
-function mazeInside(
-    x,
-    z
-) {
-
-    return (
-        x>=0 &&
-        z>=0 &&
-        x<MAZE_SIZE &&
-        z<MAZE_SIZE
-    );
-}
-
-
-/*
-   DFS-Maze.
-
-   Jede Zelle wird erreicht.
-   Deshalb gibt es garantiert
-   einen Weg zwischen Start
-   und Ziel.
-*/
-
-function generateMaze() {
-
-    const stack = [];
-
-    const startCell = {
-        x:0,
-        z:MAZE_SIZE-1
-    };
-
-
-    mazeVisited[
-        startCell.z
-    ][
-        startCell.x
-    ] = true;
-
-
-    stack.push(
-        startCell
-    );
-
-
-    const directions = [
-
-        {
-            x:0,
-            z:-1
-        },
-
-        {
-            x:1,
-            z:0
-        },
-
-        {
-            x:0,
-            z:1
-        },
-
-        {
-            x:-1,
-            z:0
-        }
-
-    ];
-
-
-    while (
-        stack.length
-    ) {
-
-        const current =
-            stack[
-                stack.length-1
-            ];
-
-
-        const options=[];
-
-
-        for (
-            const d
-            of directions
-        ) {
-
-            const nx =
-                current.x+d.x*2;
-
-            const nz =
-                current.z+d.z*2;
-
-
-            if (
-                mazeInside(
-                    nx,
-                    nz
-                ) &&
-                !mazeVisited[nz][nx]
-            ) {
-
-                options.push({
-                    x:nx,
-                    z:nz,
-                    wallX:
-                        current.x+d.x,
-                    wallZ:
-                        current.z+d.z
-                });
-            }
-        }
-
-
-        if (
-            options.length===0
-        ) {
-
-            stack.pop();
-
-            continue;
-        }
-
-
-        const next =
-            options[
-                Math.floor(
-                    Math.random()*
-                    options.length
-                )
-            ];
-
-
-        mazeVisited[
-            next.z
-        ][
-            next.x
-        ] = true;
-
-
-        mazeCells[
-            next.wallZ
-        ][
-            next.wallX
-        ] = true;
-
-
-        mazeCells[
-            next.z
-        ][
-            next.x
-        ] = true;
-
-
-        stack.push({
-            x:next.x,
-            z:next.z
-        });
-    }
-
-
-    /*
-       Start- und Zielzelle
-       sicher offen halten.
-    */
-
-    mazeCells[
-        MAZE_SIZE-1
-    ][0] = true;
-
-
-    mazeCells[0][
-        MAZE_SIZE-1
-    ] = true;
-}
-
-
-/*
-   Wand als Box erzeugen.
-*/
-
-function createMazeWall(
-    x,
-    z,
-    width,
-    depth
-) {
-
-    const y =
-        terrainHeight(
-            x,z
-        );
-
-
-    const wall =
-        new THREE.Mesh(
-
-            new THREE.BoxGeometry(
-                width,
-                3.4,
-                depth
-            ),
-
-            new THREE.MeshStandardMaterial({
-
-                color:0x59636b,
-
-                roughness:.9
-
-            })
-        );
-
-
-    wall.position.set(
-        x,
-        y+1.7,
-        z
-    );
-
-
-    wall.castShadow = true;
-
-    wall.receiveShadow = true;
-
-
-    mazeGroup.add(wall);
-
-
-    mazeWalls.push({
-        x:x,
-        z:z,
-        halfX:width/2,
-        halfZ:depth/2
-    });
-}
-
-
-/*
-   Aus dem Zellraster echte Wände erzeugen.
-
-   Wichtig:
-   Wir bauen nur Wände zwischen
-   offenen und nicht offenen Zellen.
-*/
-
-function buildMaze() {
-
-    generateMaze();
-
-
-    const half =
-        MAZE_CELL/2;
-
-
-    /*
-       Vertikale Grenzen
-    */
-
-    for (
-        let z=0;
-        z<MAZE_SIZE;
-        z++
-    ) {
-
-        for (
-            let x=0;
-            x<=MAZE_SIZE;
-            x++
-        ) {
-
-            let shouldWall=false;
-
-
-            if (
-                x===0 ||
-                x===MAZE_SIZE
-            ) {
-
-                shouldWall=true;
-
-            } else {
-
-                const left =
-                    mazeCells[z][x-1];
-
-                const right =
-                    mazeCells[z][x];
-
-                shouldWall =
-                    left!==right;
-            }
-
-
-            /*
-               Eingang unten links
-            */
-
-            if (
-                x===0 &&
-                z===MAZE_SIZE-1
-            ) {
-
-                shouldWall=false;
-            }
-
-
-            /*
-               Ausgang oben rechts
-            */
-
-            if (
-                x===MAZE_SIZE &&
-                z===0
-            ) {
-
-                shouldWall=false;
-            }
-
-
-            if (
-                shouldWall
-            ) {
-
-                const wx =
-                    MAZE_OFFSET+
-                    x*MAZE_CELL;
-
-                const wz =
-                    MAZE_OFFSET+
-                    z*MAZE_CELL+
-                    half;
-
-
-                createMazeWall(
-                    wx,
-                    wz,
-                    .35,
-                    MAZE_CELL+.35
-                );
-            }
-        }
-    }
-
-
-    /*
-       Horizontale Grenzen
-    */
-
-    for (
-        let z=0;
-        z<=MAZE_SIZE;
-        z++
-    ) {
-
-        for (
-            let x=0;
-            x<MAZE_SIZE;
-            x++
-        ) {
-
-            let shouldWall=false;
-
-
-            if (
-                z===0 ||
-                z===MAZE_SIZE
-            ) {
-
-                shouldWall=true;
-
-            } else {
-
-                const top =
-                    mazeCells[z-1][x];
-
-                const bottom =
-                    mazeCells[z][x];
-
-                shouldWall =
-                    top!==bottom;
-            }
-
-
-            /*
-               Eingang unten links
-            */
-
-            if (
-                z===MAZE_SIZE &&
-                x===0
-            ) {
-
-                shouldWall=false;
-            }
-
-
-            /*
-               Ausgang oben rechts
-            */
-
-            if (
-                z===0 &&
-                x===MAZE_SIZE-1
-            ) {
-
-                shouldWall=false;
-            }
-
-
-            if (
-                shouldWall
-            ) {
-
-                const wx =
-                    MAZE_OFFSET+
-                    x*MAZE_CELL+
-                    half;
-
-                const wz =
-                    MAZE_OFFSET+
-                    z*MAZE_CELL;
-
-
-                createMazeWall(
-                    wx,
-                    wz,
-                    MAZE_CELL+.35,
-                    .35
-                );
-            }
-        }
-    }
-}
-
-
-/*
-   DAS LABYRINTH WIRD HIER EINMAL
-   ERZEUGT UND DANACH NICHT MEHR
-   VERÄNDERT.
-*/
-
-buildMaze();
-
-
-/* =========================================================
-   LABYRINTH KOLLISION
-   ========================================================= */
-
-function mazeNear(
-    x,
-    z,
-    radius
-) {
-
-    for (
-        const wall
-        of mazeWalls
-    ) {
-
-        if (
-            Math.abs(
-                x-wall.x
-            ) >
-            wall.halfX+
-            radius
-        )
-            continue;
-
-
-        if (
-            Math.abs(
-                z-wall.z
-            ) >
-            wall.halfZ+
-            radius
-        )
-            continue;
-
-
-        return true;
-    }
-
-
-    return false;
-}
+startMarker.position.set(
+    start.x,
+    start.y + 0.12,
+    start.z
+);
+
+
+scene.add(
+    startMarker
+);
 
 
 /* =========================================================
@@ -1774,45 +1154,46 @@ function mazeNear(
 const agent =
     new THREE.Group();
 
+
 scene.add(agent);
 
 
 const agentBody =
     new THREE.Mesh(
-
         new THREE.SphereGeometry(
-            .65,
+            0.65,
             16,
             12
         ),
-
         new THREE.MeshStandardMaterial({
-            color:0x397fff
+            color: 0x397fff
         })
     );
 
 
-agentBody.position.y=.75;
+agentBody.position.y =
+    0.75;
+
 
 agent.add(agentBody);
 
 
 const agentHead =
     new THREE.Mesh(
-
         new THREE.SphereGeometry(
-            .40,
+            0.4,
             16,
             12
         ),
-
         new THREE.MeshStandardMaterial({
-            color:0xffc49f
+            color: 0xffc49f
         })
     );
 
 
-agentHead.position.y=1.55;
+agentHead.position.y =
+    1.55;
+
 
 agent.add(agentHead);
 
@@ -1824,131 +1205,65 @@ agent.add(agentHead);
 const curriculum = [
 
     {
-        name:"Freies Gelände",
-
-        trees:0,
-
-        mountains:false,
-
-        labyrinth:false,
-
-        required:2,
-
-        teacher:.20
+        name: "Freies Gelaende",
+        trees: 0,
+        mountains: false,
+        maze: false,
+        required: 2,
+        teacher: 1
     },
 
     {
-        name:"Erste Hindernisse",
-
-        trees:.10,
-
-        mountains:false,
-
-        labyrinth:false,
-
-        required:3,
-
-        teacher:.05
+        name: "Erste Hindernisse",
+        trees: 0.10,
+        mountains: false,
+        maze: false,
+        required: 3,
+        teacher: 0.60
     },
 
     {
-        name:"Labyrinth",
-
-        trees:.30,
-
-        mountains:false,
-
-        labyrinth:true,
-
-        required:4,
-
-        teacher:0
+        name: "Wald + Labyrinth",
+        trees: 0.30,
+        mountains: false,
+        maze: true,
+        required: 4,
+        teacher: 0
     },
 
     {
-        name:"Hügel + Labyrinth",
-
-        trees:.45,
-
-        mountains:true,
-
-        labyrinth:true,
-
-        required:5,
-
-        teacher:0
+        name: "Labyrinth + Berge",
+        trees: 0.45,
+        mountains: true,
+        maze: true,
+        required: 5,
+        teacher: 0
     },
 
     {
-        name:"Berge + Labyrinth",
-
-        trees:.65,
-
-        mountains:true,
-
-        labyrinth:true,
-
-        required:6,
-
-        teacher:0
+        name: "Komplexe Welt",
+        trees: 0.65,
+        mountains: true,
+        maze: true,
+        required: 6,
+        teacher: 0
     },
 
     {
-        name:"Echte Welt",
-
-        trees:1,
-
-        mountains:true,
-
-        labyrinth:true,
-
-        required:8,
-
-        teacher:0
+        name: "Echte Welt",
+        trees: 1,
+        mountains: true,
+        maze: true,
+        required: 8,
+        teacher: 0
     }
 
 ];
 
 
-let curriculumLevel=0;
+let curriculumLevel = 0;
 
-let curriculumSuccess=0;
-
-
-/* =========================================================
-   BÄUME AKTIVIEREN
-   ========================================================= */
-
-function treeEnabled(
-    tree
-) {
-
-    const x =
-        Math.round(
-            tree.position.x*10
-        );
-
-
-    const z =
-        Math.round(
-            tree.position.z*10
-        );
-
-
-    const hash =
-        Math.abs(
-            (
-                x*928371+
-                z*523127
-            )%1000
-        )/1000;
-
-
-    return hash <
-        curriculum[
-            curriculumLevel
-        ].trees;
-}
+let curriculumSuccess = 0;
 
 
 /* =========================================================
@@ -1958,7 +1273,8 @@ function treeEnabled(
 const treeGrid =
     new Map();
 
-const TREE_CELL = 2;
+
+const TREE_CELL_SIZE = 2;
 
 
 function gridKey(
@@ -1968,11 +1284,13 @@ function gridKey(
 
     return (
         Math.floor(
-            x/TREE_CELL
-        )+
-        ":"+
+            x / TREE_CELL_SIZE
+        )
+        +
+        ":"
+        +
         Math.floor(
-            z/TREE_CELL
+            z / TREE_CELL_SIZE
         )
     );
 }
@@ -1990,8 +1308,10 @@ function rebuildTreeGrid() {
 
         if (
             !tree.visible
-        )
+        ) {
+
             continue;
+        }
 
 
         const key =
@@ -2012,10 +1332,133 @@ function rebuildTreeGrid() {
         }
 
 
-        treeGrid.get(key).push(
-            tree
-        );
+        treeGrid
+            .get(key)
+            .push(tree);
     }
+}
+
+
+function treeNear(
+    x,
+    z,
+    radius
+) {
+
+    const cx =
+        Math.floor(
+            x / TREE_CELL_SIZE
+        );
+
+
+    const cz =
+        Math.floor(
+            z / TREE_CELL_SIZE
+        );
+
+
+    const r =
+        Math.ceil(
+            radius /
+            TREE_CELL_SIZE
+        );
+
+
+    for (
+        let dx = -r;
+        dx <= r;
+        dx++
+    ) {
+
+        for (
+            let dz = -r;
+            dz <= r;
+            dz++
+        ) {
+
+            const bucket =
+                treeGrid.get(
+                    (
+                        cx + dx
+                    )
+                    +
+                    ":"
+                    +
+                    (
+                        cz + dz
+                    )
+                );
+
+
+            if (
+                !bucket
+            ) {
+
+                continue;
+            }
+
+
+            for (
+                const tree
+                of bucket
+            ) {
+
+                const ddx =
+                    tree.position.x -
+                    x;
+
+
+                const ddz =
+                    tree.position.z -
+                    z;
+
+
+                if (
+                    ddx * ddx +
+                    ddz * ddz <
+                    radius * radius
+                ) {
+
+                    return true;
+                }
+            }
+        }
+    }
+
+
+    return false;
+}
+
+
+function treeEnabled(
+    tree
+) {
+
+    const x =
+        Math.round(
+            tree.position.x * 10
+        );
+
+
+    const z =
+        Math.round(
+            tree.position.z * 10
+        );
+
+
+    const hash =
+        Math.abs(
+            (
+                x * 928371 +
+                z * 523127
+            ) % 1000
+        ) / 1000;
+
+
+    return hash <
+        curriculum[
+            curriculumLevel
+        ].trees;
 }
 
 
@@ -2036,34 +1479,2833 @@ function updateTrees() {
 
 
 /* =========================================================
-   TREE KOLLISION
+   KLEINES, FESTES LABYRINTH
+   =========================================================
+
+   13 x 13 Zellen
+   3 Meter pro Zelle
+   = 39 x 39 Meter
+
+   Eingang:
+       unten links
+
+   Ausgang:
+       oben rechts
+
+   Das Labyrinth wird EINMAL
+   erzeugt und danach NICHT
+   mehr verändert.
+
    ========================================================= */
 
-function treeNear(
-    x,
-    z,
-    radius
+const mazeGroup =
+    new THREE.Group();
+
+
+scene.add(
+    mazeGroup
+);
+
+
+const mazeWalls = [];
+
+
+const MAZE_SIZE = 13;
+
+const MAZE_CELL = 3;
+
+const MAZE_TOTAL =
+    MAZE_SIZE *
+    MAZE_CELL;
+
+const MAZE_MIN =
+    -MAZE_TOTAL / 2;
+
+const MAZE_MAX =
+    MAZE_TOTAL / 2;
+
+
+const mazeStartCell = {
+    x: 0,
+    z: MAZE_SIZE - 1
+};
+
+
+const mazeGoalCell = {
+    x: MAZE_SIZE - 1,
+    z: 0
+};
+
+
+function mazeCellToWorld(
+    cx,
+    cz
 ) {
 
-    const cx =
-        Math.floor(
-            x/TREE_CELL
+    return {
+
+        x:
+            MAZE_MIN +
+            cx * MAZE_CELL +
+            MAZE_CELL / 2,
+
+        z:
+            MAZE_MIN +
+            cz * MAZE_CELL +
+            MAZE_CELL / 2
+
+    };
+}
+
+
+/* =========================================================
+   FESTER RANDOM-SEED
+   ========================================================= */
+
+let mazeSeed =
+    918273;
+
+
+function seededRandom() {
+
+    mazeSeed =
+        (
+            mazeSeed * 1664525 +
+            1013904223
+        ) >>> 0;
+
+
+    return (
+        mazeSeed /
+        4294967296
+    );
+}
+
+
+/* =========================================================
+   LABYRINTH GENERATOR
+   ========================================================= */
+
+function generateMaze() {
+
+    mazeSeed =
+        918273;
+
+
+    const cells =
+        Array.from(
+            {
+                length:
+                    MAZE_SIZE
+            },
+            function() {
+
+                return Array.from(
+                    {
+                        length:
+                            MAZE_SIZE
+                    },
+                    function() {
+
+                        return {
+
+                            visited: false,
+
+                            walls: {
+
+                                N: true,
+                                E: true,
+                                S: true,
+                                W: true
+
+                            }
+
+                        };
+
+                    }
+                );
+
+            }
         );
 
 
-    const cz =
+    const stack = [];
+
+
+    cells[
+        mazeStartCell.z
+    ][
+        mazeStartCell.x
+    ].visited = true;
+
+
+    stack.push(
+        mazeStartCell
+    );
+
+
+    const dirs = [
+
+        {
+            dx: 0,
+            dz: -1,
+            a: "N",
+            b: "S"
+        },
+
+        {
+            dx: 1,
+            dz: 0,
+            a: "E",
+            b: "W"
+        },
+
+        {
+            dx: 0,
+            dz: 1,
+            a: "S",
+            b: "N"
+        },
+
+        {
+            dx: -1,
+            dz: 0,
+            a: "W",
+            b: "E"
+        }
+
+    ];
+
+
+    while (
+        stack.length
+    ) {
+
+        const current =
+            stack[
+                stack.length - 1
+            ];
+
+
+        const options = [];
+
+
+        for (
+            const d
+            of dirs
+        ) {
+
+            const nx =
+                current.x +
+                d.dx;
+
+
+            const nz =
+                current.z +
+                d.dz;
+
+
+            if (
+                nx >= 0 &&
+                nx < MAZE_SIZE &&
+                nz >= 0 &&
+                nz < MAZE_SIZE &&
+                !cells[nz][nx].visited
+            ) {
+
+                options.push({
+                    d,
+                    nx,
+                    nz
+                });
+
+            }
+
+        }
+
+
+        if (
+            options.length === 0
+        ) {
+
+            stack.pop();
+
+            continue;
+        }
+
+
+        const pick =
+            options[
+                Math.floor(
+                    seededRandom() *
+                    options.length
+                )
+            ];
+
+
+        const cell =
+            cells[
+                current.z
+            ][
+                current.x
+            ];
+
+
+        const next =
+            cells[
+                pick.nz
+            ][
+                pick.nx
+            ];
+
+
+        cell.walls[
+            pick.d.a
+        ] = false;
+
+
+        next.walls[
+            pick.d.b
+        ] = false;
+
+
+        next.visited = true;
+
+
+        stack.push({
+
+            x: pick.nx,
+            z: pick.nz
+
+        });
+
+    }
+
+
+    /*
+       Echte Öffnung unten links.
+    */
+
+    cells[
+        mazeStartCell.z
+    ][
+        mazeStartCell.x
+    ].walls.S = false;
+
+
+    /*
+       Echte Öffnung oben rechts.
+    */
+
+    cells[
+        mazeGoalCell.z
+    ][
+        mazeGoalCell.x
+    ].walls.N = false;
+
+
+    const wallThickness =
+        0.45;
+
+
+    const wallHeight =
+        4;
+
+
+    /*
+       Wände erzeugen.
+    */
+
+    for (
+        let z = 0;
+        z < MAZE_SIZE;
+        z++
+    ) {
+
+        for (
+            let x = 0;
+            x < MAZE_SIZE;
+            x++
+        ) {
+
+            const cell =
+                cells[z][x];
+
+
+            const p =
+                mazeCellToWorld(
+                    x,
+                    z
+                );
+
+
+            if (
+                cell.walls.N
+            ) {
+
+                addMazeWall(
+                    p.x,
+                    p.z -
+                    MAZE_CELL / 2 +
+                    wallThickness / 2,
+
+                    MAZE_CELL +
+                    wallThickness,
+
+                    wallThickness
+                );
+
+            }
+
+
+            if (
+                cell.walls.W
+            ) {
+
+                addMazeWall(
+                    p.x -
+                    MAZE_CELL / 2 +
+                    wallThickness / 2,
+
+                    p.z,
+
+                    wallThickness,
+
+                    MAZE_CELL +
+                    wallThickness
+                );
+
+            }
+
+
+            if (
+                z === MAZE_SIZE - 1 &&
+                cell.walls.S
+            ) {
+
+                addMazeWall(
+                    p.x,
+
+                    p.z +
+                    MAZE_CELL / 2 -
+                    wallThickness / 2,
+
+                    MAZE_CELL +
+                    wallThickness,
+
+                    wallThickness
+                );
+
+            }
+
+
+            if (
+                x === MAZE_SIZE - 1 &&
+                cell.walls.E
+            ) {
+
+                addMazeWall(
+                    p.x +
+                    MAZE_CELL / 2 -
+                    wallThickness / 2,
+
+                    p.z,
+
+                    wallThickness,
+
+                    MAZE_CELL +
+                    wallThickness
+                );
+
+            }
+
+        }
+
+    }
+
+
+    /*
+       Eingang.
+    */
+
+    createMazeMarker(
+        mazeStartCell,
+        0xffa52f
+    );
+
+
+    /*
+       Ausgang.
+    */
+
+    createMazeMarker(
+        mazeGoalCell,
+        0xff3030
+    );
+
+}
+
+
+function addMazeWall(
+    x,
+    z,
+    width,
+    depth
+) {
+
+    const wall =
+        new THREE.Mesh(
+            new THREE.BoxGeometry(
+                width,
+                4,
+                depth
+            ),
+            new THREE.MeshStandardMaterial({
+                color: 0x555b63,
+                roughness: 0.9
+            })
+        );
+
+
+    wall.position.set(
+        x,
+        terrainHeight(
+            x,
+            z
+        ) + 2,
+        z
+    );
+
+
+    wall.castShadow = true;
+
+    wall.receiveShadow = true;
+
+
+    mazeGroup.add(
+        wall
+    );
+
+
+    mazeWalls.push(
+        wall
+    );
+}
+
+
+function createMazeMarker(
+    cell,
+    color
+) {
+
+    const p =
+        mazeCellToWorld(
+            cell.x,
+            cell.z
+        );
+
+
+    const marker =
+        new THREE.Mesh(
+            new THREE.CylinderGeometry(
+                1,
+                1,
+                0.2,
+                20
+            ),
+            new THREE.MeshStandardMaterial({
+                color: color,
+                emissive: color
+            })
+        );
+
+
+    marker.position.set(
+        p.x,
+        terrainHeight(
+            p.x,
+            p.z
+        ) + 0.15,
+        p.z
+    );
+
+
+    mazeGroup.add(
+        marker
+    );
+}
+
+
+generateMaze();
+
+
+/* =========================================================
+   LABYRINTH-KOLLISION
+   ========================================================= */
+
+function mazeBlocked(
+    x,
+    z
+) {
+
+    if (
+        !curriculum[
+            curriculumLevel
+        ].maze
+    ) {
+
+        return false;
+    }
+
+
+    /*
+       Nur im Bereich des
+       kleinen Labyrinths prüfen.
+    */
+
+    if (
+        x < MAZE_MIN - 1 ||
+        x > MAZE_MAX + 1 ||
+        z < MAZE_MIN - 1 ||
+        z > MAZE_MAX + 1
+    ) {
+
+        return false;
+    }
+
+
+    for (
+        const wall
+        of mazeWalls
+    ) {
+
+        const dx =
+            Math.abs(
+                wall.position.x -
+                x
+            );
+
+
+        const dz =
+            Math.abs(
+                wall.position.z -
+                z
+            );
+
+
+        const halfX =
+            wall.geometry.parameters.width /
+            2 +
+            0.45;
+
+
+        const halfZ =
+            wall.geometry.parameters.depth /
+            2 +
+            0.45;
+
+
+        if (
+            dx < halfX &&
+            dz < halfZ
+        ) {
+
+            return true;
+        }
+
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   GESAMTKOLLISION
+   ========================================================= */
+
+function blocked(
+    x,
+    z
+) {
+
+    if (
+        Math.abs(x) >
+        WORLD_SIZE / 2 ||
+        Math.abs(z) >
+        WORLD_SIZE / 2
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        curriculum[
+            curriculumLevel
+        ].mountains
+        &&
+        terrainHeight(
+            x,
+            z
+        ) > 8
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        treeNear(
+            x,
+            z,
+            1.25
+        )
+    ) {
+
+        return true;
+    }
+
+
+    if (
+        mazeBlocked(
+            x,
+            z
+        )
+    ) {
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =========================================================
+   NEURON
+   ========================================================= */
+
+class Neuron {
+
+    constructor() {
+
+        this.voltage = -70;
+
+        this.threshold = -55;
+
+        this.refractory = 0;
+
+        this.memory = 0;
+    }
+
+
+    stimulate(
+        input
+    ) {
+
+        if (
+            this.refractory > 0
+        ) {
+
+            this.refractory--;
+
+            this.voltage = -70;
+
+            this.memory *= 0.97;
+
+            return false;
+        }
+
+
+        this.voltage +=
+            (
+                -70 -
+                this.voltage
+            ) * 0.15;
+
+
+        this.voltage +=
+            this.memory * 3;
+
+
+        this.voltage +=
+            input;
+
+
+        if (
+            this.voltage >=
+            this.threshold
+        ) {
+
+            this.voltage = 30;
+
+            this.refractory = 2;
+
+            this.memory =
+                Math.min(
+                    1,
+                    this.memory + 0.35
+                );
+
+            return true;
+        }
+
+
+        this.memory *=
+            0.985;
+
+
+        return false;
+    }
+
+}
+
+
+let neurons =
+    Array.from(
+        {
+            length: 64
+        },
+        function() {
+
+            return new Neuron();
+
+        }
+    );
+
+
+let spikes =
+    Array(
+        64
+    ).fill(false);
+
+
+/* =========================================================
+   AKTIONEN
+   ========================================================= */
+
+const actions = [
+
+    [-1, 0],
+    [1, 0],
+    [0, -1],
+    [0, 1],
+
+    [-0.707, -0.707],
+    [0.707, -0.707],
+    [-0.707, 0.707],
+    [0.707, 0.707],
+
+    [-1, -0.35],
+    [1, -0.35],
+    [-1, 0.35],
+    [1, 0.35],
+
+    [-0.35, -1],
+    [0.35, -1],
+    [-0.35, 1],
+    [0.35, 1]
+
+];
+
+
+const ACTIONS = 16;
+
+
+/* =========================================================
+   Q-LEARNING
+   ========================================================= */
+
+const Q =
+    new Map();
+
+
+const MAX_Q_STATES =
+    100000;
+
+
+const alpha =
+    0.16;
+
+
+const gamma =
+    0.96;
+
+
+let epsilon = 1;
+
+
+const minEpsilon =
+    0.025;
+
+
+function qValues(
+    state
+) {
+
+    if (
+        !Q.has(state)
+    ) {
+
+        if (
+            Q.size >=
+            MAX_Q_STATES
+        ) {
+
+            Q.delete(
+                Q.keys()
+                    .next()
+                    .value
+            );
+        }
+
+
+        Q.set(
+            state,
+            Array(
+                ACTIONS
+            ).fill(0)
+        );
+    }
+
+
+    return Q.get(
+        state
+    );
+}
+
+
+/* =========================================================
+   DISTANZ
+   ========================================================= */
+
+function distance() {
+
+    const dx =
+        agent.position.x -
+        goal.x;
+
+
+    const dz =
+        agent.position.z -
+        goal.z;
+
+
+    return Math.sqrt(
+        dx * dx +
+        dz * dz
+    );
+}
+
+
+/* =========================================================
+   SENSORIK
+   ========================================================= */
+
+const rayDirections = [
+
+    [-1, 0],
+    [-0.707, -0.707],
+    [0, -1],
+    [0.707, -0.707],
+
+    [1, 0],
+    [0.707, 0.707],
+    [0, 1],
+    [-0.707, 0.707]
+
+];
+
+
+function rayDistance(
+    dx,
+    dz
+) {
+
+    const max = 12;
+
+
+    for (
+        let d = 0.5;
+        d <= max;
+        d += 0.5
+    ) {
+
+        if (
+            blocked(
+                agent.position.x +
+                dx * d,
+
+                agent.position.z +
+                dz * d
+            )
+        ) {
+
+            return d;
+        }
+    }
+
+
+    return max;
+}
+
+
+function getSensors() {
+
+    const result = [];
+
+
+    for (
+        const direction
+        of rayDirections
+    ) {
+
+        const d =
+            rayDistance(
+                direction[0],
+                direction[1]
+            );
+
+
+        result.push(
+            Math.min(
+                4,
+                Math.floor(
+                    (
+                        1 -
+                        d / 12
+                    ) * 5
+                )
+            )
+        );
+    }
+
+
+    const center =
+        terrainHeight(
+            agent.position.x,
+            agent.position.z
+        );
+
+
+    const offsets = [
+
+        [2, 0],
+        [-2, 0],
+        [0, 2],
+        [0, -2]
+
+    ];
+
+
+    for (
+        const offset
+        of offsets
+    ) {
+
+        const h =
+            terrainHeight(
+                agent.position.x +
+                offset[0],
+
+                agent.position.z +
+                offset[1]
+            );
+
+
+        result.push(
+
+            h > center + 1
+                ? 2
+
+                :
+
+            h < center - 1
+                ? 0
+
+                :
+
+                1
+
+        );
+    }
+
+
+    const dx =
+        goal.x -
+        agent.position.x;
+
+
+    const dz =
+        goal.z -
+        agent.position.z;
+
+
+    result.push(
+
+        dx < -8
+            ? 0
+
+            :
+
+        dx > 8
+            ? 2
+
+            :
+
+            1
+
+    );
+
+
+    result.push(
+
+        dz < -8
+            ? 0
+
+            :
+
+        dz > 8
+            ? 2
+
+            :
+
+            1
+
+    );
+
+
+    const d =
+        distance();
+
+
+    result.push(
+
+        d < 4
+            ? 0
+
+            :
+
+        d < 10
+            ? 1
+
+            :
+
+        d < 20
+            ? 2
+
+            :
+
+        d < 40
+            ? 3
+
+            :
+
+        d < 70
+            ? 4
+
+            :
+
+            5
+
+    );
+
+
+    return result;
+}
+
+
+/* =========================================================
+   STATE
+   ========================================================= */
+
+function getState() {
+
+    const sensors =
+        getSensors();
+
+
+    const obstacles =
+        sensors
+            .slice(0, 8)
+            .map(
+                function(v) {
+
+                    return Math.min(
+                        2,
+                        Math.floor(
+                            v / 2
+                        )
+                    );
+
+                }
+            );
+
+
+    const dx =
+        goal.x -
+        agent.position.x;
+
+
+    const dz =
+        goal.z -
+        agent.position.z;
+
+
+    const angle =
+        Math.atan2(
+            dx,
+            dz
+        );
+
+
+    let direction =
+        Math.round(
+            (
+                angle +
+                Math.PI
+            )
+            /
+            (
+                Math.PI * 2
+            )
+            *
+            8
+        ) % 8;
+
+
+    if (
+        direction < 0
+    ) {
+
+        direction += 8;
+    }
+
+
+    const d =
+        distance();
+
+
+    let distanceClass;
+
+
+    if (
+        d < 4
+    ) {
+
+        distanceClass = 0;
+
+    }
+
+    else if (
+        d < 10
+    ) {
+
+        distanceClass = 1;
+
+    }
+
+    else if (
+        d < 20
+    ) {
+
+        distanceClass = 2;
+
+    }
+
+    else if (
+        d < 40
+    ) {
+
+        distanceClass = 3;
+
+    }
+
+    else if (
+        d < 70
+    ) {
+
+        distanceClass = 4;
+
+    }
+
+    else {
+
+        distanceClass = 5;
+    }
+
+
+    const h =
+        terrainHeight(
+            agent.position.x,
+            agent.position.z
+        );
+
+
+    const heightClass =
+        h < 2
+            ? 0
+
+            :
+
+        h < 6
+            ? 1
+
+            :
+
+            2;
+
+
+    return [
+
+        ...obstacles,
+
+        direction,
+
+        distanceClass,
+
+        heightClass
+
+    ].join(",");
+}
+
+
+/* =========================================================
+   LEHRER
+   =========================================================
+
+   Stufe 1:
+       100 %
+
+   Stufe 2:
+       60 %
+
+   Stufe 3+:
+       0 %
+
+   ========================================================= */
+
+function guidedAction() {
+
+    const dx =
+        goal.x -
+        agent.position.x;
+
+
+    const dz =
+        goal.z -
+        agent.position.z;
+
+
+    const targetAngle =
+        Math.atan2(
+            dx,
+            dz
+        );
+
+
+    let best = 0;
+
+    let bestDifference =
+        Infinity;
+
+
+    for (
+        let i = 0;
+        i < ACTIONS;
+        i++
+    ) {
+
+        const ax =
+            actions[i][0];
+
+
+        const az =
+            actions[i][1];
+
+
+        const angle =
+            Math.atan2(
+                ax,
+                az
+            );
+
+
+        let diff =
+            Math.abs(
+                targetAngle -
+                angle
+            );
+
+
+        while (
+            diff > Math.PI
+        ) {
+
+            diff =
+                Math.abs(
+                    diff -
+                    Math.PI * 2
+                );
+        }
+
+
+        if (
+            blocked(
+                agent.position.x +
+                ax * 2,
+
+                agent.position.z +
+                az * 2
+            )
+        ) {
+
+            diff += 4;
+        }
+
+
+        if (
+            diff <
+            bestDifference
+        ) {
+
+            bestDifference =
+                diff;
+
+            best = i;
+        }
+
+    }
+
+
+    return best;
+}
+
+
+/* =========================================================
+   AKTION WÄHLEN
+   ========================================================= */
+
+function chooseAction(
+    state
+) {
+
+    const teacher =
+        curriculum[
+            curriculumLevel
+        ].teacher;
+
+
+    if (
+        Math.random() <
+        teacher
+    ) {
+
+        return guidedAction();
+    }
+
+
+    if (
+        Math.random() <
+        epsilon
+    ) {
+
+        return Math.floor(
+            Math.random() *
+            ACTIONS
+        );
+    }
+
+
+    const q =
+        qValues(
+            state
+        );
+
+
+    const maxQ =
+        Math.max(
+            ...q
+        );
+
+
+    const candidates = [];
+
+
+    for (
+        let i = 0;
+        i < ACTIONS;
+        i++
+    ) {
+
+        if (
+            Math.abs(
+                q[i] -
+                maxQ
+            ) < 0.000001
+        ) {
+
+            candidates.push(i);
+        }
+
+    }
+
+
+    return candidates[
         Math.floor(
-            z/TREE_CELL
+            Math.random() *
+            candidates.length
+        )
+    ];
+}
+
+
+/* =========================================================
+   NEURONALE VERARBEITUNG
+   ========================================================= */
+
+function stimulateBrain(
+    state,
+    action
+) {
+
+    spikes.fill(
+        false
+    );
+
+
+    const values =
+        state
+            .split(",")
+            .map(Number);
+
+
+    /*
+       SENSORIK
+    */
+
+    for (
+        let i = 0;
+        i < 24;
+        i++
+    ) {
+
+        spikes[i] =
+            neurons[i]
+                .stimulate(
+                    (
+                        values[i] ||
+                        0
+                    ) * 4
+                );
+
+    }
+
+
+    /*
+       MEMORY
+    */
+
+    for (
+        let i = 0;
+        i < 24;
+        i++
+    ) {
+
+        let input = 0;
+
+
+        for (
+            let j = 0;
+            j < 24;
+            j++
+        ) {
+
+            if (
+                spikes[j]
+            ) {
+
+                input +=
+                    (
+                        (
+                            j * 17 +
+                            i * 31
+                        ) % 9 -
+                        4
+                    ) * 0.35;
+            }
+
+        }
+
+
+        for (
+            let j = 0;
+            j < 24;
+            j++
+        ) {
+
+            input +=
+                neurons[
+                    24 + j
+                ].memory
+                *
+                (
+                    (
+                        i * 7 +
+                        j * 13
+                    ) % 5 -
+                    2
+                )
+                *
+                0.45;
+        }
+
+
+        spikes[
+            24 + i
+        ] =
+            neurons[
+                24 + i
+            ].stimulate(
+                input
+            );
+    }
+
+
+    /*
+       MOTORIK
+    */
+
+    const q =
+        qValues(
+            state
+        );
+
+
+    const minQ =
+        Math.min(
+            ...q
+        );
+
+
+    const maxQ =
+        Math.max(
+            ...q
         );
 
 
     for (
-        let dx=-1;
-        dx<=1;
-        dx++
+        let i = 0;
+        i < 16;
+        i++
+    ) {
+
+        let qStrength =
+            0.5;
+
+
+        if (
+            maxQ !== minQ
+        ) {
+
+            qStrength =
+                (
+                    q[i] -
+                    minQ
+                )
+                /
+                (
+                    maxQ -
+                    minQ
+                );
+        }
+
+
+        let memoryInfluence =
+            0;
+
+
+        for (
+            let j = 0;
+            j < 24;
+            j++
+        ) {
+
+            memoryInfluence +=
+                neurons[
+                    24 + j
+                ].memory
+                *
+                (
+                    (
+                        i * 11 +
+                        j * 7
+                    ) % 5 -
+                    2
+                );
+        }
+
+
+        spikes[
+            48 + i
+        ] =
+            neurons[
+                48 + i
+            ].stimulate(
+                qStrength * 5 +
+                memoryInfluence * 0.08
+            );
+
+    }
+
+
+    spikes[
+        48 + action
+    ] = true;
+}
+
+
+/* =========================================================
+   BESUCHTE ZELLEN
+   ========================================================= */
+
+const visitedCells =
+    new Set();
+
+
+function cellKey(
+    x,
+    z
+) {
+
+    return (
+        Math.round(x) +
+        ":" +
+        Math.round(z)
+    );
+}
+
+
+function wasVisited() {
+
+    return visitedCells.has(
+        cellKey(
+            agent.position.x,
+            agent.position.z
+        )
+    );
+}
+
+
+function rememberCell() {
+
+    visitedCells.add(
+        cellKey(
+            agent.position.x,
+            agent.position.z
+        )
+    );
+}
+
+
+/* =========================================================
+   EXPERIENCE REPLAY
+   ========================================================= */
+
+const replayBuffer = [];
+
+
+const REPLAY_SIZE =
+    10000;
+
+
+let cumulativeWeights = [];
+
+
+let cumulativeDirty =
+    true;
+
+
+function addExperience(
+    experience
+) {
+
+    experience.priority =
+        Math.abs(
+            experience.reward
+        ) + 0.5;
+
+
+    replayBuffer.push(
+        experience
+    );
+
+
+    if (
+        replayBuffer.length >
+        REPLAY_SIZE
+    ) {
+
+        replayBuffer.shift();
+    }
+
+
+    cumulativeDirty =
+        true;
+}
+
+
+/* =========================================================
+   PREFIX-SUM
+   ========================================================= */
+
+function rebuildCumulative() {
+
+    cumulativeWeights = [];
+
+
+    let sum = 0;
+
+
+    for (
+        const e
+        of replayBuffer
+    ) {
+
+        sum +=
+            e.priority;
+
+
+        cumulativeWeights.push(
+            sum
+        );
+    }
+
+
+    cumulativeDirty =
+        false;
+}
+
+
+/* =========================================================
+   SCHNELLES SAMPLING
+   ========================================================= */
+
+function sampleExperience() {
+
+    if (
+        replayBuffer.length === 0
+    ) {
+
+        return null;
+    }
+
+
+    if (
+        cumulativeDirty
+    ) {
+
+        rebuildCumulative();
+    }
+
+
+    const total =
+        cumulativeWeights[
+            cumulativeWeights.length - 1
+        ];
+
+
+    const target =
+        Math.random() *
+        total;
+
+
+    let lo = 0;
+
+
+    let hi =
+        cumulativeWeights.length - 1;
+
+
+    while (
+        lo < hi
+    ) {
+
+        const mid =
+            (lo + hi) >> 1;
+
+
+        if (
+            cumulativeWeights[mid] <
+            target
+        ) {
+
+            lo =
+                mid + 1;
+
+        }
+
+        else {
+
+            hi = mid;
+        }
+
+    }
+
+
+    return replayBuffer[
+        lo
+    ];
+}
+
+
+/* =========================================================
+   REPLAY LEARNING
+   ========================================================= */
+
+function replayLearn(
+    amount
+) {
+
+    for (
+        let i = 0;
+        i < amount;
+        i++
+    ) {
+
+        const e =
+            sampleExperience();
+
+
+        if (
+            !e
+        ) {
+
+            return;
+        }
+
+
+        const q =
+            qValues(
+                e.state
+            );
+
+
+        const nextQ =
+            qValues(
+                e.nextState
+            );
+
+
+        const target =
+            e.done
+
+                ? e.reward
+
+                :
+
+                e.reward +
+                gamma *
+                Math.max(
+                    ...nextQ
+                );
+
+
+        const error =
+            target -
+            q[e.action];
+
+
+        q[e.action] +=
+            alpha *
+            error;
+
+
+        e.priority =
+            Math.abs(
+                error
+            ) + 0.05;
+
+
+        cumulativeDirty =
+            true;
+    }
+}
+
+
+/* =========================================================
+   BEWEGUNG
+   ========================================================= */
+
+function move(
+    action
+) {
+
+    const dx =
+        actions[action][0];
+
+
+    const dz =
+        actions[action][1];
+
+
+    const nx =
+        agent.position.x +
+        dx;
+
+
+    const nz =
+        agent.position.z +
+        dz;
+
+
+    if (
+        blocked(
+            nx,
+            nz
+        )
+    ) {
+
+        return false;
+    }
+
+
+    agent.position.x =
+        nx;
+
+
+    agent.position.z =
+        nz;
+
+
+    agent.position.y =
+        terrainHeight(
+            nx,
+            nz
+        );
+
+
+    agent.rotation.y =
+        Math.atan2(
+            dx,
+            dz
+        );
+
+
+    return true;
+}
+
+
+/* =========================================================
+   REWARD
+   ========================================================= */
+
+function calculateReward(
+    oldDistance,
+    newDistance,
+    moved,
+    visited
+) {
+
+    let reward =
+        -0.20;
+
+
+    const progress =
+        oldDistance -
+        newDistance;
+
+
+    reward +=
+        progress * 15;
+
+
+    if (
+        !moved
+    ) {
+
+        reward -= 6;
+    }
+
+
+    if (
+        visited
+    ) {
+
+        reward -= 3;
+
+    }
+
+    else {
+
+        reward += 0.7;
+    }
+
+
+    reward -=
+        steps * 0.001;
+
+
+    let done =
+        false;
+
+
+    if (
+        newDistance < 2.5
+    ) {
+
+        reward += 500;
+
+        done = true;
+    }
+
+
+    return {
+
+        reward:
+            reward,
+
+        done:
+            done
+
+    };
+}
+
+
+/* =========================================================
+   TRAINING
+   ========================================================= */
+
+let episode = 1;
+
+let steps = 0;
+
+let totalSuccesses = 0;
+
+let training = true;
+
+
+function resetEpisode() {
+
+    agent.position.copy(
+        start
+    );
+
+
+    agent.position.y =
+        terrainHeight(
+            start.x,
+            start.z
+        );
+
+
+    agent.rotation.y =
+        0;
+
+
+    steps = 0;
+
+
+    visitedCells.clear();
+
+
+    rememberCell();
+
+
+    updateTrees();
+}
+
+
+function trainStep() {
+
+    const oldState =
+        getState();
+
+
+    const oldDistance =
+        distance();
+
+
+    const action =
+        chooseAction(
+            oldState
+        );
+
+
+    stimulateBrain(
+        oldState,
+        action
+    );
+
+
+    const moved =
+        move(
+            action
+        );
+
+
+    const newDistance =
+        distance();
+
+
+    const visited =
+        wasVisited();
+
+
+    const result =
+        calculateReward(
+            oldDistance,
+            newDistance,
+            moved,
+            visited
+        );
+
+
+    rememberCell();
+
+
+    const newState =
+        getState();
+
+
+    addExperience({
+
+        state:
+            oldState,
+
+        action:
+            action,
+
+        reward:
+            result.reward,
+
+        nextState:
+            newState,
+
+        done:
+            result.done
+
+    });
+
+
+    replayLearn(
+        3
+    );
+
+
+    steps++;
+
+
+    if (
+        result.done ||
+        steps >= 400
+    ) {
+
+        if (
+            result.done
+        ) {
+
+            totalSuccesses++;
+
+            curriculumSuccess++;
+
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "Ziel gefunden!";
+        }
+
+
+        epsilon =
+            Math.max(
+                minEpsilon,
+                epsilon * 0.997
+            );
+
+
+        const current =
+            curriculum[
+                curriculumLevel
+            ];
+
+
+        if (
+            curriculumSuccess >=
+            current.required
+            &&
+            curriculumLevel <
+            curriculum.length - 1
+        ) {
+
+            curriculumLevel++;
+
+            curriculumSuccess = 0;
+
+
+            document.getElementById(
+                "message"
+            ).innerText =
+                "Neue Welt: " +
+                curriculum[
+                    curriculumLevel
+                ].name;
+        }
+
+
+        episode++;
+
+
+        resetEpisode();
+    }
+}
+
+
+/* =========================================================
+   GEHIRN-UI
+   ========================================================= */
+
+function buildBrainUI() {
+
+    const layers = [
+
+        ["sensorLayer", 24],
+
+        ["memoryLayer", 24],
+
+        ["motorLayer", 16]
+
+    ];
+
+
+    for (
+        const [id, count]
+        of layers
+    ) {
+
+        const root =
+            document.getElementById(
+                id
+            );
+
+
+        root.innerHTML =
+            "";
+
+
+        for (
+            let i = 0;
+            i < count;
+            i++
+        ) {
+
+            const row =
+                document.createElement(
+                    "div"
+                );
+
+
+            row.className =
+                "neuron";
+
+
+            const dot =
+                document.createElement(
+                    "div"
+                );
+
+
+            dot.className =
+                "dot";
+
+
+            const num =
+                document.createElement(
+                    "div"
+                );
+
+
+            num.className =
+                "num";
+
+
+            num.textContent =
+                String(
+                    i + 1
+                ).padStart(
+                    2,
+                    "0"
+                );
+
+
+            const bar =
+                document.createElement(
+                    "div"
+                );
+
+
+            bar.className =
+                "bar";
+
+
+            const fill =
+                document.createElement(
+                    "div"
+                );
+
+
+            fill.className =
+                "fill";
+
+
+            bar.appendChild(
+                fill
+            );
+
+
+            row.append(
+                dot,
+                num,
+                bar
+            );
+
+
+            root.appendChild(
+                row
+            );
+        }
+    }
+}
+
+
+function updateBrainUI() {
+
+    const roots = [
+
+        document.getElementById(
+            "sensorLayer"
+        ),
+
+        document.getElementById(
+            "memoryLayer"
+        ),
+
+        document.getElementById(
+            "motorLayer"
+        )
+
+    ];
+
+
+    const starts = [
+        0,
+        24,
+        48
+    ];
+
+
+    const counts = [
+        24,
+        24,
+        16
+    ];
+
+
+    for (
+        let r = 0;
+        r < 3;
+        r++
     ) {
 
         for (
-            let dz=-1;
-            dz<=1;
-           
+            let i = 0;
+            i < counts[r];
+            i++
+        ) {
+
+            const neuron =
+                neurons[
+                    starts[r] + i
+                ];
+
+
+            const row =
+                roots[r]
+                    .children[i];
+
+
+            const fill =
+                row
+                    .children[2]
+                    .firstChild;
+
+
+            row
+                .children[0]
+                .classList
+                .toggle(
+                    "active",
+                    spikes[
+                        starts[r] + i
+                    ]
+                );
+
+
+            fill.style.width =
+                Math.max(
+                    0,
+                    Math.min(
+                        100,
+
+                        (
+                            neuron.memory *
+                            0.75
+
+                            +
+
+                            (
+                                neuron.voltage +
+                                70
+                            ) / 100 *
+                            0.25
+
+                        ) * 100
+                    )
+                ) + "%";
+        }
+    }
+}
+
+
+/* =========================================================
+   HUD
+   ========================================================= */
+
+function updateHUD() {
+
+    const c =
+        curriculum[
+            curriculumLevel
+        ];
+
+
+    const prog =
+        Math.min(
+            1,
+            curriculumSuccess /
+            c.required
+        );
+
+
+    document.getElementById(
+        "level"
+    ).textContent =
+        (
+            curriculumLevel + 1
+        )
+        +
+        " - "
+        +
+        c.name;
+
+
+    document.getElementById(
+        "episode"
+    ).textContent =
+        episode;
+
+
+    document.getElementById(
+        "success"
+    ).textContent =
+        totalSuccesses;
+
+
+    document.getElementById(
+        "steps"
+    ).textContent =
+        steps;
+
+
+    document.getElementById(
+        "replay"
+    ).textContent =
+        replayBuffer.length;
+
+
+    document.getElementById(
+        "states"
+    ).textContent =
+        Q.size;
+
+
+    document.getElementById(
+        "epsilon"
+    ).textContent =
+        epsilon.toFixed(
+            3
+        );
+
+
+    document.getElementById(
+        "distance"
+    ).textContent =
+        distance().toFixed(
+            1
+        );
+
+
+    document.getElementById(
+        "curriculumProgress"
+    ).style.width =
+        (
+            prog * 100
+        ) + "%";
+
+
+    document.getElementById(
+        "memoryProgress"
+    ).style.width =
+        Math.min(
+            100,
+            Q.size /
+            MAX_Q_STATES *
+            100
+        ) + "%";
+
+
+    document.getElementById(
+        "teacherProgress"
+    ).style.width =
+        (
+            c.teacher * 100
+        ) + "%";
+}
+
+
+/* =========================================================
+   PAUSE
+   ========================================================= */
+
+function toggleTraining() {
+
+    training =
+        !training;
+
+
+    document.getElementById(
+        "pauseButton"
+    ).textContent =
+        training
+            ? "Pause"
+            : "Weiter";
+
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        training
+            ? "Training laeuft..."
+            : "Training pausiert.";
+}
+
+
+/* =========================================================
+   NEUES GEHIRN
+   ========================================================= */
+
+function resetEverything() {
+
+    Q.clear();
+
+
+    replayBuffer.length =
+        0;
+
+
+    cumulativeWeights =
+        [];
+
+
+    cumulativeDirty =
+        true;
+
+
+    epsilon =
+        1;
+
+
+    episode =
+        1;
+
+
+    steps =
+        0;
+
+
+    totalSuccesses =
+        0;
+
+
+    curriculumLevel =
+        0;
+
+
+    curriculumSuccess =
+        0;
+
+
+    neurons =
+        Array.from(
+            {
+                length: 64
+            },
+            function() {
+
+                return new Neuron();
+
+            }
+        );
+
+
+    spikes =
+        Array(
+            64
+        ).fill(false);
+
+
+    training =
+        true;
+
+
+    document.getElementById(
+        "pauseButton"
+    ).textContent =
+        "Pause";
+
+
+    document.getElementById(
+        "message"
+    ).textContent =
+        "Neues Gehirn gestartet.";
+
+
+    resetEpisode();
+}
+
+
+/* =========================================================
+   START
+   ========================================================= */
+
+buildBrainUI();
+
+
+resetEpisode();
+
+
+/* =========================================================
+   RENDER LOOP
+   ========================================================= */
+
+function animate() {
+
+    requestAnimationFrame(
+        animate
+    );
+
+
+    if (
+        training
+    ) {
+
+        for (
+            let i = 0;
+            i < 10;
+            i++
+        ) {
+
+            trainStep();
+        }
+    }
+
+
+    /*
+       Kamera bleibt fest über
+       der Welt und folgt nicht
+       dem Agenten.
+    */
+
+    const lookX =
+        (
+            start.x +
+            goal.x
+        ) / 2;
+
+
+    const lookZ =
+        (
+            start.z +
+            goal.z
+        ) / 2;
+
+
+    camera.position.set(
+        lookX,
+        cameraHeight,
+        lookZ
+    );
+
+
+    camera.lookAt(
+        lookX,
+        0,
+        lookZ
+    );
+
+
+    updateHUD();
+
+
+    updateBrainUI();
+
+
+    renderer.render(
+        scene,
+        camera
+    );
+}
+
+
+animate();
+
+
+/* =========================================================
+   RESIZE
+   ========================================================= */
+
+window.addEventListener(
+    "resize",
+    function() {
+
+        camera.aspect =
+            innerWidth /
+            innerHeight;
+
+
+        camera.updateProjectionMatrix();
+
+
+        renderer.setSize(
+            innerWidth,
+            innerHeight
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
